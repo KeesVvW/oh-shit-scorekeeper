@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#172554">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OH SHIT!">
+  <title>OH SHIT! Scorekeeper v1.0</title>
+  <style>
+    :root{--navy:#172554;--blue:#2563eb;--sky:#eff6ff;--ink:#162033;--muted:#64748b;--line:#dbe4ef;--card:#fff;--good:#087443;--good-bg:#dcfce7;--bad:#b42318;--bad-bg:#fee4e2;--gold:#a16207;--gold-bg:#fef3c7;--shadow:0 8px 24px rgba(23,37,84,.09);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;color:var(--ink);background:#f1f5f9}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#e7eef8 0,#f8fafc 28rem);-webkit-tap-highlight-color:transparent}
+    button,select,input{font:inherit}button,select{min-height:44px}button{border:0;border-radius:12px;padding:10px 14px;font-weight:750;cursor:pointer;background:#e2e8f0;color:var(--ink)}button:active{transform:translateY(1px)}button:disabled{opacity:.42;cursor:not-allowed}.primary{background:var(--blue);color:#fff}.danger{color:var(--bad);background:var(--bad-bg)}.ghost{background:#fff;border:1px solid var(--line)}
+    .app-header{padding:max(16px,env(safe-area-inset-top)) 16px 15px;background:linear-gradient(135deg,#172554,#1e3a8a);color:#fff}.header-inner{max-width:920px;margin:auto;display:flex;align-items:end;justify-content:space-between;gap:12px}.brand h1{font-size:clamp(25px,7vw,38px);line-height:1;margin:0;letter-spacing:.02em}.brand p{margin:6px 0 0;color:#bfdbfe;font-weight:650}.version{font-size:12px;background:rgba(255,255,255,.14);padding:5px 8px;border-radius:999px;white-space:nowrap}
+    .standings{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);box-shadow:0 4px 18px rgba(15,23,42,.08);backdrop-filter:blur(14px)}.standings-inner{max-width:920px;margin:auto;padding:9px 12px}.standings-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.06em}.rank-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding-bottom:2px}.rank-chip{position:relative;overflow:hidden;display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 7px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:7px 9px;background:#fff;min-width:0;min-height:54px}.rank-chip.no-rank{grid-template-columns:1fr;align-content:center}.rank-chip.leader{border-color:#f5c451;background:linear-gradient(135deg,#fff7cc,#fffbeb);box-shadow:0 0 0 2px rgba(250,204,21,.22),0 5px 15px rgba(161,98,7,.16)}.rank-pos{grid-row:1/3;font-weight:900;color:var(--gold);font-size:18px}.rank-name{font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rank-score{font-size:11px;color:var(--muted);font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    main{max-width:920px;margin:auto;padding:12px 12px calc(30px + env(safe-area-inset-bottom))}.card{background:var(--card);border:1px solid rgba(203,213,225,.75);border-radius:16px;box-shadow:var(--shadow);padding:15px;margin-bottom:12px}.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.toolbar .spacer{flex:1}.status-line{display:flex;align-items:center;gap:8px;margin-top:11px;color:var(--muted);font-size:13px}.save-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px #dcfce7}.notice{border-radius:12px;padding:11px 12px;margin-top:12px;background:var(--sky);border:1px solid #bfdbfe;color:#1e3a8a;font-size:14px;line-height:1.45}.notice.warn{background:#fffbeb;border-color:#fde68a;color:#854d0e}.notice.error{background:var(--bad-bg);border-color:#fda29b;color:var(--bad)}details.controls>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;font-weight:850;min-height:28px}details.controls>summary::-webkit-details-marker{display:none}.controls-body{margin-top:12px}.summary-arrow{transition:transform .2s}details[open]>.summary-arrow{transform:rotate(180deg)}
+    details.settings summary{cursor:pointer;font-weight:850;list-style:none;display:flex;align-items:center;justify-content:space-between;min-height:44px}details.settings summary::-webkit-details-marker{display:none}.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:10px}.field label,.field-label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin:0 0 5px}.field select,.field input{width:100%;border:1px solid #bac8d8;border-radius:11px;padding:9px 10px;background:#fff;color:var(--ink)}.deal-order-check{display:flex!important;align-items:center;gap:9px;min-height:44px;margin:0!important;padding:9px 10px;border:1px solid #86efac;border-radius:11px;background:#f0fdf4;color:var(--good)!important;font-size:13px!important;cursor:pointer}.deal-order-check input{width:22px!important;height:22px;margin:0;padding:0;accent-color:var(--good)}.names{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.file-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 3px 9px}.section-head h2{font-size:19px;margin:0}.section-head span{font-size:12px;color:var(--muted)}
+    .round-card{padding:0;overflow:hidden;scroll-margin-top:92px}.round-card.next{border:2px solid var(--blue);box-shadow:0 8px 26px rgba(37,99,235,.15)}.round-card.complete{border-color:#a7d7ba}.round-card.needs-fix{border-color:#f59e0b}.round-card>summary{list-style:none;cursor:pointer}.round-card>summary::-webkit-details-marker{display:none}.round-head{display:flex;align-items:center;gap:10px;padding:13px 14px;background:#f8fafc;border-bottom:1px solid var(--line)}details.round-card:not([open]) .round-head{border-bottom:0}.round-card.next .round-head{background:var(--sky)}.round-number{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--navy);color:#fff;font-weight:900;font-size:19px}.round-title{min-width:0}.round-title h3{margin:0;font-size:17px}.round-title p{margin:3px 0 0;color:var(--muted);font-size:12px;font-weight:650}.badge{margin-left:auto;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900;white-space:nowrap}.badge.next{background:var(--blue);color:#fff}.badge.done{background:var(--good-bg);color:var(--good)}.badge.done .when-open{display:none}details.round-card[open] .badge.done .when-open{display:inline}details.round-card[open] .badge.done .when-closed{display:none}.badge.wait{background:#e2e8f0;color:#475569}.badge.fix{background:#ffedd5;color:#9a3412}.round-body{padding:8px 12px 12px}.player-row{display:grid;grid-template-columns:minmax(110px,1fr) 82px 82px 64px;gap:7px;align-items:center;padding:8px 2px;border-bottom:1px solid #edf2f7}.player-row:last-child{border-bottom:0}.player-info{min-width:0}.player-name{font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-total{font-size:11px;color:var(--muted);margin-top:2px}.player-total strong{color:var(--ink)}.bid-turn{color:var(--blue);font-weight:850}.dealer-turn{color:var(--gold);font-weight:850}.input-wrap label{display:block;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:850;margin-bottom:3px}.score-select{width:100%;border:1px solid #b8c5d5;border-radius:10px;background:#fff;color:var(--ink);padding:8px 24px 8px 8px;text-align:center;font-weight:800}.score-select.auto{background:#f0fdf4;border-color:#86efac;color:var(--good)}.points{text-align:center;font-size:13px;font-weight:900;border-radius:9px;padding:8px 3px;background:#f1f5f9;color:var(--muted)}.points.good{background:var(--good-bg);color:var(--good)}.points.bad{background:var(--bad-bg);color:var(--bad)}.round-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:9px;padding:9px 10px;border-radius:11px;background:#f8fafc;font-size:12px;color:var(--muted);font-weight:700}.round-foot strong{color:var(--ink)}.round-foot.invalid{background:var(--bad-bg);color:var(--bad)}.round-foot.valid{background:var(--good-bg);color:var(--good)}.round-foot.warning{background:#fff7ed;color:#9a3412}.bid-info{margin-top:9px;padding:9px 10px;border-radius:11px;background:#f8fafc;font-size:12px}.bid-progress{color:var(--muted);font-weight:750;margin-bottom:6px}.bid-progress.missing{color:#9a3412}.bid-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;text-align:center}.bid-metrics span{padding:6px 3px;border-radius:8px;background:#fff;border:1px solid var(--line);font-weight:750}.bid-metrics strong{display:block;margin-top:2px;font-size:16px;color:var(--ink)}.bid-metrics strong.good{color:var(--good)}.bid-metrics strong.warn{color:#c2410c}.bid-metrics strong.bad{color:var(--bad)}.round-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:9px}.round-actions .primary{min-width:150px}.validation-text{line-height:1.35}.validation-text strong{display:block;margin-top:2px}
+    .rank-chip.eliminated{background:#fee2e2;border-color:#ef4444}.rank-chip.eliminated .rank-pos,.rank-chip.eliminated .rank-score{color:var(--bad)}.rank-chip.eliminated::before,.rank-chip.eliminated::after{content:"";position:absolute;z-index:2;left:-8%;top:50%;width:116%;height:3px;border-radius:3px;background:#dc2626;opacity:.85;pointer-events:none}.rank-chip.eliminated::before{transform:rotate(16deg)}.rank-chip.eliminated::after{transform:rotate(-16deg)}.elimination{border:2px solid #ef4444;background:#fff7f7}.elimination h2{margin:0 0 6px;color:var(--bad);font-size:20px}.elimination p{margin:0 0 12px;color:#7f1d1d}.candidate-list{display:flex;flex-wrap:wrap;gap:8px}.candidate{background:var(--bad-bg);color:var(--bad);border:1px solid #fda29b}.candidate strong{display:block}.candidate small{font-weight:700}.review-actions{display:flex;flex-wrap:wrap;gap:8px}.review-actions button{flex:1 1 220px}.review-keep{background:#fff;border:1px solid #f59e0b;color:#854d0e}
+    .results{background:linear-gradient(140deg,#172554,#1d4ed8);color:#fff;border:0;text-align:center}.winner-showcase{position:relative;overflow:hidden;margin:-2px 0 18px;padding:18px 12px;border:2px solid #fde68a;border-radius:18px;background:linear-gradient(135deg,rgba(250,204,21,.34),rgba(255,255,255,.1));box-shadow:0 0 30px rgba(253,224,71,.2)}.winner-showcase::before,.winner-showcase::after{content:"✦";position:absolute;color:#fde68a;font-size:28px}.winner-showcase::before{left:16px;top:14px}.winner-showcase::after{right:16px;bottom:12px}.winner-crown{font-size:48px;line-height:1}.winner-showcase p{margin:3px 0;color:#fef3c7;font-weight:800}.winner-showcase h2{margin:2px 0;font-size:clamp(28px,8vw,42px)}.winner-points{display:inline-block;margin-top:3px;padding:5px 12px;border-radius:999px;background:#fde68a;color:#713f12;font-size:18px;font-weight:950}.results h3{margin:0 0 10px;color:#bfdbfe}.podium{display:grid;gap:8px;text-align:left}.podium-row{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:9px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px}.podium-row:first-child{background:rgba(250,204,21,.2);border-color:rgba(253,224,71,.5)}.podium-pos{font-size:21px;font-weight:900;color:#fde68a}.podium-name{font-weight:850}.podium-score{font-weight:900}.print-actions{margin-top:14px}.print-actions button{background:#fff;color:var(--navy);border:2px solid #bfdbfe}.rules{font-size:13px;color:#475569;line-height:1.55}.rules h3{margin:0 0 3px;color:var(--ink);font-size:14px}.rules h3:not(:first-child){margin-top:14px}.rules p{margin:0 0 7px}.rules strong{color:var(--ink)}.rules-links{margin-top:14px;padding-top:11px;border-top:1px solid var(--line);display:grid;gap:6px}.rules-links a{color:var(--blue);font-weight:750;text-decoration:none}
+    .toast{position:fixed;z-index:100;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,18px);opacity:0;pointer-events:none;transition:.2s ease;background:#172554;color:#fff;border-radius:12px;padding:11px 15px;box-shadow:0 10px 30px rgba(15,23,42,.28);max-width:calc(100vw - 28px);text-align:center;font-weight:750;font-size:14px}.toast.show{opacity:1;transform:translate(-50%,0)}.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:560px){.header-inner{align-items:center}.brand p{font-size:13px}.standings-inner{padding:7px 6px}.rank-strip{gap:4px}.rank-chip{padding:5px 6px;gap:0 4px;min-height:50px;border-radius:10px}.rank-pos{font-size:15px}.rank-name{font-size:11px}.rank-score{font-size:9px}.card{border-radius:14px}.settings-grid{grid-template-columns:1fr}.names{grid-template-columns:1fr}.player-row{grid-template-columns:minmax(92px,1fr) 68px 68px 55px;gap:5px}.round-body{padding-left:8px;padding-right:8px}.player-name{font-size:14px}.score-select{padding-left:4px;padding-right:18px}.points{font-size:12px}.toolbar button{flex:1 1 auto}.toolbar .spacer{display:none}.round-foot{align-items:flex-start}.bid-metrics{gap:3px}.bid-metrics span{font-size:10px}.round-actions .primary{width:100%}}
+    @media(min-width:700px){.names{grid-template-columns:repeat(3,minmax(0,1fr))}.round-body{padding-left:18px;padding-right:18px}.player-row{grid-template-columns:minmax(180px,1fr) 100px 100px 80px}}
+    @media print{@page{size:A4 portrait;margin:10mm}.app-header,.standings,details.controls,details.settings,.section-head,.rules,.toast,.round-actions,.print-actions{display:none!important}html,body{background:#fff!important}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}main{display:block;max-width:none;padding:0}.card{box-shadow:none;break-inside:avoid;page-break-inside:avoid}#results{display:block!important;width:100%;margin:0;break-after:page;page-break-after:always}#results .winner-showcase{margin:0 0 10px;padding:10px}#results .winner-crown{font-size:34px}#results .winner-showcase h2{font-size:28px}#results h3{margin-bottom:6px}.podium{gap:4px}.podium-row{padding:6px 8px}.podium-pos{font-size:17px}#rounds{display:block}.round-card{display:block!important;width:100%;margin:0;break-inside:avoid;page-break-inside:avoid}.round-card+.round-card{break-before:page;page-break-before:always}details.round-card>.round-body{display:block!important}.round-head{padding:8px 10px}.round-number{width:34px;height:34px;font-size:16px}.round-title h3{font-size:15px}.round-title p{margin-top:1px}.round-body{padding:4px 8px 8px}.player-row{padding:3px 2px}.player-name{font-size:13px}.player-total{margin-top:0;font-size:9px}button,select{min-height:32px}.score-select{padding:4px 20px 4px 6px;font-size:12px}.points{padding:6px 3px;font-size:11px}.bid-info{margin-top:5px;padding:5px 6px}.bid-metrics span{padding:3px}.bid-metrics strong{margin-top:0;font-size:14px}.round-foot{margin-top:5px;padding:6px 8px}.results{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+  </style>
+</head>
+<body>
+  <header class="app-header"><div class="header-inner"><div class="brand"><h1>OH SHIT!</h1><p>Scorekeeper</p></div><span class="version">v1.0</span></div></header>
+  <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
+  <main>
+    <details class="card controls" hidden>
+      <summary>Spelbediening en back-up <span class="summary-arrow" aria-hidden="true">⌄</span></summary>
+      <div class="controls-body">
+        <div class="toolbar">
+          <button id="undoBtn" class="ghost" type="button" title="Herstelt alleen de allerlaatste invoer of wijziging">↶ Laatste wijziging herstellen</button>
+          <span class="spacer"></span>
+          <button id="exportBtn" class="ghost" type="button">Back-up maken</button>
+          <label for="importFile" class="sr-only">Back-up terugzetten</label>
+          <input id="importFile" class="file-input" type="file" accept="application/json,.json">
+          <button id="importBtn" class="ghost" type="button">Back-up terugzetten</button>
+        </div>
+        <div class="status-line"><span class="save-dot" aria-hidden="true"></span><span id="saveStatus">Automatisch bewaard op dit apparaat</span></div>
+        <div id="appNotice" class="notice error" role="alert" hidden></div>
+      </div>
+    </details>
+
+    <section id="eliminationPanel" class="card elimination" hidden></section>
+
+    <details class="card settings" id="settingsPanel">
+      <summary>Spelers en nieuw spel <span aria-hidden="true">⌄</span></summary>
+      <div class="settings-grid">
+        <div class="field"><label for="playerCount">Aantal spelers (maximaal 10)</label><select id="playerCount"></select></div>
+        <div class="field"><span class="field-label">Deelvolgorde</span><label class="deal-order-check" for="keepDealOrder"><input id="keepDealOrder" type="checkbox">Volgorde van delen aanhouden</label></div>
+        <div class="field" id="firstDealerField"><label for="firstDealer">Deler in ronde 1</label><select id="firstDealer"></select></div>
+        <div class="field"><label>Spel wissen</label><button id="newGameBtn" class="danger" type="button">Nieuw spel · namen behouden</button></div>
+        <div class="field"><label>Helemaal opnieuw</label><button id="newPlayersBtn" class="danger" type="button">Nieuwe spelers · namen wissen</button></div>
+        <div id="nameFields" class="names"></div>
+      </div>
+    </details>
+
+    <div class="section-head"><h2>Scores</h2><span>V = voorspeld · B = behaald</span></div>
+    <div id="rounds"></div>
+    <section id="results" class="card results" hidden></section>
+    <section class="card rules">
+      <h3>Puntentelling</h3>
+      <p>Exact voorspeld = 10 + voorspelling<sup>2</sup> (10 plus de voorspelling in het kwadraat).</p>
+      <p><strong>Voorbeeld:</strong> 3 slagen goed voorspeld = 10 + 3<sup>2</sup> = 19 punten.</p>
+      <p>Eén slag verschil = −10 punten. Iedere extra slag verschil = nog eens −5 punten.</p>
+      <h3>Vanaf ronde 5</h3>
+      <p>De laatste bieder mag het totaal niet precies gelijk maken aan het rondenummer; er moet onder- of overboden worden.</p>
+      <h3>Een kaartspel heeft 52 kaarten</h3>
+      <p>Zodra niet iedereen genoeg kaarten kan krijgen, valt de speler met de minste punten af. Bij een gelijke laagste score bepaalt de scorehouder wie afvalt.</p>
+      <nav id="helpLinks" class="rules-links" aria-label="Hulp en uitleg" hidden></nav>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function(){
+    'use strict';
+    const DATA_VERSION=4, APP_VERSION='1.0', ROUNDS=13, MIN_PLAYERS=2, MAX_PLAYERS=10;
+    const KEY='ohshit-scorekeeper-v1', HISTORY_KEY='ohshit-scorekeeper-v1-history', LEGACY_V4_KEY='ohshit-v4', LEGACY_V4_HISTORY_KEY='ohshit-v4-history', LEGACY_KEY='ohshit-v3';
+    const $=id=>document.getElementById(id);
+    const clone=value=>JSON.parse(JSON.stringify(value));
+    const cellKey=(round,player)=>round+'_'+player;
+    let toastTimer=0, migrated=false, pendingElimination=null;
+
+    function blankState(count=4){
+      return {version:DATA_VERSION,appVersion:APP_VERSION,count,names:Array(MAX_PLAYERS).fill(''),predictions:{},actuals:{},autoZeros:{},eliminated:{},eliminationOverrides:{},collapsedRounds:{},keepDealOrder:true,firstDealer:0,currentRound:1,finished:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+    }
+    function safeObject(value){return value&&typeof value==='object'&&!Array.isArray(value)?value:{}}
+    function normalize(raw){
+      if(!raw||typeof raw!=='object')return blankState();
+      const legacy=raw.version!==DATA_VERSION && (raw.v||raw.b);
+      const result=blankState(Math.min(MAX_PLAYERS,Math.max(MIN_PLAYERS,Number(raw.count)||4)));
+      result.names=Array.from({length:MAX_PLAYERS},(_,i)=>String(Array.isArray(raw.names)&&raw.names[i]!=null?raw.names[i]:'').slice(0,40));
+      const predictions=safeObject(legacy?raw.v:raw.predictions);
+      const actuals=safeObject(legacy?raw.b:raw.actuals);
+      for(let r=1;r<=ROUNDS;r++)for(let p=0;p<MAX_PLAYERS;p++){
+        const k=cellKey(r,p);
+        if(predictions[k]!==undefined&&predictions[k]!=='')result.predictions[k]=clampEntry(predictions[k],r);
+        if(actuals[k]!==undefined&&actuals[k]!=='')result.actuals[k]=clampEntry(actuals[k],r);
+      }
+      result.autoZeros=legacy?{}:safeObject(raw.autoZeros);
+      const eliminated=legacy?{}:safeObject(raw.eliminated);
+      for(let p=0;p<result.count;p++){const round=Number(eliminated[p]);if(Number.isInteger(round)&&round>=2&&round<=ROUNDS)result.eliminated[p]=round}
+      result.eliminationOverrides=legacy?{}:safeObject(raw.eliminationOverrides);
+      result.collapsedRounds=legacy?{}:safeObject(raw.collapsedRounds);
+      result.keepDealOrder=raw.keepDealOrder!==false;
+      const firstDealer=Number(raw.firstDealer);result.firstDealer=Number.isInteger(firstDealer)&&firstDealer>=0&&firstDealer<result.count?firstDealer:0;
+      const savedRound=Number(raw.currentRound);
+      result.currentRound=Number.isInteger(savedRound)&&savedRound>=1&&savedRound<=ROUNDS?savedRound:firstIncompleteRound(result)||ROUNDS;
+      result.finished=raw.finished===true;
+      if(raw.currentRound===undefined){for(let r=1;r<result.currentRound;r++)if(roundInfo(r,result).complete)result.collapsedRounds[r]=true}
+      result.createdAt=typeof raw.createdAt==='string'?raw.createdAt:result.createdAt;
+      result.updatedAt=new Date().toISOString();
+      return result;
+    }
+    function clampEntry(value,round){const n=Number(value);return Number.isInteger(n)&&n>=0&&n<=round?String(n):''}
+    function load(){
+      try{const current=localStorage.getItem(KEY);if(current)return normalize(JSON.parse(current))}catch(e){}
+      try{const previous=localStorage.getItem(LEGACY_V4_KEY);if(previous){migrated=true;return normalize(JSON.parse(previous))}}catch(e){}
+      try{const old=localStorage.getItem(LEGACY_KEY);if(old){migrated=true;return normalize(JSON.parse(old))}}catch(e){}
+      return blankState();
+    }
+    function loadHistory(){try{const h=JSON.parse(localStorage.getItem(HISTORY_KEY)||localStorage.getItem(LEGACY_V4_HISTORY_KEY));return Array.isArray(h)?h.slice(-30):[]}catch(e){return []}}
+    let state=load(), history=loadHistory();
+    function save(){
+      state.updatedAt=new Date().toISOString();
+      try{localStorage.setItem(KEY,JSON.stringify(state));localStorage.setItem(HISTORY_KEY,JSON.stringify(history.slice(-30)));$('saveStatus').textContent='Automatisch bewaard · '+new Date().toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});$('appNotice').hidden=true}
+      catch(e){$('appNotice').hidden=false;$('appNotice').textContent='Automatisch opslaan lukt niet. Maak voor de zekerheid een JSON-back-up.'}
+    }
+    function commit(label,change,notify=true){history.push({label,state:clone(state)});history=history.slice(-30);change();ensureEliminations();save();render();if(notify)showToast(label)}
+    function undo(){const last=history.pop();if(!last)return;state=normalize(last.state);ensureEliminations();save();render();showToast('Hersteld: '+last.label.toLowerCase())}
+    function showToast(message){clearTimeout(toastTimer);const node=$('toast');node.textContent=message;node.classList.add('show');toastTimer=setTimeout(()=>node.classList.remove('show'),2300)}
+
+    function score(predicted,actual){
+      if(predicted===''||predicted===undefined||actual===''||actual===undefined)return null;
+      const difference=Math.abs(Number(predicted)-Number(actual));
+      return difference===0?10+Number(predicted)**2:-10-5*(difference-1);
+    }
+    function totalThrough(player,lastRound=ROUNDS){let total=0;for(let r=1;r<=lastRound;r++){const k=cellKey(r,player),points=score(state.predictions[k],state.actuals[k]);if(points!==null)total+=points}return total}
+    function totalFor(player){return totalThrough(player)}
+    function totals(){return Array.from({length:state.count},(_,p)=>totalFor(p))}
+    function ranking(){
+      const values=totals().map((points,player)=>({player,points,name:displayName(player),eliminated:!!state.eliminated[player]})).sort((a,b)=>Number(a.eliminated)-Number(b.eliminated)||b.points-a.points||a.player-b.player);
+      let previousKey=null,position=0;return values.map((item,index)=>{const key=String(item.eliminated)+'_'+item.points;if(key!==previousKey)position=index+1;previousKey=key;return {...item,position}});
+    }
+    function displayName(player){return (state.names[player]||'').trim()||'Speler '+(player+1)}
+    function isActive(player,round,source=state){const eliminatedRound=Number(source.eliminated[player]);return !eliminatedRound||eliminatedRound>round}
+    function activePlayers(round,source=state){return Array.from({length:source.count},(_,p)=>p).filter(p=>isActive(p,round,source))}
+    function nextActiveAfter(player,round,source=state){
+      const active=new Set(activePlayers(round,source));
+      for(let step=1;step<=source.count;step++){const candidate=(player+step)%source.count;if(active.has(candidate))return candidate}
+      return null;
+    }
+    function dealerForRound(round,source=state){
+      let dealer=Math.min(source.count-1,Math.max(0,Number(source.firstDealer)||0));
+      for(let r=2;r<=round;r++){const next=nextActiveAfter(dealer,r,source);if(next!==null)dealer=next}
+      return dealer;
+    }
+    function biddingOrder(round,source=state){
+      const players=activePlayers(round,source),dealer=dealerForRound(round,source),order=[];
+      let current=dealer;for(let i=0;i<players.length;i++){current=nextActiveAfter(current,round,source);if(current!==null)order.push(current)}
+      return order;
+    }
+    function nextBidder(round){return biddingOrder(round).find(player=>{const value=state.predictions[cellKey(round,player)];return value===undefined||value===''})}
+    function predictionEditable(round,player){if(!state.keepDealOrder)return true;const value=state.predictions[cellKey(round,player)];return value!==undefined&&value!==''||nextBidder(round)===player}
+    function roundInfo(round,source=state){
+      const players=activePlayers(round,source);let predictionsFilled=0,predictionSum=0,actualsFilled=0,sum=0;
+      const missingPredictions=[],missingActuals=[];
+      for(const p of players){const k=cellKey(round,p);if(source.predictions[k]!==undefined&&source.predictions[k]!==''){predictionsFilled++;predictionSum+=Number(source.predictions[k])}else missingPredictions.push(p);if(source.actuals[k]!==undefined&&source.actuals[k]!==''){actualsFilled++;sum+=Number(source.actuals[k])}else missingActuals.push(p)}
+      const predictionValid=round<5||predictionsFilled<players.length||predictionSum!==round;
+      return {players,predictionsFilled,predictionSum,predictionValid,actualsFilled,sum,missingPredictions,missingActuals,complete:predictionValid&&predictionsFilled===players.length&&actualsFilled===players.length&&sum===round};
+    }
+    function firstIncompleteRound(source=state){for(let r=1;r<=ROUNDS;r++)if(!roundInfo(r,source).complete)return r;return null}
+    function nextRound(){return firstIncompleteRound()}
+    function completedRounds(){let count=0;for(let r=1;r<=ROUNDS;r++)if(roundInfo(r).complete)count++;return count}
+    function fillAutomaticZeros(round){
+      const info=roundInfo(round);if(info.sum!==round)return 0;
+      let filled=0;for(const p of info.players){const k=cellKey(round,p);if(state.actuals[k]===undefined||state.actuals[k]===''){state.actuals[k]='0';state.autoZeros[k]=true;filled++}}
+      return filled;
+    }
+    function clearHiddenAutoZeros(){for(const k of Object.keys(state.autoZeros))if(!state.autoZeros[k])delete state.autoZeros[k]}
+    function eliminatePlayer(player,round){
+      state.eliminated[player]=round;
+      delete state.eliminationOverrides[round];
+    }
+    function eliminationSignature(round,players){return players.map(player=>player+':'+totalThrough(player,round-1)).join('|')}
+    function ensureEliminations(){
+      pendingElimination=null;
+      for(let round=2;round<=ROUNDS;round++){
+        if(!roundInfo(round-1).complete)break;
+        const maximum=Math.floor(52/round);
+        const playersBefore=Array.from({length:state.count},(_,p)=>p).filter(p=>!state.eliminated[p]||Number(state.eliminated[p])>=round);
+        const required=Math.max(0,playersBefore.length-maximum);
+        if(!required)continue;
+        let selected=playersBefore.filter(p=>Number(state.eliminated[p])===round);
+        const scores=playersBefore.map(player=>({player,points:totalThrough(player,round-1)}));
+        const orderedScores=scores.map(x=>x.points).sort((a,b)=>a-b),boundary=orderedScores[Math.min(required-1,orderedScores.length-1)];
+        const eligible=scores.filter(x=>x.points<=boundary),signature=eliminationSignature(round,playersBefore);
+        const selectionValid=selected.length===required&&selected.every(player=>eligible.some(item=>item.player===player));
+        const recordedSignature=state.eliminationOverrides[round];
+        if(selected.length&&((recordedSignature&&recordedSignature!==signature)||(!selectionValid&&recordedSignature!==signature))){
+          pendingElimination={mode:'review',round,candidates:eligible,needed:required,existing:selected.slice(),signature};return;
+        }
+        if(selected.length===required){state.eliminationOverrides[round]=signature;continue}
+        if(selected.length>required){
+          pendingElimination={mode:'review',round,candidates:eligible,needed:required,existing:selected.slice(),signature};return;
+        }
+        while(selected.length<required){
+          const remaining=scores.filter(item=>!selected.includes(item.player)),minimum=Math.min(...remaining.map(x=>x.points)),candidates=remaining.filter(x=>x.points===minimum),needed=required-selected.length;
+          if(candidates.length<=needed){candidates.forEach(item=>{eliminatePlayer(item.player,round);selected.push(item.player)});continue}
+          pendingElimination={mode:'choose',round,candidates,needed,existing:selected.slice(),signature};return;
+        }
+        state.eliminationOverrides[round]=signature;
+      }
+    }
+    function invalidPredictionTotal(round,player,value){
+      if(round<5||value==='')return false;
+      const values=activePlayers(round).map(p=>p===player?value:state.predictions[cellKey(round,p)]);
+      return values.every(v=>v!==undefined&&v!=='')&&values.reduce((sum,v)=>sum+Number(v),0)===round;
+    }
+    function forbiddenPrediction(round,player){
+      if(round<5)return null;
+      const players=activePlayers(round),last=biddingOrder(round).slice(-1)[0];
+      if(state.keepDealOrder&&player!==last)return null;
+      let sum=0;for(const p of players){if(p===player)continue;const value=state.predictions[cellKey(round,p)];if(value===undefined||value==='')return null;sum+=Number(value)}
+      const forbidden=round-sum;return Number.isInteger(forbidden)&&forbidden>=0&&forbidden<=round?forbidden:null;
+    }
+
+    function optionMarkup(round,value,forbidden=null){let html='<option value="">—</option>';for(let i=0;i<=round;i++){if(i===forbidden)continue;html+='<option value="'+i+'"'+(String(value)===String(i)?' selected':'')+'>'+i+'</option>'}return html}
+    function escapeHtml(text){return String(text).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+    function renderStandings(){
+      const showRanks=roundInfo(1).complete;
+      $('rankStrip').innerHTML=ranking().map(item=>{const out=state.eliminated[item.player],chipClass=out?'eliminated':showRanks&&item.position===1?'leader':showRanks?'':'no-rank',position=showRanks?'<span class="rank-pos">'+(item.position===1&&!out?'👑':'')+item.position+'</span>':'';return '<div class="rank-chip '+chipClass+'" title="'+(out?'Afgevallen vóór ronde '+out:'')+'">'+position+'<span class="rank-name">'+escapeHtml(item.name)+'</span><span class="rank-score">'+item.points+' punten'+(out?' · afgevallen':'')+'</span></div>'}).join('');
+      $('progressText').textContent=pendingElimination?(pendingElimination.mode==='review'?'Controleer afvalkeuze ronde ':'Kies afvaller voor ronde ')+pendingElimination.round:state.finished?'Spel afgelopen':'Ronde '+state.currentRound+' van '+ROUNDS;
+    }
+    function renderElimination(){
+      const node=$('eliminationPanel');node.hidden=!pendingElimination;if(!pendingElimination){node.innerHTML='';return}
+      const {mode,round,candidates,needed}=pendingElimination;
+      if(mode==='review'){
+        const existing=pendingElimination.existing.map(displayName).join(', ');
+        node.innerHTML='<h2>Controleer de afvalkeuze</h2><p>Door een correctie in een eerdere ronde kan de eerdere afvalkeuze voor ronde '+round+' zijn veranderd. Nu staat als afgevallen: <strong>'+escapeHtml(existing)+'</strong>. De app verandert dit nooit stilzwijgend.</p><div class="review-actions"><button id="keepEliminationBtn" class="review-keep" type="button">Bestaande keuze bevestigen</button><button id="recalculateEliminationBtn" class="danger" type="button">Opnieuw bepalen met de nieuwe scores</button></div>';
+        $('keepEliminationBtn').addEventListener('click',()=>commit('Bestaande afvalkeuze bevestigd',()=>state.eliminationOverrides[round]=pendingElimination.signature));
+        $('recalculateEliminationBtn').addEventListener('click',()=>{if(!confirm('Afvalkeuzes vanaf ronde '+round+' opnieuw bepalen? Alle ingevoerde scores blijven veilig bewaard.'))return;commit('Afvalkeuze opnieuw bepaald',()=>{for(const p of Object.keys(state.eliminated))if(Number(state.eliminated[p])>=round)delete state.eliminated[p];for(const r of Object.keys(state.eliminationOverrides))if(Number(r)>=round)delete state.eliminationOverrides[r]})});
+        return;
+      }
+      node.innerHTML='<h2>Wie valt af?</h2><p>Voor ronde '+round+' zijn er niet genoeg kaarten. '+(needed===1?'Kies één speler met de gedeelde laagste score.':'Kies '+needed+' spelers met de gedeelde laagste score.')+'</p><div class="candidate-list">'+candidates.map(item=>'<button class="candidate" type="button" data-player="'+item.player+'"><strong>'+escapeHtml(displayName(item.player))+'</strong><small>'+item.points+' punten</small></button>').join('')+'</div>';
+      node.querySelectorAll('.candidate').forEach(button=>button.addEventListener('click',()=>{const player=Number(button.dataset.player);if(!confirm(displayName(player)+' laten afvallen vóór ronde '+round+'?'))return;commit('Afvaller gekozen',()=>eliminatePlayer(player,round))}));
+    }
+    function renderNames(){
+      $('playerCount').value=state.count;
+      $('keepDealOrder').checked=state.keepDealOrder;
+      $('firstDealerField').hidden=!state.keepDealOrder;
+      $('nameFields').innerHTML=Array.from({length:state.count},(_,p)=>'<div class="field"><label for="name'+p+'">Speler '+(p+1)+'</label><input id="name'+p+'" data-player="'+p+'" class="name-input" maxlength="40" autocomplete="off" placeholder="Naam invullen" value="'+escapeHtml(state.names[p])+'"></div>').join('');
+      $('firstDealer').innerHTML=Array.from({length:state.count},(_,p)=>'<option value="'+p+'" '+(p===state.firstDealer?'selected':'')+'>'+escapeHtml(displayName(p))+'</option>').join('');
+      $('firstDealer').disabled=Object.keys(state.predictions).length>0||Object.keys(state.actuals).length>0;
+      document.querySelectorAll('.name-input').forEach(input=>input.addEventListener('change',event=>{const p=Number(event.target.dataset.player),value=event.target.value.slice(0,40);if(value===state.names[p])return;commit('Naam aangepast',()=>state.names[p]=value,false)}));
+    }
+    function namesFor(players){return players.map(displayName).join(', ')}
+    function roundStatus(round,info){
+      let message='';
+      if(info.actualsFilled===info.players.length&&info.sum<round){const shortage=round-info.sum;message='Er '+(shortage===1?'ontbreekt':'ontbreken')+' nog '+shortage+' '+(shortage===1?'slag.':'slagen.')}
+      if(info.sum>round){const excess=info.sum-round;message='Er '+(excess===1?'is':'zijn')+' '+excess+' '+(excess===1?'slag':'slagen')+' te veel ingevoerd.'}
+      if(!info.predictionValid)message='De voorspellingen zijn samen precies '+round+'. Vanaf ronde 5 moet er onder- of overboden zijn.';
+      return '<span class="validation-text">Behaalde slagen: '+info.sum+' van '+round+(message?'<strong>'+message+'</strong>':'')+'</span>';
+    }
+    function bidInformation(round,info){
+      const under=Math.max(0,round-info.predictionSum),over=Math.max(0,info.predictionSum-round),allFilled=info.predictionsFilled===info.players.length;
+      const sumClass=allFilled&&info.predictionValid?'good':'bad',error=allFilled&&!info.predictionValid?'<div class="bid-progress missing">Fout: vanaf ronde 5 moet er onder- of overboden zijn.</div>':'';
+      return '<div class="bid-info">'+error+'<div class="bid-metrics"><span>Geboden<strong class="'+sumClass+'">'+info.predictionSum+'</strong></span><span>Onderboden<strong>'+under+'</strong></span><span>Overboden<strong>'+over+'</strong></span></div></div>';
+    }
+    function canAdvance(round){
+      if(round!==state.currentRound||state.finished||pendingElimination)return false;
+      for(let r=1;r<=round;r++)if(!roundInfo(r).complete)return false;
+      return true;
+    }
+    function renderRounds(){
+      let html='';
+      for(let r=1;r<=ROUNDS;r++){
+        const info=roundInfo(r),order=biddingOrder(r),dealer=dealerForRound(r),isCurrent=r===state.currentRound&&!state.finished,isFuture=r>state.currentRound,blockedByChoice=!!pendingElimination&&r>=pendingElimination.round,locked=isFuture||blockedByChoice,statusClass=info.complete?'complete':r<state.currentRound?'needs-fix':isCurrent?'next':'',badge=info.complete?'<span class="badge done"><span class="when-closed">✓ Klaar · uitklappen</span><span class="when-open">✓ Klaar · inklappen</span></span>':r<state.currentRound?'<span class="badge fix">Controle nodig</span>':blockedByChoice&&r===pendingElimination.round?'<span class="badge wait">Eerst afvalkeuze</span>':isCurrent?'<span class="badge next">Huidige ronde</span>':'<span class="badge wait">Later</span>';
+        const open=!state.collapsedRounds[r]&&!isFuture;
+        html+='<details class="card round-card '+statusClass+'" id="round-'+r+'" data-round="'+r+'" '+(open?'open':'')+'><summary class="round-head"><div class="round-number">'+r+'</div><div class="round-title"><h3>Ronde '+r+'</h3><p>'+r+' '+(r===1?'slag':'slagen')+' · '+info.players.length+' actieve '+(info.players.length===1?'speler':'spelers')+'</p></div>'+badge+'</summary><div class="round-body">';
+        const rowPlayers=state.keepDealOrder?order:info.players;
+        for(const p of rowPlayers){
+          const k=cellKey(r,p),pred=state.predictions[k]??'',actual=state.actuals[k]??'',points=score(pred,actual),pointClass=points===null?'':points>=0?'good':'bad',pointText=points===null?'—':(points>0?'+':'')+points,auto=state.autoZeros[k]===true,predictionLocked=locked||(isCurrent&&state.keepDealOrder&&!predictionEditable(r,p)),role=state.keepDealOrder?(p===rowPlayers[0]?'Bieder':p===rowPlayers[rowPlayers.length-1]?'Deler':''):'',roleMarkup=role?'<div class="player-total"><span class="'+(role==='Deler'?'dealer-turn':'bid-turn')+'">'+role+'</span></div>':'',forbidden=forbiddenPrediction(r,p);
+          html+='<div class="player-row"><div class="player-info"><div class="player-name">'+escapeHtml(displayName(p))+'</div>'+roleMarkup+'</div><div class="input-wrap"><label for="p-'+k+'">V</label><select id="p-'+k+'" class="score-select score-input" data-kind="prediction" data-round="'+r+'" data-player="'+p+'" title="'+(predictionLocked&&!locked?'Eerst is '+escapeHtml(displayName(nextBidder(r)))+' aan de beurt':forbidden!==null?forbidden+' is hier niet toegestaan':'')+'" '+(predictionLocked?'disabled':'')+'>'+optionMarkup(r,pred,forbidden)+'</select></div><div class="input-wrap"><label for="a-'+k+'">B</label><select id="a-'+k+'" class="score-select score-input '+(auto?'auto':'')+'" data-kind="actual" data-round="'+r+'" data-player="'+p+'" title="'+(auto?'Automatisch als nul ingevuld':'')+'" '+(locked?'disabled':'')+'>'+optionMarkup(r,actual)+'</select></div><div class="points '+pointClass+'" aria-label="'+(points===null?'Nog geen punten':points+' punten')+'">'+pointText+'</div></div>';
+        }
+        const footClass=info.complete?'valid':info.sum>r||!info.predictionValid?'invalid':info.sum<r&&info.actualsFilled===info.players.length?'warning':'';
+        html+=bidInformation(r,info)+'<div class="round-foot '+footClass+'">'+roundStatus(r,info)+'</div>';
+        if(isCurrent)html+='<div class="round-actions"><button class="primary next-round-btn" type="button" data-round="'+r+'" '+(canAdvance(r)?'':'disabled')+'>'+(r===ROUNDS?'Einduitslag tonen':'Volgende ronde')+'</button></div>';
+        html+='</div></details>';
+      }
+      $('rounds').innerHTML=html;
+      document.querySelectorAll('.score-input').forEach(select=>select.addEventListener('change',handleScoreChange));
+      document.querySelectorAll('.next-round-btn').forEach(button=>button.addEventListener('click',()=>advanceRound(Number(button.dataset.round))));
+      document.querySelectorAll('.round-card').forEach(details=>details.addEventListener('toggle',()=>{const round=Number(details.dataset.round);state.collapsedRounds[round]=!details.open;save()}));
+    }
+    function handleScoreChange(event){
+      const select=event.target,round=Number(select.dataset.round),player=Number(select.dataset.player),kind=select.dataset.kind,k=cellKey(round,player),value=select.value;
+      if(kind==='prediction'&&invalidPredictionTotal(round,player,value)){const last=biddingOrder(round).slice(-1)[0],who=state.keepDealOrder?displayName(last)+' is de laatste bieder en ':'De laatste bieder ';render();showToast('Niet toegestaan: hiermee worden precies '+round+' slagen geboden. '+who+'moet onder of boven '+round+' uitkomen.');return}
+      commit(kind==='prediction'?'Voorspelling aangepast':'Behaalde slagen aangepast',()=>{
+        const target=kind==='prediction'?state.predictions:state.actuals;
+        if(value==='')delete target[k];else target[k]=value;
+        if(kind==='actual'){
+          delete state.autoZeros[k];
+          if(value===''){
+            for(const p of activePlayers(round)){const pk=cellKey(round,p);if(state.autoZeros[pk]){delete state.actuals[pk];delete state.autoZeros[pk]}}
+          }
+          const filled=fillAutomaticZeros(round);if(filled)requestAnimationFrame(()=>showToast(filled+' resterende '+(filled===1?'nul is':'nullen zijn')+' automatisch ingevuld'));
+        }
+      },false);
+    }
+    function advanceRound(round){
+      if(!canAdvance(round)){
+        const invalid=[];for(let r=1;r<=round;r++)if(!roundInfo(r).complete)invalid.push(r);
+        showToast(invalid.length?'Nog niet mogelijk: controleer ronde '+invalid.join(', ')+'.':'Maak eerst de afvalkeuze compleet.');return;
+      }
+      history.push({label:round===ROUNDS?'Einduitslag geopend':'Naar volgende ronde',state:clone(state)});history=history.slice(-30);
+      state.collapsedRounds[round]=true;
+      if(round===ROUNDS)state.finished=true;else{state.currentRound=round+1;state.collapsedRounds[state.currentRound]=false}
+      ensureEliminations();save();render();showToast(round===ROUNDS?'Einduitslag klaar':'Ronde '+state.currentRound+' geopend');
+      requestAnimationFrame(()=>scrollToRound(state.currentRound));
+    }
+    function scrollToRound(round){
+      const target=$('round-'+round),standing=document.querySelector('.standings');if(!target)return;
+      const offset=(standing?standing.getBoundingClientRect().height:90)+8,top=target.getBoundingClientRect().top+window.scrollY-offset;
+      window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+    }
+    function renderResults(){
+      const done=state.finished&&nextRound()===null,node=$('results');node.hidden=!done;if(!done){node.innerHTML='';return}
+      const list=ranking(),winners=list.filter(x=>x.position===1&&!x.eliminated),winnerNames=winners.map(x=>escapeHtml(x.name)).join(' & '),winnerPoints=winners[0].points;
+      node.innerHTML='<div class="winner-showcase"><div class="winner-crown">👑</div><p>'+(winners.length>1?'En de winnaars zijn:':'En de winnaar is:')+'</p><h2>'+winnerNames+'</h2><span class="winner-points">'+winnerPoints+' punten</span></div><h3>Volledige eindstand na 13 rondes</h3><div class="podium">'+list.map(item=>'<div class="podium-row"><span class="podium-pos">'+item.position+'</span><span class="podium-name">'+escapeHtml(item.name)+(item.eliminated?' · afgevallen':'')+'</span><span class="podium-score">'+item.points+' pt</span></div>').join('')+'</div><div class="print-actions"><button id="printGameBtn" type="button">🖨️ Speloverzicht als PDF</button></div>';
+      $('printGameBtn').addEventListener('click',printGame);
+    }
+    let printRoundStates=null,printResultsMoved=false;
+    function preparePrint(){
+      if(printRoundStates)return;
+      const rounds=Array.from(document.querySelectorAll('details.round-card'));printRoundStates=rounds.map(node=>node.open);rounds.forEach(node=>node.open=true);
+      const resultsNode=$('results'),roundsNode=$('rounds');if(resultsNode&&roundsNode&&roundsNode.parentNode){roundsNode.parentNode.insertBefore(resultsNode,roundsNode);printResultsMoved=true}
+    }
+    function restoreAfterPrint(){
+      if(!printRoundStates)return;
+      const rounds=Array.from(document.querySelectorAll('details.round-card'));rounds.forEach((node,index)=>node.open=printRoundStates[index]??node.open);printRoundStates=null;
+      const resultsNode=$('results'),roundsNode=$('rounds');if(printResultsMoved&&resultsNode&&roundsNode&&roundsNode.parentNode){roundsNode.parentNode.insertBefore(resultsNode,roundsNode.nextSibling);printResultsMoved=false}
+    }
+    function printGame(){preparePrint();window.print()}
+    function render(){clearHiddenAutoZeros();renderStandings();renderElimination();renderNames();renderRounds();renderResults();$('undoBtn').disabled=history.length===0;$('progressText').setAttribute('title',completedRounds()+' van '+ROUNDS+' rondes voltooid')}
+
+    function exportBackup(){
+      const now=new Date(),payload={app:'OH SHIT! Scorekeeper',appVersion:APP_VERSION,formatVersion:DATA_VERSION,exportedAt:now.toISOString(),state:clone(state)},stamp=now.toLocaleString('sv-SE',{hour12:false}).replace(' ','-').replace(/:/g,'-');
+      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='OH-SHIT-Scorekeeper-backup-'+stamp+'.json';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);showToast('JSON-back-up gedownload')
+    }
+    async function importBackup(file){
+      try{
+        const parsed=JSON.parse(await file.text()),raw=parsed&&parsed.state?parsed.state:parsed,imported=normalize(raw);
+        if(!raw||(!raw.predictions&&!raw.actuals&&!raw.v&&!raw.b&&!Array.isArray(raw.names)))throw new Error('not a score file');
+        if(!confirm('Deze back-up terugzetten? Het huidige spel blijft via Ongedaan maken herstelbaar.'))return;
+        history.push({label:'Back-up terugzetten',state:clone(state)});history=history.slice(-30);state=imported;ensureEliminations();save();render();showToast('Back-up teruggezet');
+      }catch(e){$('appNotice').hidden=false;$('appNotice').textContent='Dit bestand is geen geldige OH SHIT!-back-up.'}
+      finally{$('importFile').value=''}
+    }
+    function newGame(){
+      if(!confirm('Nieuw spel starten en alle scores wissen? De huidige spelersnamen blijven staan.'))return;
+      const oldNames=state.names.slice(),count=state.count,firstDealer=state.firstDealer,keepDealOrder=state.keepDealOrder;commit('Nieuw spel gestart',()=>{state=blankState(count);state.names=oldNames;state.firstDealer=firstDealer;state.keepDealOrder=keepDealOrder})
+    }
+    function newPlayers(){
+      if(!confirm('Nieuwe spelers beginnen? Alle scores én alle spelersnamen worden gewist.'))return;
+      const count=state.count;commit('Nieuwe spelers gestart',()=>{state=blankState(count)})
+    }
+
+    for(let count=MIN_PLAYERS;count<=MAX_PLAYERS;count++){const option=document.createElement('option');option.value=count;option.textContent=count;$('playerCount').appendChild(option)}
+    $('playerCount').addEventListener('change',event=>{const count=Number(event.target.value);commit('Aantal spelers aangepast',()=>{state.count=count;state.firstDealer=Math.min(state.firstDealer,count-1);state.eliminated={};state.eliminationOverrides={};state.currentRound=1;state.finished=false;state.collapsedRounds={}})});
+    $('keepDealOrder').addEventListener('change',event=>commit('Deelvolgorde aangepast',()=>state.keepDealOrder=event.target.checked,false));
+    $('firstDealer').addEventListener('change',event=>{const player=Number(event.target.value);commit('Eerste deler aangepast',()=>state.firstDealer=player,false)});
+    $('undoBtn').addEventListener('click',undo);$('exportBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',event=>event.target.files[0]&&importBackup(event.target.files[0]));$('newGameBtn').addEventListener('click',newGame);$('newPlayersBtn').addEventListener('click',newPlayers);
+    window.addEventListener('storage',event=>{if(event.key===KEY&&event.newValue){state=normalize(JSON.parse(event.newValue));ensureEliminations();render();showToast('Spel bijgewerkt vanuit een ander tabblad')}});
+    window.addEventListener('beforeunload',save);
+    window.addEventListener('beforeprint',preparePrint);window.addEventListener('afterprint',restoreAfterPrint);
+    ensureEliminations();save();
+    render();
+    window.OHSHIT_TEST={score,normalize,roundInfo,ranking,fillAutomaticZeros,ensureEliminations,invalidPredictionTotal,forbiddenPrediction,optionMarkup,eliminatePlayer,activePlayers,dealerForRound,biddingOrder,nextBidder,predictionEditable,canAdvance,advanceRound,firstIncompleteRound,preparePrint,restoreAfterPrint,getPendingElimination:()=>clone(pendingElimination),getState:()=>clone(state),setState:value=>{state=normalize(value);history=[];ensureEliminations();render()}};
+  })();
+  </script>
+</body>
+</html>
