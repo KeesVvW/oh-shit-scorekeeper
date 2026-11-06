@@ -1,7 +1,7 @@
 <!--
-OH SHIT! Scorekeeper v1.0
-Revisie: 06-11-2026 14:03 (Nederlandse tijd)
-Laatste wijziging: blokkering door tweede tabblad opgelost
+OH SHIT! Scorekeeper · MY WAY v1.1
+Revisie: 06-11-2026 14:52 (Nederlandse tijd)
+Laatste wijziging: MY WAY, 4–10 spelers en doorlopende spel-PDF
 -->
 <!doctype html>
 <html lang="nl">
@@ -11,8 +11,8 @@ Laatste wijziging: blokkering door tweede tabblad opgelost
   <meta name="theme-color" content="#172554">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="OH SHIT!">
-  <title>OH SHIT! Scorekeeper v1.0</title>
+  <meta name="apple-mobile-web-app-title" content="OH SHIT! My Way">
+  <title>OH SHIT! Scorekeeper · MY WAY v1.1</title>
   <style>
     :root{--navy:#172554;--blue:#2563eb;--sky:#eff6ff;--ink:#162033;--muted:#64748b;--line:#dbe4ef;--card:#fff;--good:#087443;--good-bg:#dcfce7;--bad:#b42318;--bad-bg:#fee4e2;--gold:#a16207;--gold-bg:#fef3c7;--shadow:0 8px 24px rgba(23,37,84,.09);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;color:var(--ink);background:#f1f5f9}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#e7eef8 0,#f8fafc 28rem);-webkit-tap-highlight-color:transparent}
@@ -37,6 +37,9 @@ Laatste wijziging: blokkering door tweede tabblad opgelost
     .doubler-check strong{display:block;font-size:14px}
     .doubler-check small{display:block;margin-top:1px;color:var(--muted);font-weight:650}
     .doubler-print{display:none}
+    .brand-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .edition{display:inline-block;padding:4px 8px;border:1px solid rgba(255,255,255,.45);border-radius:6px;background:linear-gradient(135deg,#fce7f3,#ddd6fe);color:#581c87;font-size:12px;font-weight:950;letter-spacing:.12em;line-height:1}
+    .house-rules{margin-top:13px!important;padding:10px 11px;border:1px solid #c4b5fd;border-radius:11px;background:#faf5ff;color:#581c87}
     @media print{
       .doubler-check:not(.active){display:none!important}
       .doubler-check.active{margin:2px 0 5px;padding:5px 8px;border-color:#d97706;background:#fffbeb}
@@ -46,7 +49,7 @@ Laatste wijziging: blokkering door tweede tabblad opgelost
   </style>
 </head>
 <body>
-  <header class="app-header"><div class="header-inner"><div class="brand"><h1>OH SHIT!</h1><p>Scorekeeper</p></div><span class="version">v1.0</span></div></header>
+  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v1.1</span></div></header>
   <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
   <main>
     <details class="card controls" hidden>
@@ -92,6 +95,7 @@ Laatste wijziging: blokkering door tweede tabblad opgelost
       <p>De laatste bieder mag het totaal niet precies gelijk maken aan het rondenummer; er moet onder- of overboden worden.</p>
       <h3>Een kaartspel heeft 52 kaarten</h3>
       <p>Zodra niet iedereen genoeg kaarten kan krijgen, valt de speler met de minste punten af. Bij een gelijke laagste score bepaalt de scorehouder wie afvalt.</p>
+      <p class="house-rules"><strong>OH SHIT! · MY WAY</strong><br>Deze scorekeeper volgt de huisregels zoals wij het spel al jaren spelen. Andere varianten van OH SHIT! kunnen andere spelregels gebruiken.</p>
       <nav id="helpLinks" class="rules-links" aria-label="Hulp en ondersteuning">
         <button id="shareBtn" class="share-link" type="button">📤 Deel OH SHIT! Scorekeeper</button>
         <a class="guide-link" href="OH-SHIT-Scorekeeper-korte-handleiding.pdf" target="_blank" rel="noopener">📄 Korte handleiding voor de scorehouder (PDF)</a>
@@ -104,7 +108,7 @@ Laatste wijziging: blokkering door tweede tabblad opgelost
   <script>
   (function(){
     'use strict';
-    const DATA_VERSION=4, APP_VERSION='1.0', ROUNDS=13, MIN_PLAYERS=2, MAX_PLAYERS=10;
+    const DATA_VERSION=4, APP_VERSION='1.1', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
     const SHARE_URL='https://keesvvw.github.io/oh-shit-scorekeeper/';
     const KEY='ohshit-scorekeeper-v1', HISTORY_KEY='ohshit-scorekeeper-v1-history', LEGACY_V4_KEY='ohshit-v4', LEGACY_V4_HISTORY_KEY='ohshit-v4-history', LEGACY_KEY='ohshit-v3';
     const $=id=>document.getElementById(id);
@@ -391,7 +395,68 @@ Laatste wijziging: blokkering door tweede tabblad opgelost
       const done=state.finished&&nextRound()===null,node=$('results');node.hidden=!done;if(!done){node.innerHTML='';return}
       const list=ranking(),winners=list.filter(x=>x.position===1&&!x.eliminated),winnerNames=winners.map(x=>escapeHtml(x.name)).join(' & '),winnerPoints=winners[0].points;
       node.innerHTML='<div class="winner-showcase"><div class="winner-crown">👑</div><p>'+(winners.length>1?'En de winnaars zijn:':'En de winnaar is:')+'</p><h2>'+winnerNames+'</h2><span class="winner-points">'+winnerPoints+' punten</span></div><h3>Volledige eindstand na 13 rondes</h3><div class="podium">'+list.map(item=>'<div class="podium-row"><span class="podium-pos">'+item.position+'</span><span class="podium-name">'+escapeHtml(item.name)+(item.eliminated?' · afgevallen':'')+'</span><span class="podium-score">'+item.points+' pt</span></div>').join('')+'</div><div class="print-actions"><button id="printGameBtn" type="button">🖨️ Speloverzicht als PDF</button></div>';
-      $('printGameBtn').addEventListener('click',printGame);
+      $('printGameBtn').addEventListener('click',downloadGamePdf);
+    }
+    function roundedCanvasRect(ctx,x,y,w,h,r,fill,stroke){
+      const radius=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+radius,y);ctx.arcTo(x+w,y,x+w,y+h,radius);ctx.arcTo(x+w,y+h,x,y+h,radius);ctx.arcTo(x,y+h,x,y,radius);ctx.arcTo(x,y,x+w,y,radius);ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1.5;ctx.stroke()}
+    }
+    function fitCanvasText(ctx,text,maxWidth){
+      let value=String(text);if(ctx.measureText(value).width<=maxWidth)return value;
+      while(value.length>1&&ctx.measureText(value+'…').width>maxWidth)value=value.slice(0,-1);
+      return value+'…';
+    }
+    function canvasLabel(ctx,text,x,y,size=16,weight=700,color='#162033',align='left',maxWidth=Infinity){
+      ctx.font=weight+' '+size+'px -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif';ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline='alphabetic';ctx.fillText(fitCanvasText(ctx,text,maxWidth),x,y);
+    }
+    function createGameOverviewCanvas(){
+      const width=900,margin=34,inner=width-margin*2,list=ranking(),winnerList=list.filter(item=>item.position===1&&!item.eliminated),rounds=Array.from({length:ROUNDS},(_,index)=>{const round=index+1,info=roundInfo(round);return {round,info,players:state.keepDealOrder?biddingOrder(round):info.players,height:62+info.players.length*44+58}});
+      const topHeight=104,winnerHeight=132,standingTitle=48,standingRows=list.length*42,linkHeight=86,gaps=rounds.length*14,totalHeight=margin+topHeight+winnerHeight+standingTitle+standingRows+28+rounds.reduce((sum,item)=>sum+item.height,0)+gaps+linkHeight+margin;
+      const canvas=document.createElement('canvas');canvas.width=width;canvas.height=totalHeight;const ctx=canvas.getContext('2d');if(!ctx)throw new Error('canvas unavailable');ctx.fillStyle='#f1f5f9';ctx.fillRect(0,0,width,totalHeight);
+      let y=margin;
+      roundedCanvasRect(ctx,margin,y,inner,topHeight,18,'#172554');
+      canvasLabel(ctx,'OH SHIT!',margin+24,y+40,32,900,'#ffffff');
+      roundedCanvasRect(ctx,margin+205,y+17,118,34,7,'#ede9fe','#c4b5fd');canvasLabel(ctx,'MY WAY',margin+264,y+40,15,900,'#581c87','center');
+      canvasLabel(ctx,'Scorekeeper · volledig speloverzicht',margin+24,y+72,16,700,'#bfdbfe');canvasLabel(ctx,'v'+APP_VERSION,margin+inner-24,y+39,14,800,'#ffffff','right');
+      y+=topHeight+14;
+      roundedCanvasRect(ctx,margin,y,inner,winnerHeight,18,'#fff7cc','#f5c451');
+      canvasLabel(ctx,winnerList.length>1?'WINNAARS':'WINNAAR',width/2,y+30,15,900,'#92400e','center');
+      canvasLabel(ctx,winnerList.map(item=>item.name).join(' & '),width/2,y+72,29,900,'#172554','center',inner-80);
+      canvasLabel(ctx,(winnerList[0]?winnerList[0].points:0)+' punten',width/2,y+104,18,850,'#713f12','center');
+      y+=winnerHeight+14;
+      canvasLabel(ctx,'EINDSTAND NA 13 RONDES',margin,y+25,18,900,'#172554');y+=standingTitle;
+      list.forEach((item,index)=>{const rowY=y+index*42,fill=index%2?'#ffffff':'#f8fafc';roundedCanvasRect(ctx,margin,rowY,inner,36,8,fill,'#dbe4ef');canvasLabel(ctx,String(item.position),margin+18,rowY+24,15,900,item.position===1&&!item.eliminated?'#a16207':'#475569');canvasLabel(ctx,item.name+(item.eliminated?' · afgevallen':''),margin+58,rowY+24,15,800,item.eliminated?'#b42318':'#162033','left',inner-180);canvasLabel(ctx,item.points+' pt',margin+inner-18,rowY+24,15,900,item.points>=0?'#087443':'#b42318','right')});
+      y+=standingRows+24;
+      rounds.forEach(data=>{
+        const r=data.round,info=data.info,cardY=y;roundedCanvasRect(ctx,margin,cardY,inner,data.height,14,'#ffffff','#cbd5e1');
+        roundedCanvasRect(ctx,margin,cardY,inner,52,14,'#eff6ff','#bfdbfe');roundedCanvasRect(ctx,margin+12,cardY+8,38,36,10,'#172554');canvasLabel(ctx,String(r),margin+31,cardY+33,17,900,'#ffffff','center');
+        canvasLabel(ctx,'Ronde '+r,margin+62,cardY+24,17,900,'#172554');canvasLabel(ctx,r+' '+(r===1?'slag':'slagen')+' · '+info.players.length+' actieve spelers',margin+62,cardY+42,11,700,'#64748b');
+        if(isDoubler(r)){roundedCanvasRect(ctx,margin+inner-158,cardY+11,142,30,8,'#fffbeb','#f59e0b');canvasLabel(ctx,'VERDUBBELAAR',margin+inner-87,cardY+31,11,900,'#92400e','center')}
+        let rowY=cardY+58;data.players.forEach((player,index)=>{const k=cellKey(r,player),pred=state.predictions[k]??'',actual=state.actuals[k]??'',points=score(pred,actual,isDoubler(r));if(index%2===0){ctx.fillStyle='#f8fafc';ctx.fillRect(margin+10,rowY-2,inner-20,40)}canvasLabel(ctx,displayName(player),margin+20,rowY+24,14,800,'#162033','left',inner-330);canvasLabel(ctx,'V '+pred,margin+inner-250,rowY+24,13,750,'#475569','center');canvasLabel(ctx,'B '+actual,margin+inner-160,rowY+24,13,750,'#475569','center');canvasLabel(ctx,(points>0?'+':'')+points,margin+inner-25,rowY+24,14,900,points>=0?'#087443':'#b42318','right');rowY+=44});
+        const under=Math.max(0,r-info.predictionSum),over=Math.max(0,info.predictionSum-r);canvasLabel(ctx,'Geboden '+info.predictionSum+'   ·   Onderboden '+under+'   ·   Overboden '+over,margin+20,cardY+data.height-22,12,750,'#475569');canvasLabel(ctx,'Behaald '+info.sum+' van '+r,margin+inner-20,cardY+data.height-22,12,850,info.sum===r?'#087443':'#b42318','right');
+        y+=data.height+14;
+      });
+      const linkTop=y+4;roundedCanvasRect(ctx,margin,linkTop,inner,58,12,'#dbeafe','#60a5fa');canvasLabel(ctx,'Open de scorekeeper:',margin+22,linkTop+35,15,800,'#172554');canvasLabel(ctx,SHARE_URL,margin+205,linkTop+35,15,800,'#1d4ed8','left',inner-225);
+      return {canvas,linkRect:{x:margin,y:linkTop,width:inner,height:58}};
+    }
+    function buildSinglePagePdf(jpegBytes,imageWidth,imageHeight,linkRect){
+      const encoder=new TextEncoder(),chunks=[],offsets=Array(7).fill(0);let length=0;const push=value=>{const bytes=typeof value==='string'?encoder.encode(value):value;chunks.push(bytes);length+=bytes.length},number=value=>String(Math.round(value*100)/100),pageWidth=595,scale=pageWidth/imageWidth,pageHeight=imageHeight*scale;
+      push('%PDF-1.4\n%OHSHIT\n');
+      const add=(id,value)=>{offsets[id]=length;push(id+' 0 obj\n');if(Array.isArray(value))value.forEach(push);else push(value);push('\nendobj\n')};
+      add(1,'<< /Type /Catalog /Pages 2 0 R >>');
+      add(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+      const x1=linkRect.x*scale,x2=(linkRect.x+linkRect.width)*scale,y1=pageHeight-(linkRect.y+linkRect.height)*scale,y2=pageHeight-linkRect.y*scale;
+      add(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+number(pageWidth)+' '+number(pageHeight)+'] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R /Annots [6 0 R] >>');
+      add(4,['<< /Type /XObject /Subtype /Image /Width '+imageWidth+' /Height '+imageHeight+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpegBytes.length+' >>\nstream\n',jpegBytes,'\nendstream']);
+      const content=encoder.encode('q\n'+number(pageWidth)+' 0 0 '+number(pageHeight)+' 0 0 cm\n/Im0 Do\nQ');add(5,['<< /Length '+content.length+' >>\nstream\n',content,'\nendstream']);
+      add(6,'<< /Type /Annot /Subtype /Link /Rect ['+number(x1)+' '+number(y1)+' '+number(x2)+' '+number(y2)+'] /Border [0 0 0] /A << /S /URI /URI ('+SHARE_URL.replace(/[()\\]/g,'\\$&')+') >> >>');
+      const xref=length;push('xref\n0 7\n0000000000 65535 f \n');for(let id=1;id<=6;id++)push(String(offsets[id]).padStart(10,'0')+' 00000 n \n');push('trailer\n<< /Size 7 /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF');
+      return new Blob(chunks,{type:'application/pdf'});
+    }
+    function downloadGamePdf(){
+      try{
+        showToast('Doorlopende PDF wordt gemaakt…');const overview=createGameOverviewCanvas(),data=overview.canvas.toDataURL('image/jpeg',.92).split(',')[1],binary=atob(data),jpeg=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)jpeg[i]=binary.charCodeAt(i);
+        const blob=buildSinglePagePdf(jpeg,overview.canvas.width,overview.canvas.height,overview.linkRect),url=URL.createObjectURL(blob),link=document.createElement('a'),stamp=new Date().toLocaleString('sv-SE',{hour12:false}).replace(' ','-').replace(/:/g,'-');link.href=url;link.download='OH-SHIT-MY-WAY-speloverzicht-'+stamp+'.pdf';link.target='_blank';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);showToast('Doorlopende PDF is klaar');
+      }catch(error){showToast('PDF maken lukt niet; afdrukweergave wordt geopend');printGame()}
     }
     let printRoundStates=null,printResultsMoved=false;
     function preparePrint(){
@@ -449,7 +514,7 @@ Laatste wijziging: blokkering door tweede tabblad opgelost
     window.addEventListener('beforeprint',preparePrint);window.addEventListener('afterprint',restoreAfterPrint);
     ensureEliminations();save();
     render();
-    window.OHSHIT_TEST={score,normalize,roundInfo,ranking,fillAutomaticZeros,ensureEliminations,invalidPredictionTotal,forbiddenPrediction,optionMarkup,eliminatePlayer,activePlayers,dealerForRound,biddingOrder,nextBidder,predictionEditable,canAdvance,advanceRound,firstIncompleteRound,roundHasTrump,isDoubler,preparePrint,restoreAfterPrint,getPendingElimination:()=>clone(pendingElimination),getState:()=>clone(state),setState:value=>{state=normalize(value);history=[];ensureEliminations();render()}};
+    window.OHSHIT_TEST={score,normalize,roundInfo,ranking,fillAutomaticZeros,ensureEliminations,invalidPredictionTotal,forbiddenPrediction,optionMarkup,eliminatePlayer,activePlayers,dealerForRound,biddingOrder,nextBidder,predictionEditable,canAdvance,advanceRound,firstIncompleteRound,roundHasTrump,isDoubler,buildSinglePagePdf,createGameOverviewCanvas,downloadGamePdf,preparePrint,restoreAfterPrint,getPendingElimination:()=>clone(pendingElimination),getState:()=>clone(state),setState:value=>{state=normalize(value);history=[];ensureEliminations();render()}};
   })();
   </script>
 </body>
