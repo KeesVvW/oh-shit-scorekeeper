@@ -1,7 +1,7 @@
 <!--
 OH SHIT! Scorekeeper v1.0
-Revisie: 04-11-2026 17:39 (Nederlandse tijd)
-Laatste wijziging: deelknop onderaan toegevoegd
+Revisie: 06-11-2026 13:39 (Nederlandse tijd)
+Laatste wijziging: Aas als puntenverdubbelaar toegevoegd
 -->
 <!doctype html>
 <html lang="nl">
@@ -29,6 +29,20 @@ Laatste wijziging: deelknop onderaan toegevoegd
     @media(max-width:560px){.header-inner{align-items:center}.brand p{font-size:13px}.standings-inner{padding:7px 6px}.rank-strip{gap:4px}.rank-chip{padding:5px 6px;gap:0 4px;min-height:50px;border-radius:10px}.rank-pos{font-size:15px}.rank-name{font-size:11px}.rank-score{font-size:9px}.card{border-radius:14px}.settings-grid{grid-template-columns:1fr}.names{grid-template-columns:1fr}.player-row{grid-template-columns:minmax(92px,1fr) 68px 68px 55px;gap:5px}.round-body{padding-left:8px;padding-right:8px}.player-name{font-size:14px}.score-select{padding-left:4px;padding-right:18px}.points{font-size:12px}.toolbar button{flex:1 1 auto}.toolbar .spacer{display:none}.round-foot{align-items:flex-start}.bid-metrics{gap:3px}.bid-metrics span{font-size:10px}.round-actions .primary{width:100%}}
     @media(min-width:700px){.names{grid-template-columns:repeat(3,minmax(0,1fr))}.round-body{padding-left:18px;padding-right:18px}.player-row{grid-template-columns:minmax(180px,1fr) 100px 100px 80px}}
     @media print{@page{size:A4 portrait;margin:10mm}.app-header,.standings,details.controls,details.settings,.section-head,.rules,.toast,.round-actions,.print-actions{display:none!important}html,body{background:#fff!important}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}main{display:block;max-width:none;padding:0}.card{box-shadow:none;break-inside:avoid;page-break-inside:avoid}#results{display:block!important;width:100%;margin:0;break-after:page;page-break-after:always}#results .winner-showcase{margin:0 0 10px;padding:10px}#results .winner-crown{font-size:34px}#results .winner-showcase h2{font-size:28px}#results h3{margin-bottom:6px}.podium{gap:4px}.podium-row{padding:6px 8px}.podium-pos{font-size:17px}#rounds{display:block}.round-card{display:block!important;width:100%;margin:0;break-inside:avoid;page-break-inside:avoid}.round-card+.round-card{break-before:page;page-break-before:always}details.round-card>.round-body{display:block!important}.round-head{padding:8px 10px}.round-number{width:34px;height:34px;font-size:16px}.round-title h3{font-size:15px}.round-title p{margin-top:1px}.round-body{padding:4px 8px 8px}.player-row{padding:3px 2px}.player-name{font-size:13px}.player-total{margin-top:0;font-size:9px}button,select{min-height:32px}.score-select{padding:4px 20px 4px 6px;font-size:12px}.points{padding:6px 3px;font-size:11px}.bid-info{margin-top:5px;padding:5px 6px}.bid-metrics span{padding:3px}.bid-metrics strong{margin-top:0;font-size:14px}.round-foot{margin-top:5px;padding:6px 8px}.results{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+  </style>
+  <style>
+    .doubler-check{display:flex;align-items:center;gap:10px;margin:2px 0 8px;padding:9px 11px;border:1px solid #cbd5e1;border-radius:11px;background:#f8fafc;color:var(--ink);cursor:pointer}
+    .doubler-check.active{border-color:#f59e0b;background:#fffbeb;box-shadow:inset 4px 0 0 #f59e0b}
+    .doubler-check input{width:22px;height:22px;margin:0;accent-color:#d97706}
+    .doubler-check strong{display:block;font-size:14px}
+    .doubler-check small{display:block;margin-top:1px;color:var(--muted);font-weight:650}
+    .doubler-print{display:none}
+    @media print{
+      .doubler-check:not(.active){display:none!important}
+      .doubler-check.active{margin:2px 0 5px;padding:5px 8px;border-color:#d97706;background:#fffbeb}
+      .doubler-check.active input,.doubler-check.active .doubler-screen{display:none!important}
+      .doubler-check.active .doubler-print{display:block;color:#92400e;font-weight:900}
+    }
   </style>
 </head>
 <body>
@@ -75,6 +89,8 @@ Laatste wijziging: deelknop onderaan toegevoegd
       <p>Eén slag verschil = −10 punten. Iedere extra slag verschil = nog eens −5 punten.</p>
       <h3>Vanaf ronde 5</h3>
       <p>De laatste bieder mag het totaal niet precies gelijk maken aan het rondenummer; er moet onder- of overboden worden.</p>
+      <h3>Troefkaart is een Aas</h3>
+      <p>Een gedraaide Aas verdubbelt alle punten van die ronde, zowel plus- als minpunten. In de laatste ronde met vier spelers is er geen troefkaart en dus geen verdubbelaar.</p>
       <h3>Een kaartspel heeft 52 kaarten</h3>
       <p>Zodra niet iedereen genoeg kaarten kan krijgen, valt de speler met de minste punten af. Bij een gelijke laagste score bepaalt de scorehouder wie afvalt.</p>
       <nav id="helpLinks" class="rules-links" aria-label="Hulp en ondersteuning">
@@ -98,7 +114,7 @@ Laatste wijziging: deelknop onderaan toegevoegd
     let toastTimer=0, migrated=false, pendingElimination=null, lastPendingKey='';
 
     function blankState(count=4){
-      return {version:DATA_VERSION,appVersion:APP_VERSION,count,names:Array(MAX_PLAYERS).fill(''),predictions:{},actuals:{},autoZeros:{},eliminated:{},eliminationOverrides:{},eliminationAnnouncements:{},collapsedRounds:{},keepDealOrder:true,firstDealer:0,currentRound:1,finished:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+      return {version:DATA_VERSION,appVersion:APP_VERSION,count,names:Array(MAX_PLAYERS).fill(''),predictions:{},actuals:{},autoZeros:{},doublers:{},eliminated:{},eliminationOverrides:{},eliminationAnnouncements:{},collapsedRounds:{},keepDealOrder:true,firstDealer:0,currentRound:1,finished:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
     }
     function safeObject(value){return value&&typeof value==='object'&&!Array.isArray(value)?value:{}}
     function normalize(raw){
@@ -114,6 +130,7 @@ Laatste wijziging: deelknop onderaan toegevoegd
         if(actuals[k]!==undefined&&actuals[k]!=='')result.actuals[k]=clampEntry(actuals[k],r);
       }
       result.autoZeros=legacy?{}:safeObject(raw.autoZeros);
+      const doublers=legacy?{}:safeObject(raw.doublers);for(let r=1;r<=ROUNDS;r++)if(doublers[r]===true)result.doublers[r]=true;
       const eliminated=legacy?{}:safeObject(raw.eliminated);
       for(let p=0;p<result.count;p++){const round=Number(eliminated[p]);if(Number.isInteger(round)&&round>=2&&round<=ROUNDS)result.eliminated[p]=round}
       result.eliminationOverrides=legacy?{}:safeObject(raw.eliminationOverrides);
@@ -147,12 +164,15 @@ Laatste wijziging: deelknop onderaan toegevoegd
     function undo(){const last=history.pop();if(!last)return;state=normalize(last.state);ensureEliminations();save();render();showToast('Hersteld: '+last.label.toLowerCase())}
     function showToast(message){clearTimeout(toastTimer);const node=$('toast');node.textContent=message;node.classList.add('show');toastTimer=setTimeout(()=>node.classList.remove('show'),2300)}
 
-    function score(predicted,actual){
+    function score(predicted,actual,doubled=false){
       if(predicted===''||predicted===undefined||actual===''||actual===undefined)return null;
       const difference=Math.abs(Number(predicted)-Number(actual));
-      return difference===0?10+Number(predicted)**2:-10-5*(difference-1);
+      const points=difference===0?10+Number(predicted)**2:-10-5*(difference-1);
+      return doubled?points*2:points;
     }
-    function totalThrough(player,lastRound=ROUNDS){let total=0;for(let r=1;r<=lastRound;r++){const k=cellKey(r,player),points=score(state.predictions[k],state.actuals[k]);if(points!==null)total+=points}return total}
+    function roundHasTrump(round,source=state){return !(round===ROUNDS&&activePlayers(round,source).length===4)}
+    function isDoubler(round,source=state){return roundHasTrump(round,source)&&source.doublers&&source.doublers[round]===true}
+    function totalThrough(player,lastRound=ROUNDS){let total=0;for(let r=1;r<=lastRound;r++){const k=cellKey(r,player),points=score(state.predictions[k],state.actuals[k],isDoubler(r));if(points!==null)total+=points}return total}
     function totalFor(player){return totalThrough(player)}
     function totals(){return Array.from({length:state.count},(_,p)=>totalFor(p))}
     function ranking(){
@@ -310,9 +330,10 @@ Laatste wijziging: deelknop onderaan toegevoegd
         const info=roundInfo(r),order=biddingOrder(r),dealer=dealerForRound(r),isCurrent=r===state.currentRound&&!state.finished,isFuture=r>state.currentRound,blockedByChoice=!!pendingElimination&&r>=pendingElimination.round,locked=isFuture||blockedByChoice,statusClass=info.complete?'complete':r<state.currentRound?'needs-fix':isCurrent?'next':'',badge=info.complete?'<span class="badge done"><span class="when-closed">✓ Klaar · uitklappen</span><span class="when-open">✓ Klaar · inklappen</span></span>':r<state.currentRound?'<span class="badge fix">Controle nodig</span>':blockedByChoice&&r===pendingElimination.round?'<span class="badge wait">Eerst afvalkeuze</span>':isCurrent?'<span class="badge next">Huidige ronde</span>':'<span class="badge wait">Later</span>';
         const open=!state.collapsedRounds[r]&&!isFuture;
         html+='<details class="card round-card '+statusClass+'" id="round-'+r+'" data-round="'+r+'" '+(open?'open':'')+'><summary class="round-head"><div class="round-number">'+r+'</div><div class="round-title"><h3>Ronde '+r+'</h3><p>'+r+' '+(r===1?'slag':'slagen')+' · '+info.players.length+' actieve '+(info.players.length===1?'speler':'spelers')+'</p></div>'+badge+'</summary><div class="round-body">';
+        if(roundHasTrump(r)){const doubled=isDoubler(r);html+='<label class="doubler-check '+(doubled?'active':'')+'"><input class="doubler-input" type="checkbox" data-round="'+r+'" '+(doubled?'checked':'')+' '+(locked?'disabled':'')+'><span class="doubler-screen"><strong>Verdubbelaar</strong><small>Troefkaart is een Aas · rondepunten × 2</small></span><span class="doubler-print">Verdubbelaar</span></label>'}
         const rowPlayers=state.keepDealOrder?order:info.players;
         for(const p of rowPlayers){
-          const k=cellKey(r,p),pred=state.predictions[k]??'',actual=state.actuals[k]??'',points=score(pred,actual),pointClass=points===null?'':points>=0?'good':'bad',pointText=points===null?'—':(points>0?'+':'')+points,auto=state.autoZeros[k]===true,predictionLocked=locked||(isCurrent&&state.keepDealOrder&&!predictionEditable(r,p)),role=state.keepDealOrder?(p===rowPlayers[0]?'Bieder':p===rowPlayers[rowPlayers.length-1]?'Deler':''):'',roleMarkup=role?'<div class="player-total"><span class="'+(role==='Deler'?'dealer-turn':'bid-turn')+'">'+role+'</span></div>':'',forbidden=forbiddenPrediction(r,p);
+          const k=cellKey(r,p),pred=state.predictions[k]??'',actual=state.actuals[k]??'',points=score(pred,actual,isDoubler(r)),pointClass=points===null?'':points>=0?'good':'bad',pointText=points===null?'—':(points>0?'+':'')+points,auto=state.autoZeros[k]===true,predictionLocked=locked||(isCurrent&&state.keepDealOrder&&!predictionEditable(r,p)),role=state.keepDealOrder?(p===rowPlayers[0]?'Bieder':p===rowPlayers[rowPlayers.length-1]?'Deler':''):'',roleMarkup=role?'<div class="player-total"><span class="'+(role==='Deler'?'dealer-turn':'bid-turn')+'">'+role+'</span></div>':'',forbidden=forbiddenPrediction(r,p);
           html+='<div class="player-row"><div class="player-info"><div class="player-name">'+escapeHtml(displayName(p))+'</div>'+roleMarkup+'</div><div class="input-wrap"><label for="p-'+k+'">V</label><select id="p-'+k+'" class="score-select score-input" data-kind="prediction" data-round="'+r+'" data-player="'+p+'" title="'+(predictionLocked&&!locked?'Eerst is '+escapeHtml(displayName(nextBidder(r)))+' aan de beurt':forbidden!==null?forbidden+' is hier niet toegestaan':'')+'" '+(predictionLocked?'disabled':'')+'>'+optionMarkup(r,pred,forbidden)+'</select></div><div class="input-wrap"><label for="a-'+k+'">B</label><select id="a-'+k+'" class="score-select score-input '+(auto?'auto':'')+'" data-kind="actual" data-round="'+r+'" data-player="'+p+'" title="'+(auto?'Automatisch als nul ingevuld':'')+'" '+(locked?'disabled':'')+'>'+optionMarkup(r,actual)+'</select></div><div class="points '+pointClass+'" aria-label="'+(points===null?'Nog geen punten':points+' punten')+'">'+pointText+'</div></div>';
         }
         const footClass=info.complete?'valid':info.sum>r||!info.predictionValid?'invalid':info.sum<r&&info.actualsFilled===info.players.length?'warning':'';
@@ -322,8 +343,14 @@ Laatste wijziging: deelknop onderaan toegevoegd
       }
       $('rounds').innerHTML=html;
       document.querySelectorAll('.score-input').forEach(select=>select.addEventListener('change',handleScoreChange));
+      document.querySelectorAll('.doubler-input').forEach(input=>input.addEventListener('change',handleDoublerChange));
       document.querySelectorAll('.next-round-btn').forEach(button=>button.addEventListener('click',()=>advanceRound(Number(button.dataset.round))));
       document.querySelectorAll('.round-card').forEach(details=>details.addEventListener('toggle',()=>{const round=Number(details.dataset.round);state.collapsedRounds[round]=!details.open;save()}));
+    }
+    function handleDoublerChange(event){
+      const round=Number(event.target.dataset.round),checked=event.target.checked;
+      if(!roundHasTrump(round)){render();return}
+      commit(checked?'Verdubbelaar ingeschakeld':'Verdubbelaar uitgeschakeld',()=>{if(checked)state.doublers[round]=true;else delete state.doublers[round]})
     }
     function handleScoreChange(event){
       const select=event.target,round=Number(select.dataset.round),player=Number(select.dataset.player),kind=select.dataset.kind,k=cellKey(round,player),value=select.value;
@@ -425,7 +452,7 @@ Laatste wijziging: deelknop onderaan toegevoegd
     window.addEventListener('beforeprint',preparePrint);window.addEventListener('afterprint',restoreAfterPrint);
     ensureEliminations();save();
     render();
-    window.OHSHIT_TEST={score,normalize,roundInfo,ranking,fillAutomaticZeros,ensureEliminations,invalidPredictionTotal,forbiddenPrediction,optionMarkup,eliminatePlayer,activePlayers,dealerForRound,biddingOrder,nextBidder,predictionEditable,canAdvance,advanceRound,firstIncompleteRound,preparePrint,restoreAfterPrint,getPendingElimination:()=>clone(pendingElimination),getState:()=>clone(state),setState:value=>{state=normalize(value);history=[];ensureEliminations();render()}};
+    window.OHSHIT_TEST={score,normalize,roundInfo,ranking,fillAutomaticZeros,ensureEliminations,invalidPredictionTotal,forbiddenPrediction,optionMarkup,eliminatePlayer,activePlayers,dealerForRound,biddingOrder,nextBidder,predictionEditable,canAdvance,advanceRound,firstIncompleteRound,roundHasTrump,isDoubler,preparePrint,restoreAfterPrint,getPendingElimination:()=>clone(pendingElimination),getState:()=>clone(state),setState:value=>{state=normalize(value);history=[];ensureEliminations();render()}};
   })();
   </script>
 </body>
