@@ -1,7 +1,7 @@
 <!--
 OH SHIT! Scorekeeper · MY WAY v1.7
-Revisie: 07-11-2026 12:16 (Nederlandse tijd)
-Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
+Revisie: 07-11-2026 14:19 (Nederlandse tijd)
+Laatste wijziging: verzaken, automatisch inklappen en vijf speelregels toegevoegd
 -->
 <!doctype html>
 <html lang="nl">
@@ -97,12 +97,13 @@ Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
       <p>De laatste bieder mag het totaal niet precies gelijk maken aan het rondenummer; er moet onder- of overboden worden.</p>
       <h3>Een kaartspel heeft 52 kaarten</h3>
       <p>Zodra niet iedereen genoeg kaarten kan krijgen, valt de speler met de minste punten af. Bij een gelijke laagste score bepaalt de scorehouder wie afvalt.</p>
-      <h3>Vier regels om te onthouden</h3>
+      <h3>Vijf regels om te onthouden</h3>
       <ol class="play-rules">
         <li>Kleur bekennen is verplicht als je kunt.</li>
         <li>Verzaken - niet kleur bekennen terwijl je dat wel kunt - kost 50 minpunten. De ronde moet opnieuw worden gespeeld.</li>
         <li>Heb je die kleur niet? Je mag troeven, maar dat hoeft niet.</li>
         <li>Je hoeft nooit over te troeven.</li>
+        <li><strong>Speler heeft verzaakt: deze speler krijgt −50 en de ronde wordt opnieuw gespeeld.</strong></li>
       </ol>
       <p class="house-rules"><strong>OH SHIT! · MY WAY</strong><br>Deze scorekeeper volgt de huisregels zoals wij het spel al jaren spelen. Andere varianten van OH SHIT! kunnen andere spelregels gebruiken.</p>
       <nav id="helpLinks" class="rules-links" aria-label="Hulp en ondersteuning">
@@ -140,7 +141,7 @@ Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
     let toastTimer=0, migrated=false, pendingElimination=null, lastPendingKey='';
 
     function blankState(count=4){
-      return {version:DATA_VERSION,appVersion:APP_VERSION,count,names:Array(MAX_PLAYERS).fill(''),predictions:{},actuals:{},autoZeros:{},doublers:{},reneges:[],eliminated:{},eliminationOverrides:{},eliminationAnnouncements:{},collapsedRounds:{},keepDealOrder:true,firstDealer:0,currentRound:1,finished:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+      return {version:DATA_VERSION,appVersion:APP_VERSION,count,names:Array(MAX_PLAYERS).fill(''),predictions:{},actuals:{},autoZeros:{},doublers:{},reneges:[],collapsedReneges:{},eliminated:{},eliminationOverrides:{},eliminationAnnouncements:{},collapsedRounds:{},keepDealOrder:true,firstDealer:0,currentRound:1,finished:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
     }
     function safeObject(value){return value&&typeof value==='object'&&!Array.isArray(value)?value:{}}
     function normalize(raw){
@@ -167,6 +168,7 @@ Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
         players.forEach(p=>{const prediction=clampEntry(rawPredictions[p],round),actual=clampEntry(rawActuals[p],round);if(prediction!=='')predictions[p]=prediction;if(actual!=='')actuals[p]=actual});
         return {id:String(entry.id||('verzaakt-'+round+'-'+index)),round,offender,players,order:order.length?order:players.slice(),dealer:Number(entry.dealer),predictions,actuals,doubler:entry.doubler===true,createdAt:typeof entry.createdAt==='string'?entry.createdAt:''};
       }).filter(Boolean):[];
+      result.collapsedReneges=safeObject(raw.collapsedReneges);
       const eliminated=legacy?{}:safeObject(raw.eliminated);
       for(let p=0;p<result.count;p++){const round=Number(eliminated[p]);if(Number.isInteger(round)&&round>=2&&round<=ROUNDS)result.eliminated[p]=round}
       result.eliminationOverrides=legacy?{}:safeObject(raw.eliminationOverrides);
@@ -314,8 +316,8 @@ Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
       return activePlayers(entry.round).every(p=>{const k=cellKey(entry.round,p);return (state.predictions[k]===undefined||state.predictions[k]==='')&&(state.actuals[k]===undefined||state.actuals[k]==='')});
     }
     function renderRenegeCard(entry,index){
-      const order=entry.order.length?entry.order:entry.players,name=displayName(entry.offender),canRestore=latestRenegeCanBeRestored(entry,index);
-      let html='<details class="card round-card reneged" open><summary class="round-head"><div class="round-number">'+entry.round+'</div><div class="round-title"><h3>Ronde '+entry.round+'</h3><p>Ongeldige poging · opnieuw gedeeld</p></div><div class="renege-alert">'+escapeHtml(name)+' heeft verzaakt!</div><span class="badge reneged">−50</span></summary><div class="round-body">';
+      const order=entry.order.length?entry.order:entry.players,name=displayName(entry.offender),canRestore=latestRenegeCanBeRestored(entry,index),open=state.collapsedReneges[entry.id]!==true;
+      let html='<details class="card round-card reneged" data-renege-id="'+escapeHtml(entry.id)+'" '+(open?'open':'')+'><summary class="round-head"><div class="round-number">'+entry.round+'</div><div class="round-title"><h3>Ronde '+entry.round+'</h3><p>Ongeldige poging · opnieuw gedeeld</p></div><div class="renege-alert">'+escapeHtml(name)+' heeft verzaakt!</div><span class="badge reneged">−50</span></summary><div class="round-body">';
       order.forEach(player=>{const prediction=entry.predictions[player]??'',actual=entry.actuals[player]??'',offender=player===entry.offender,points=offender?-50:0,role=player===order[0]?'Bieder':player===order[order.length-1]?'Deler':'';html+='<div class="player-row"><div class="player-info"><div class="player-name">'+escapeHtml(displayName(player))+'</div>'+(role?'<div class="player-total"><span class="'+(role==='Deler'?'dealer-turn':'bid-turn')+'">'+role+'</span></div>':'')+'</div><div class="input-wrap"><label>V</label><div class="score-static">'+(prediction===''?'—':prediction)+'</div></div><div class="input-wrap"><label>B</label><div class="score-static '+(offender?'reneged':'')+'">'+(offender?'Verzaakt':actual===''?'—':actual)+'</div></div><div class="points '+(offender?'bad':'good')+'">'+(points>0?'+':'')+points+'</div></div>'});
       html+='<div class="renege-note">Deze poging telt niet. '+escapeHtml(name)+' krijgt −50 punten; alle andere spelers 0. Ronde '+entry.round+' wordt opnieuw gespeeld met dezelfde deler.</div>'+(canRestore?'<button class="restore-renege" type="button" data-renege-id="'+escapeHtml(entry.id)+'">Verzaking terugdraaien</button>':'')+'</div></details>';return html;
     }
@@ -397,7 +399,7 @@ Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
       document.querySelectorAll('.doubler-input').forEach(input=>input.addEventListener('change',handleDoublerChange));
       document.querySelectorAll('.next-round-btn').forEach(button=>button.addEventListener('click',()=>advanceRound(Number(button.dataset.round))));
       document.querySelectorAll('.restore-renege').forEach(button=>button.addEventListener('click',()=>restoreRenege(button.dataset.renegeId)));
-      document.querySelectorAll('.round-card').forEach(details=>details.addEventListener('toggle',()=>{const round=Number(details.dataset.round);state.collapsedRounds[round]=!details.open;save()}));
+      document.querySelectorAll('.round-card').forEach(details=>details.addEventListener('toggle',()=>{const renegeId=details.dataset.renegeId;if(renegeId)state.collapsedReneges[renegeId]=!details.open;else{const round=Number(details.dataset.round);state.collapsedRounds[round]=!details.open}save()}));
     }
     function handleDoublerChange(event){
       const round=Number(event.target.dataset.round),checked=event.target.checked;
@@ -410,6 +412,7 @@ Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
       const entry={id:'verzaakt-'+Date.now()+'-'+offender,round,offender,players:info.players.slice(),order,dealer:dealerForRound(round),predictions,actuals,doubler:isDoubler(round),createdAt:new Date().toISOString()};
       commit('Verzaking vastgelegd',()=>{
         state.reneges.push(entry);
+        state.collapsedReneges[entry.id]=false;
         info.players.forEach(player=>{const k=cellKey(round,player);delete state.predictions[k];delete state.actuals[k];delete state.autoZeros[k]});
         delete state.doublers[round];state.currentRound=round;state.finished=false;state.collapsedRounds[round]=false;
       },false);
@@ -419,8 +422,8 @@ Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
       const index=state.reneges.findIndex(entry=>entry.id===id),entry=state.reneges[index];if(!entry||!latestRenegeCanBeRestored(entry,index))return;
       if(!confirm('De verzaking van '+displayName(entry.offender)+' terugdraaien en de eerdere voorspellingen herstellen?'))return;
       commit('Verzaking teruggedraaid',()=>{
-        state.reneges.splice(index,1);entry.players.forEach(player=>{const k=cellKey(entry.round,player);if(entry.predictions[player]!==undefined)state.predictions[k]=entry.predictions[player];if(entry.actuals[player]!==undefined)state.actuals[k]=entry.actuals[player]});
-        if(entry.doubler)state.doublers[entry.round]=true;state.currentRound=entry.round;state.collapsedRounds[entry.round]=false;
+        state.reneges.splice(index,1);delete state.collapsedReneges[entry.id];entry.players.forEach(player=>{const k=cellKey(entry.round,player);if(entry.predictions[player]!==undefined)state.predictions[k]=entry.predictions[player];if(entry.actuals[player]!==undefined)state.actuals[k]=entry.actuals[player]});
+        delete state.doublers[entry.round];if(entry.doubler)state.doublers[entry.round]=true;state.currentRound=entry.round;state.collapsedRounds[entry.round]=false;
       });
     }
     function handleScoreChange(event){
@@ -450,6 +453,7 @@ Laatste wijziging: verzaken met -50 strafpunten en opnieuw spelen toegevoegd
       }
       history.push({label:round===ROUNDS?'Einduitslag geopend':'Naar volgende ronde',state:clone(state)});history=history.slice(-30);
       state.collapsedRounds[round]=true;
+      state.reneges.filter(entry=>entry.round===round).forEach(entry=>state.collapsedReneges[entry.id]=true);
       if(round===ROUNDS)state.finished=true;else{state.currentRound=round+1;state.collapsedRounds[state.currentRound]=false}
       ensureEliminations();save();render();showToast(round===ROUNDS?'Einduitslag klaar':'Ronde '+state.currentRound+' geopend');
       requestAnimationFrame(()=>scrollToRound(state.currentRound));
