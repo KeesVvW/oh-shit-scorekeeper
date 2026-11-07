@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://keesvvw.github.io/oh-shit-scorekeeper/sitemap.xml

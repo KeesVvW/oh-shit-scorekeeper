@@ -1,7 +1,7 @@
 <!--
-OH SHIT! Scorekeeper · MY WAY v1.8
-Revisie: 07-11-2026 14:41 (Nederlandse tijd)
-Laatste wijziging: dubbele vijfde speelregel verwijderd
+OH SHIT! Scorekeeper · MY WAY v1.9
+Revisie: 07-11-2026 15:24 (Nederlandse tijd)
+Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
 -->
 <!doctype html>
 <html lang="nl">
@@ -12,7 +12,32 @@ Laatste wijziging: dubbele vijfde speelregel verwijderd
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OH SHIT! My Way">
-  <title>OH SHIT! Scorekeeper · MY WAY v1.8</title>
+  <meta name="description" content="Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell volgens onze MY WAY-huisregels. Houd biedingen, slagen, punten, ranglijst en afvallers bij.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="canonical" href="https://keesvvw.github.io/oh-shit-scorekeeper/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:title" content="OH SHIT! / Oh Hell Scorekeeper · MY WAY">
+  <meta property="og:description" content="Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell met biedingen, slagen, punten, ranglijst en afvallers.">
+  <meta property="og:url" content="https://keesvvw.github.io/oh-shit-scorekeeper/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="OH SHIT! / Oh Hell Scorekeeper · MY WAY">
+  <meta name="twitter:description" content="Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell volgens onze huisregels.">
+  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v1.9</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "OH SHIT! Scorekeeper · MY WAY",
+    "alternateName": ["Oh Hell Scorekeeper", "OH SHIT! / Oh Hell Scorekeeper"],
+    "url": "https://keesvvw.github.io/oh-shit-scorekeeper/",
+    "description": "Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell volgens onze MY WAY-huisregels.",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Elke moderne browser",
+    "inLanguage": "nl",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+  }
+  </script>
   <style>
     :root{--navy:#172554;--blue:#2563eb;--sky:#eff6ff;--ink:#162033;--muted:#64748b;--line:#dbe4ef;--card:#fff;--good:#087443;--good-bg:#dcfce7;--bad:#b42318;--bad-bg:#fee4e2;--gold:#a16207;--gold-bg:#fef3c7;--shadow:0 8px 24px rgba(23,37,84,.09);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;color:var(--ink);background:#f1f5f9}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#e7eef8 0,#f8fafc 28rem);-webkit-tap-highlight-color:transparent}
@@ -51,7 +76,7 @@ Laatste wijziging: dubbele vijfde speelregel verwijderd
   </style>
 </head>
 <body>
-  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v1.8</span></div></header>
+  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v1.9</span></div></header>
   <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
   <main>
     <details class="card controls" hidden>
@@ -104,7 +129,7 @@ Laatste wijziging: dubbele vijfde speelregel verwijderd
         <li>Heb je die kleur niet? Je mag troeven, maar dat hoeft niet.</li>
         <li>Je hoeft nooit over te troeven.</li>
       </ol>
-      <p class="house-rules"><strong>OH SHIT! · MY WAY</strong><br>Deze scorekeeper volgt de huisregels zoals wij het spel al jaren spelen. Andere varianten van OH SHIT! kunnen andere spelregels gebruiken.</p>
+      <p class="house-rules"><strong>OH SHIT! / OH HELL · MY WAY</strong><br>Deze scorekeeper volgt de huisregels zoals wij OH SHIT!, ook bekend als Oh Hell, al jaren spelen. Andere varianten kunnen andere spelregels gebruiken.</p>
       <nav id="helpLinks" class="rules-links" aria-label="Hulp en ondersteuning">
         <button id="shareBtn" class="share-link" type="button">📤 Deel OH SHIT! Scorekeeper</button>
         <a class="guide-link" href="OH-SHIT-Scorekeeper-korte-handleiding.pdf" target="_blank" rel="noopener">📄 Korte handleiding voor de scorehouder (PDF)</a>
