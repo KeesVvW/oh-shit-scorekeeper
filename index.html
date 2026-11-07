@@ -1,7 +1,7 @@
 <!--
-OH SHIT! Scorekeeper · MY WAY v1.7
-Revisie: 07-11-2026 14:25 (Nederlandse tijd)
-Laatste wijziging: verzaken, automatisch inklappen en vijf speelregels toegevoegd
+OH SHIT! Scorekeeper · MY WAY v1.8
+Revisie: 07-11-2026 14:41 (Nederlandse tijd)
+Laatste wijziging: dubbele vijfde speelregel verwijderd
 -->
 <!doctype html>
 <html lang="nl">
@@ -12,7 +12,7 @@ Laatste wijziging: verzaken, automatisch inklappen en vijf speelregels toegevoeg
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="OH SHIT! My Way">
-  <title>OH SHIT! Scorekeeper · MY WAY v1.7</title>
+  <title>OH SHIT! Scorekeeper · MY WAY v1.8</title>
   <style>
     :root{--navy:#172554;--blue:#2563eb;--sky:#eff6ff;--ink:#162033;--muted:#64748b;--line:#dbe4ef;--card:#fff;--good:#087443;--good-bg:#dcfce7;--bad:#b42318;--bad-bg:#fee4e2;--gold:#a16207;--gold-bg:#fef3c7;--shadow:0 8px 24px rgba(23,37,84,.09);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;color:var(--ink);background:#f1f5f9}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#e7eef8 0,#f8fafc 28rem);-webkit-tap-highlight-color:transparent}
@@ -51,7 +51,7 @@ Laatste wijziging: verzaken, automatisch inklappen en vijf speelregels toegevoeg
   </style>
 </head>
 <body>
-  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v1.7</span></div></header>
+  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v1.8</span></div></header>
   <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
   <main>
     <details class="card controls" hidden>
@@ -97,13 +97,12 @@ Laatste wijziging: verzaken, automatisch inklappen en vijf speelregels toegevoeg
       <p>De laatste bieder mag het totaal niet precies gelijk maken aan het rondenummer; er moet onder- of overboden worden.</p>
       <h3>Een kaartspel heeft 52 kaarten</h3>
       <p>Zodra niet iedereen genoeg kaarten kan krijgen, valt de speler met de minste punten af. Bij een gelijke laagste score bepaalt de scorehouder wie afvalt.</p>
-      <h3>Vijf regels om te onthouden</h3>
+      <h3>Vier regels om te onthouden</h3>
       <ol class="play-rules">
         <li>Kleur bekennen is verplicht als je kunt.</li>
         <li>Verzaken - niet kleur bekennen terwijl je dat wel kunt - kost 50 minpunten. De ronde moet opnieuw worden gespeeld.</li>
         <li>Heb je die kleur niet? Je mag troeven, maar dat hoeft niet.</li>
         <li>Je hoeft nooit over te troeven.</li>
-        <li><strong>Speler heeft verzaakt: deze speler krijgt −50 en de ronde wordt opnieuw gespeeld.</strong></li>
       </ol>
       <p class="house-rules"><strong>OH SHIT! · MY WAY</strong><br>Deze scorekeeper volgt de huisregels zoals wij het spel al jaren spelen. Andere varianten van OH SHIT! kunnen andere spelregels gebruiken.</p>
       <nav id="helpLinks" class="rules-links" aria-label="Hulp en ondersteuning">
