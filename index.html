@@ -1,6 +1,6 @@
 <!--
 OH SHIT! Scorekeeper · MY WAY v1.7
-Revisie: 07-11-2026 14:19 (Nederlandse tijd)
+Revisie: 07-11-2026 14:25 (Nederlandse tijd)
 Laatste wijziging: verzaken, automatisch inklappen en vijf speelregels toegevoegd
 -->
 <!doctype html>
@@ -412,7 +412,7 @@ Laatste wijziging: verzaken, automatisch inklappen en vijf speelregels toegevoeg
       const entry={id:'verzaakt-'+Date.now()+'-'+offender,round,offender,players:info.players.slice(),order,dealer:dealerForRound(round),predictions,actuals,doubler:isDoubler(round),createdAt:new Date().toISOString()};
       commit('Verzaking vastgelegd',()=>{
         state.reneges.push(entry);
-        state.collapsedReneges[entry.id]=false;
+        state.collapsedReneges[entry.id]=true;
         info.players.forEach(player=>{const k=cellKey(round,player);delete state.predictions[k];delete state.actuals[k];delete state.autoZeros[k]});
         delete state.doublers[round];state.currentRound=round;state.finished=false;state.collapsedRounds[round]=false;
       },false);
