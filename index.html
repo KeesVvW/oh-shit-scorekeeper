@@ -1,7 +1,7 @@
 <!--
-OH SHIT! Scorekeeper · MY WAY v1.9
-Revisie: 07-11-2026 15:24 (Nederlandse tijd)
-Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
+OH SHIT! Scorekeeper · MY WAY v2.0
+Revisie: 19-11-2026 16:39 (Nederlandse tijd)
+Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en rustige schermovergangen
 -->
 <!doctype html>
 <html lang="nl">
@@ -23,7 +23,7 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="OH SHIT! / Oh Hell Scorekeeper · MY WAY">
   <meta name="twitter:description" content="Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell volgens onze huisregels.">
-  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v1.9</title>
+  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.0</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -49,9 +49,9 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
     .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 3px 9px}.section-head h2{font-size:19px;margin:0}.section-head span{font-size:12px;color:var(--muted)}
     .round-card{padding:0;overflow:hidden;scroll-margin-top:92px}.round-card.next{border:2px solid var(--blue);box-shadow:0 8px 26px rgba(37,99,235,.15)}.round-card.complete{border-color:#a7d7ba}.round-card.needs-fix{border-color:#f59e0b}.round-card>summary{list-style:none;cursor:pointer}.round-card>summary::-webkit-details-marker{display:none}.round-head{display:flex;align-items:center;gap:10px;padding:13px 14px;background:#f8fafc;border-bottom:1px solid var(--line)}details.round-card:not([open]) .round-head{border-bottom:0}.round-card.next .round-head{background:var(--sky)}.round-number{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--navy);color:#fff;font-weight:900;font-size:19px}.round-title{min-width:0}.round-title h3{margin:0;font-size:17px}.round-title p{margin:3px 0 0;color:var(--muted);font-size:12px;font-weight:650}.badge{margin-left:auto;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900;white-space:nowrap}.badge.next{background:var(--blue);color:#fff}.badge.done{background:var(--good-bg);color:var(--good)}.badge.done .when-open{display:none}details.round-card[open] .badge.done .when-open{display:inline}details.round-card[open] .badge.done .when-closed{display:none}.badge.wait{background:#e2e8f0;color:#475569}.badge.fix{background:#ffedd5;color:#9a3412}.round-body{padding:8px 12px 12px}.player-row{display:grid;grid-template-columns:minmax(110px,1fr) 82px 82px 64px;gap:7px;align-items:center;padding:8px 2px;border-bottom:1px solid #edf2f7}.player-row:last-child{border-bottom:0}.player-info{min-width:0}.player-name{font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-total{font-size:11px;color:var(--muted);margin-top:2px}.player-total strong{color:var(--ink)}.bid-turn{color:var(--blue);font-weight:850}.dealer-turn{color:var(--gold);font-weight:850}.input-wrap label{display:block;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:850;margin-bottom:3px}.score-select{width:100%;border:1px solid #b8c5d5;border-radius:10px;background:#fff;color:var(--ink);padding:8px 24px 8px 8px;text-align:center;font-weight:800}.score-select.auto{background:#f0fdf4;border-color:#86efac;color:var(--good)}.points{text-align:center;font-size:13px;font-weight:900;border-radius:9px;padding:8px 3px;background:#f1f5f9;color:var(--muted)}.points.good{background:var(--good-bg);color:var(--good)}.points.bad{background:var(--bad-bg);color:var(--bad)}.round-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:9px;padding:9px 10px;border-radius:11px;background:#f8fafc;font-size:12px;color:var(--muted);font-weight:700}.round-foot strong{color:var(--ink)}.round-foot.invalid{background:var(--bad-bg);color:var(--bad)}.round-foot.valid{background:var(--good-bg);color:var(--good)}.round-foot.warning{background:#fff7ed;color:#9a3412}.bid-info{margin-top:9px;padding:9px 10px;border-radius:11px;background:#f8fafc;font-size:12px}.bid-progress{color:var(--muted);font-weight:750;margin-bottom:6px}.bid-progress.missing{color:#9a3412}.bid-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;text-align:center}.bid-metrics span{padding:6px 3px;border-radius:8px;background:#fff;border:1px solid var(--line);font-weight:750}.bid-metrics strong{display:block;margin-top:2px;font-size:16px;color:var(--ink)}.bid-metrics strong.good{color:var(--good)}.bid-metrics strong.warn{color:#c2410c}.bid-metrics strong.bad{color:var(--bad)}.round-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:9px}.round-actions .primary{min-width:150px}.validation-text{line-height:1.35}.validation-text strong{display:block;margin-top:2px}
     .round-card.reneged{border:2px solid #ef4444;background:#fffafa}.round-card.reneged .round-head{background:#fff1f2}.round-card.reneged .round-number{background:#991b1b}.renege-alert{flex:1;color:#dc2626;font-size:clamp(14px,4vw,18px);font-weight:950;text-align:center}.badge.reneged{background:#fee2e2;color:#991b1b}.score-static{display:grid;place-items:center;min-height:40px;border:1px solid #dbe4ef;border-radius:10px;background:#f8fafc;font-weight:850;color:#475569;text-align:center}.score-static.reneged{border-color:#fda29b;background:#fee2e2;color:#991b1b;font-size:10px;padding:2px}.renege-note{margin-top:9px;padding:10px;border-radius:11px;background:#fee2e2;color:#991b1b;font-size:12px;font-weight:850;text-align:center}.restore-renege{margin-top:8px;width:100%;border:1px solid #fda29b;background:#fff;color:#991b1b}
-    .rank-chip.eliminated{background:#fee2e2;border-color:#ef4444}.rank-chip.eliminated .rank-pos,.rank-chip.eliminated .rank-score{color:var(--bad)}.rank-chip.eliminated::before,.rank-chip.eliminated::after{content:"";position:absolute;z-index:2;left:-8%;top:50%;width:116%;height:3px;border-radius:3px;background:#dc2626;opacity:.85;pointer-events:none}.rank-chip.eliminated::before{transform:rotate(16deg)}.rank-chip.eliminated::after{transform:rotate(-16deg)}.elimination{border:2px solid #ef4444;background:#fff7f7}.elimination h2{margin:0 0 6px;color:var(--bad);font-size:20px}.elimination p{margin:0 0 12px;color:#7f1d1d}.candidate-list{display:flex;flex-wrap:wrap;gap:8px}.candidate{background:var(--bad-bg);color:var(--bad);border:1px solid #fda29b}.candidate strong{display:block}.candidate small{font-weight:700}.review-actions{display:flex;flex-wrap:wrap;gap:8px}.review-actions button{flex:1 1 220px}.review-keep{background:#fff;border:1px solid #f59e0b;color:#854d0e}.elimination.announcement{overflow:hidden;border:0;background:linear-gradient(140deg,#7f1d1d,#dc2626);color:#fff;text-align:center;box-shadow:0 12px 34px rgba(127,29,29,.28)}.elimination.announcement h2{margin:2px 0 5px;color:#fff;font-size:clamp(24px,7vw,34px)}.elimination.announcement p{margin:0 auto 12px;max-width:600px;color:#fee2e2}.elimination-mark{font-size:42px;font-weight:950;line-height:1}.eliminated-list{display:grid;gap:7px;max-width:560px;margin:12px auto}.eliminated-name{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(255,255,255,.12);text-align:left}.eliminated-name strong{font-size:17px}.eliminated-name span{color:#fecaca;font-weight:800;white-space:nowrap}.elimination.announcement button{margin-top:4px;background:#fff;color:#991b1b;border:2px solid #fecaca;min-width:190px}
+    .rank-chip.eliminated{background:#fee2e2;border-color:#ef4444}.rank-chip.eliminated .rank-pos,.rank-chip.eliminated .rank-score{color:var(--bad)}.rank-chip.eliminated::before,.rank-chip.eliminated::after{content:"";position:absolute;z-index:2;left:-8%;top:50%;width:116%;height:3px;border-radius:3px;background:#dc2626;opacity:.85;pointer-events:none}.rank-chip.eliminated::before{transform:rotate(16deg)}.rank-chip.eliminated::after{transform:rotate(-16deg)}.rank-chip.withdrawn{background:#fff7ed;border-color:#fb923c}.rank-chip.withdrawn .rank-pos,.rank-chip.withdrawn .rank-score{color:#9a3412}.elimination{border:2px solid #ef4444;background:#fff7f7}.elimination h2{margin:0 0 6px;color:var(--bad);font-size:20px}.elimination p{margin:0 0 12px;color:#7f1d1d}.candidate-list{display:flex;flex-wrap:wrap;gap:8px}.candidate{background:var(--bad-bg);color:var(--bad);border:1px solid #fda29b}.candidate strong{display:block}.candidate small{font-weight:700}.review-actions{display:flex;flex-wrap:wrap;gap:8px}.review-actions button{flex:1 1 220px}.review-keep{background:#fff;border:1px solid #f59e0b;color:#854d0e}.elimination.announcement{overflow:hidden;border:0;background:linear-gradient(140deg,#7f1d1d,#dc2626);color:#fff;text-align:center;box-shadow:0 12px 34px rgba(127,29,29,.28)}.elimination.announcement h2{margin:2px 0 5px;color:#fff;font-size:clamp(24px,7vw,34px)}.elimination.announcement p{margin:0 auto 12px;max-width:600px;color:#fee2e2}.elimination-mark{font-size:42px;font-weight:950;line-height:1}.eliminated-list{display:grid;gap:7px;max-width:560px;margin:12px auto}.eliminated-name{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(255,255,255,.12);text-align:left}.eliminated-name strong{font-size:17px}.eliminated-name span{color:#fecaca;font-weight:800;white-space:nowrap}.elimination.announcement button{margin-top:4px;background:#fff;color:#991b1b;border:2px solid #fecaca;min-width:190px}
     .results{background:linear-gradient(140deg,#172554,#1d4ed8);color:#fff;border:0;text-align:center}.winner-showcase{position:relative;overflow:hidden;margin:-2px 0 18px;padding:18px 12px;border:2px solid #fde68a;border-radius:18px;background:linear-gradient(135deg,rgba(250,204,21,.34),rgba(255,255,255,.1));box-shadow:0 0 30px rgba(253,224,71,.2)}.winner-showcase::before,.winner-showcase::after{content:"✦";position:absolute;color:#fde68a;font-size:28px}.winner-showcase::before{left:16px;top:14px}.winner-showcase::after{right:16px;bottom:12px}.winner-crown{font-size:48px;line-height:1}.winner-showcase p{margin:3px 0;color:#fef3c7;font-weight:800}.winner-showcase h2{margin:2px 0;font-size:clamp(28px,8vw,42px)}.winner-points{display:inline-block;margin-top:3px;padding:5px 12px;border-radius:999px;background:#fde68a;color:#713f12;font-size:18px;font-weight:950}.results h3{margin:0 0 10px;color:#bfdbfe}.podium{display:grid;gap:8px;text-align:left}.podium-row{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:9px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px}.podium-row:first-child{background:rgba(250,204,21,.2);border-color:rgba(253,224,71,.5)}.podium-pos{font-size:21px;font-weight:900;color:#fde68a}.podium-name{font-weight:850}.podium-score{font-weight:900}.print-actions{margin-top:14px}.print-actions button{background:#fff;color:var(--navy);border:2px solid #bfdbfe}.rules{font-size:13px;color:#475569;line-height:1.55}.rules h3{margin:0 0 3px;color:var(--ink);font-size:14px}.rules h3:not(:first-child){margin-top:14px}.rules p{margin:0 0 7px}.rules strong{color:var(--ink)}.rules .play-rules{margin:0 0 7px;padding-left:22px}.rules .play-rules li{margin-bottom:5px}.rules-links{margin-top:14px;padding-top:11px;border-top:1px solid var(--line);display:grid;gap:6px}.rules-links a{color:var(--blue);font-weight:750;text-decoration:none}.rules-links .guide-link,.rules-links .support-link,.rules-links .share-link{display:flex;align-items:center;justify-content:center;min-height:44px;padding:9px 12px;border-radius:12px;text-align:center;font-weight:750}.rules-links .guide-link{border:1px solid #bfdbfe;background:var(--sky);color:#1d4ed8}.rules-links .support-link{flex-direction:column;gap:1px;border:1px solid #f5c2c7;background:#fff5f5;color:#9f1239}.rules-links .share-link{width:100%;border:1px solid #93c5fd;background:#dbeafe;color:#1e3a8a}.rules-links .guide-link:active,.rules-links .support-link:active,.rules-links .share-link:active{transform:translateY(1px)}
-    body.modal-open{overflow:hidden}.guide-choice[hidden]{display:none}.guide-choice{position:fixed;z-index:200;inset:0;display:grid;place-items:center;padding:18px;background:rgba(15,23,42,.68);backdrop-filter:blur(4px)}.guide-choice-panel{width:min(100%,430px);border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 24px 70px rgba(15,23,42,.35);padding:20px}.guide-choice-panel h2{margin:0 0 7px;font-size:21px}.guide-choice-panel p{margin:0 0 16px;color:var(--muted);line-height:1.45}.guide-choice-actions{display:grid;gap:9px}.guide-choice-actions .open-guide{background:var(--blue);color:#fff}.guide-choice-actions .share-guide{background:#dbeafe;color:#1e3a8a;border:1px solid #93c5fd}.guide-choice-actions .cancel-guide{background:#fff;border:1px solid var(--line);color:var(--muted)}
+    body.modal-open{overflow:hidden}.guide-choice[hidden]{display:none}.guide-choice{position:fixed;z-index:200;inset:0;display:grid;place-items:center;padding:18px;background:rgba(15,23,42,.68);backdrop-filter:blur(4px)}.guide-choice-panel{width:min(100%,480px);max-height:calc(100vh - 36px);overflow:auto;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 24px 70px rgba(15,23,42,.35);padding:20px}.guide-choice-panel h2{margin:0 0 7px;font-size:21px}.guide-choice-panel p{margin:0 0 16px;color:var(--muted);line-height:1.45}.guide-choice-actions{display:grid;gap:9px}.guide-choice-actions .open-guide{background:var(--blue);color:#fff}.guide-choice-actions .share-guide{background:#dbeafe;color:#1e3a8a;border:1px solid #93c5fd}.guide-choice-actions .cancel-guide{background:#fff;border:1px solid var(--line);color:var(--muted)}.player-editor-list{display:grid;gap:7px;margin:12px 0}.player-editor-row{display:grid;grid-template-columns:minmax(0,1fr) 44px 44px 44px;gap:6px;align-items:center;padding:7px;border:1px solid var(--line);border-radius:12px;background:#f8fafc}.player-editor-name{min-width:0;font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-left:5px}.player-editor-row button{min-width:44px;padding:8px 5px}.player-editor-row .remove-player{background:var(--bad-bg);color:var(--bad)}.setup-field{margin:13px 0}.setup-field label{display:block;margin-bottom:5px;font-size:12px;color:var(--muted);font-weight:850}.setup-field select{width:100%;border:1px solid #bac8d8;border-radius:11px;padding:9px 10px;background:#fff}.setup-note{padding:10px 11px;border:1px solid #fde68a;border-radius:11px;background:#fffbeb;color:#854d0e;font-size:13px;line-height:1.4}.round-setup-btn{width:100%;margin-bottom:8px;border:1px solid #93c5fd;background:#eff6ff;color:#1e3a8a}.stop-player-row{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 10px;border:1px solid var(--line);border-radius:11px;background:#f8fafc;cursor:pointer}.stop-player-row input{width:21px;height:21px;accent-color:#ea580c}.stop-player-row span{font-weight:800}.stop-player-row small{margin-left:auto;color:var(--muted);font-weight:750}.stop-player-row.stopping{border-color:#fb923c;background:#fff7ed;color:#9a3412}
     .toast{position:fixed;z-index:100;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,18px);opacity:0;pointer-events:none;transition:.2s ease;background:#172554;color:#fff;border-radius:12px;padding:11px 15px;box-shadow:0 10px 30px rgba(15,23,42,.28);max-width:calc(100vw - 28px);text-align:center;font-weight:750;font-size:14px}.toast.show{opacity:1;transform:translate(-50%,0)}.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     @media(max-width:560px){.header-inner{align-items:center}.brand p{font-size:13px}.standings-inner{padding:7px 6px}.rank-strip{gap:4px}.rank-chip{padding:5px 6px;gap:0 4px;min-height:50px;border-radius:10px}.rank-pos{font-size:15px}.rank-name{font-size:11px}.rank-score{font-size:9px}.card{border-radius:14px}.settings-grid{grid-template-columns:1fr}.names{grid-template-columns:1fr}.player-row{grid-template-columns:minmax(92px,1fr) 68px 68px 55px;gap:5px}.round-body{padding-left:8px;padding-right:8px}.player-name{font-size:14px}.score-select{padding-left:4px;padding-right:18px}.points{font-size:12px}.toolbar button{flex:1 1 auto}.toolbar .spacer{display:none}.round-foot{align-items:flex-start}.bid-metrics{gap:3px}.bid-metrics span{font-size:10px}.round-actions .primary{width:100%}.round-card.reneged .round-head{flex-wrap:wrap}.round-card.reneged .renege-alert{order:4;flex-basis:100%;text-align:left;padding-left:50px}}
     @media(min-width:700px){.names{grid-template-columns:repeat(3,minmax(0,1fr))}.round-body{padding-left:18px;padding-right:18px}.player-row{grid-template-columns:minmax(180px,1fr) 100px 100px 80px}}
@@ -67,6 +67,9 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
     .brand-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .edition{display:inline-block;padding:4px 8px;border:1px solid rgba(255,255,255,.45);border-radius:6px;background:linear-gradient(135deg,#fce7f3,#ddd6fe);color:#581c87;font-size:12px;font-weight:950;letter-spacing:.12em;line-height:1}
     .house-rules{margin-top:13px!important;padding:10px 11px;border:1px solid #c4b5fd;border-radius:11px;background:#faf5ff;color:#581c87}
+    #eliminationPanel{transform-origin:top;transition:max-height .28s ease,opacity .22s ease,transform .28s ease,margin .28s ease,padding .28s ease}
+    #eliminationPanel.leaving{opacity:0;transform:translateY(-8px) scaleY(.98);margin-bottom:0;padding-top:0;padding-bottom:0;border-width:0}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#eliminationPanel{transition:none!important}.toast{transition:none!important}}
     @media print{
       .doubler-check:not(.active){display:none!important}
       .doubler-check.active{margin:2px 0 5px;padding:5px 8px;border-color:#d97706;background:#fffbeb}
@@ -76,7 +79,7 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
   </style>
 </head>
 <body>
-  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v1.9</span></div></header>
+  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.0</span></div></header>
   <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
   <main>
     <details class="card controls" hidden>
@@ -149,23 +152,49 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       </div>
     </div>
   </div>
+  <div id="newGameSetup" class="guide-choice" hidden role="dialog" aria-modal="true" aria-labelledby="newGameSetupTitle">
+    <div class="guide-choice-panel">
+      <h2 id="newGameSetupTitle">Nieuw spel · namen behouden</h2>
+      <p>Zet de spelers in de nieuwe zitvolgorde, verwijder eventueel iemand en kies daarna de deler van ronde 1.</p>
+      <div id="newGamePlayerList" class="player-editor-list"></div>
+      <div class="setup-field"><label for="newGameDealer">Deler in ronde 1</label><select id="newGameDealer"></select></div>
+      <div class="setup-note">Na een gewijzigde volgorde of verwijderde speler moet je de deler opnieuw controleren.</div>
+      <div class="guide-choice-actions" style="margin-top:12px">
+        <button id="startNewGameBtn" class="open-guide" type="button">Nieuw spel starten</button>
+        <button id="cancelNewGameSetupBtn" class="cancel-guide" type="button">Annuleren</button>
+      </div>
+    </div>
+  </div>
+  <div id="roundSetup" class="guide-choice" hidden role="dialog" aria-modal="true" aria-labelledby="roundSetupTitle">
+    <div class="guide-choice-panel">
+      <h2 id="roundSetupTitle">Nieuwe ronde instellen</h2>
+      <p id="roundSetupIntro"></p>
+      <div id="roundSetupPlayerList" class="player-editor-list"></div>
+      <div class="setup-field"><label for="roundDealer">Deler vanaf deze ronde</label><select id="roundDealer"></select></div>
+      <div class="setup-note">Een gestopte speler blijft met de behaalde score zichtbaar in de tussenstand en het PDF-overzicht.</div>
+      <div class="guide-choice-actions" style="margin-top:12px">
+        <button id="saveRoundSetupBtn" class="open-guide" type="button">Aanpassingen opslaan</button>
+        <button id="cancelRoundSetupBtn" class="cancel-guide" type="button">Annuleren</button>
+      </div>
+    </div>
+  </div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
   (function(){
     'use strict';
-    const DATA_VERSION=5, APP_VERSION='1.7', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
+    const DATA_VERSION=6, APP_VERSION='2.0', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
     const SHARE_URL='https://keesvvw.github.io/oh-shit-scorekeeper/';
-    const PLAYER_GUIDE_FILE='OH-SHIT-MY-WAY-spelregels-voor-spelers.pdf?v=1.7';
+    const PLAYER_GUIDE_FILE='OH-SHIT-MY-WAY-spelregels-voor-spelers.pdf?v=2.0';
     const PLAYER_GUIDE_URL=new URL(PLAYER_GUIDE_FILE,SHARE_URL).href;
     const KEY='ohshit-scorekeeper-v1', HISTORY_KEY='ohshit-scorekeeper-v1-history', LEGACY_V4_KEY='ohshit-v4', LEGACY_V4_HISTORY_KEY='ohshit-v4-history', LEGACY_KEY='ohshit-v3';
     const $=id=>document.getElementById(id);
     const clone=value=>JSON.parse(JSON.stringify(value));
     const cellKey=(round,player)=>round+'_'+player;
-    let toastTimer=0, migrated=false, pendingElimination=null, lastPendingKey='';
+    let toastTimer=0, migrated=false, pendingElimination=null, lastPendingKey='',newGameDraft=null,roundSetupDraft=null;
 
     function blankState(count=4){
-      return {version:DATA_VERSION,appVersion:APP_VERSION,count,names:Array(MAX_PLAYERS).fill(''),predictions:{},actuals:{},autoZeros:{},doublers:{},reneges:[],collapsedReneges:{},eliminated:{},eliminationOverrides:{},eliminationAnnouncements:{},collapsedRounds:{},keepDealOrder:true,firstDealer:0,currentRound:1,finished:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+      return {version:DATA_VERSION,appVersion:APP_VERSION,count,names:Array(MAX_PLAYERS).fill(''),predictions:{},actuals:{},autoZeros:{},doublers:{},reneges:[],collapsedReneges:{},eliminated:{},withdrawn:{},dealerOverrides:{},eliminationOverrides:{},eliminationAnnouncements:{},collapsedRounds:{},keepDealOrder:true,firstDealer:0,currentRound:1,finished:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
     }
     function safeObject(value){return value&&typeof value==='object'&&!Array.isArray(value)?value:{}}
     function normalize(raw){
@@ -195,6 +224,10 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       result.collapsedReneges=safeObject(raw.collapsedReneges);
       const eliminated=legacy?{}:safeObject(raw.eliminated);
       for(let p=0;p<result.count;p++){const round=Number(eliminated[p]);if(Number.isInteger(round)&&round>=2&&round<=ROUNDS)result.eliminated[p]=round}
+      const withdrawn=legacy?{}:safeObject(raw.withdrawn);
+      for(let p=0;p<result.count;p++){const round=Number(withdrawn[p]);if(Number.isInteger(round)&&round>=1&&round<=ROUNDS)result.withdrawn[p]=round}
+      const dealerOverrides=legacy?{}:safeObject(raw.dealerOverrides);
+      for(let r=1;r<=ROUNDS;r++){const player=Number(dealerOverrides[r]);if(Number.isInteger(player)&&player>=0&&player<result.count)result.dealerOverrides[r]=player}
       result.eliminationOverrides=legacy?{}:safeObject(raw.eliminationOverrides);
       result.eliminationAnnouncements=legacy?{}:safeObject(raw.eliminationAnnouncements);
       result.collapsedRounds=legacy?{}:safeObject(raw.collapsedRounds);
@@ -222,8 +255,17 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       try{localStorage.setItem(KEY,JSON.stringify(state));localStorage.setItem(HISTORY_KEY,JSON.stringify(history.slice(-30)));$('saveStatus').textContent='Automatisch bewaard · '+new Date().toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});$('appNotice').hidden=true}
       catch(e){$('appNotice').hidden=false;$('appNotice').textContent='Automatisch opslaan lukt niet. Maak voor de zekerheid een JSON-back-up.'}
     }
-    function commit(label,change,notify=true){history.push({label,state:clone(state)});history=history.slice(-30);change();ensureEliminations();save();render();if(notify)showToast(label)}
-    function undo(){const last=history.pop();if(!last)return;state=normalize(last.state);ensureEliminations();save();render();showToast('Hersteld: '+last.label.toLowerCase())}
+    function captureViewportAnchor(){
+      const active=document.activeElement,activeCard=active&&active.closest?active.closest('.round-card'):null,standing=document.querySelector('.standings'),topLimit=(standing?standing.getBoundingClientRect().height:90)+6;
+      const card=activeCard||Array.from(document.querySelectorAll('.round-card[data-round]')).find(node=>{const rect=node.getBoundingClientRect();return rect.bottom>topLimit&&rect.top<window.innerHeight});
+      return card?{round:card.dataset.round,top:card.getBoundingClientRect().top}:null;
+    }
+    function restoreViewportAnchor(anchor){
+      if(!anchor)return;const target=document.querySelector('.round-card[data-round="'+anchor.round+'"]');if(!target)return;const difference=target.getBoundingClientRect().top-anchor.top;if(Math.abs(difference)<2)return;
+      const root=document.documentElement,previous=root.style.scrollBehavior;root.style.scrollBehavior='auto';window.scrollBy(0,difference);root.style.scrollBehavior=previous;
+    }
+    function commit(label,change,notify=true){const anchor=captureViewportAnchor();history.push({label,state:clone(state)});history=history.slice(-30);change();ensureEliminations();save();render();restoreViewportAnchor(anchor);if(notify)showToast(label)}
+    function undo(){const anchor=captureViewportAnchor(),last=history.pop();if(!last)return;state=normalize(last.state);ensureEliminations();save();render();restoreViewportAnchor(anchor);showToast('Hersteld: '+last.label.toLowerCase())}
     function showToast(message){clearTimeout(toastTimer);const node=$('toast');node.textContent=message;node.classList.add('show');toastTimer=setTimeout(()=>node.classList.remove('show'),2300)}
 
     function score(predicted,actual,doubled=false){
@@ -239,11 +281,11 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
     function totalFor(player){return totalThrough(player)}
     function totals(){return Array.from({length:state.count},(_,p)=>totalFor(p))}
     function ranking(){
-      const values=totals().map((points,player)=>({player,points,name:displayName(player),eliminated:!!state.eliminated[player]})).sort((a,b)=>Number(a.eliminated)-Number(b.eliminated)||b.points-a.points||a.player-b.player);
-      let previousKey=null,position=0;return values.map((item,index)=>{const key=String(item.eliminated)+'_'+item.points;if(key!==previousKey)position=index+1;previousKey=key;return {...item,position}});
+      const values=totals().map((points,player)=>({player,points,name:displayName(player),eliminated:!!state.eliminated[player],withdrawn:!!state.withdrawn[player],inactive:!!state.eliminated[player]||!!state.withdrawn[player]})).sort((a,b)=>Number(a.inactive)-Number(b.inactive)||b.points-a.points||a.player-b.player);
+      let previousKey=null,position=0;return values.map((item,index)=>{const key=String(item.inactive)+'_'+item.points;if(key!==previousKey)position=index+1;previousKey=key;return {...item,position}});
     }
     function displayName(player){return (state.names[player]||'').trim()||'Speler '+(player+1)}
-    function isActive(player,round,source=state){const eliminatedRound=Number(source.eliminated[player]);return !eliminatedRound||eliminatedRound>round}
+    function isActive(player,round,source=state){const eliminatedRound=Number(source.eliminated[player]),withdrawnRound=Number(source.withdrawn&&source.withdrawn[player]);return (!eliminatedRound||eliminatedRound>round)&&(!withdrawnRound||withdrawnRound>round)}
     function activePlayers(round,source=state){return Array.from({length:source.count},(_,p)=>p).filter(p=>isActive(p,round,source))}
     function nextActiveAfter(player,round,source=state){
       const active=new Set(activePlayers(round,source));
@@ -252,7 +294,8 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
     }
     function dealerForRound(round,source=state){
       let dealer=Math.min(source.count-1,Math.max(0,Number(source.firstDealer)||0));
-      for(let r=2;r<=round;r++){const next=nextActiveAfter(dealer,r,source);if(next!==null)dealer=next}
+      const firstOverride=source.dealerOverrides&&Number(source.dealerOverrides[1]);if(round===1&&Number.isInteger(firstOverride)&&isActive(firstOverride,1,source))dealer=firstOverride;
+      for(let r=2;r<=round;r++){const override=source.dealerOverrides&&Number(source.dealerOverrides[r]);if(Number.isInteger(override)&&isActive(override,r,source))dealer=override;else{const next=nextActiveAfter(dealer,r,source);if(next!==null)dealer=next}}
       return dealer;
     }
     function biddingOrder(round,source=state){
@@ -293,7 +336,7 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       for(let round=2;round<=ROUNDS;round++){
         if(!roundInfo(round-1).complete)break;
         const maximum=Math.floor(52/round);
-        const playersBefore=Array.from({length:state.count},(_,p)=>p).filter(p=>!state.eliminated[p]||Number(state.eliminated[p])>=round);
+        const playersBefore=Array.from({length:state.count},(_,p)=>p).filter(p=>(!state.eliminated[p]||Number(state.eliminated[p])>=round)&&(!state.withdrawn[p]||Number(state.withdrawn[p])>round));
         const required=Math.max(0,playersBefore.length-maximum);
         if(!required)continue;
         let selected=playersBefore.filter(p=>Number(state.eliminated[p])===round);
@@ -347,19 +390,20 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
     }
     function renderStandings(){
       const showRanks=roundInfo(1).complete;
-      $('rankStrip').innerHTML=ranking().map(item=>{const out=state.eliminated[item.player],chipClass=out?'eliminated':showRanks&&item.position===1?'leader':showRanks?'':'no-rank',position=showRanks?'<span class="rank-pos">'+(item.position===1&&!out?'👑':'')+item.position+'</span>':'';return '<div class="rank-chip '+chipClass+'" title="'+(out?'Afgevallen vóór ronde '+out:'')+'">'+position+'<span class="rank-name">'+escapeHtml(item.name)+'</span><span class="rank-score">'+item.points+' punten'+(out?' · afgevallen':'')+'</span></div>'}).join('');
+      $('rankStrip').innerHTML=ranking().map(item=>{const out=state.eliminated[item.player],stopped=state.withdrawn[item.player],chipClass=out?'eliminated':stopped?'withdrawn':showRanks&&item.position===1?'leader':showRanks?'':'no-rank',position=showRanks?'<span class="rank-pos">'+(item.position===1&&!item.inactive?'👑':'')+item.position+'</span>':'',status=out?' · afgevallen':stopped?' · gestopt':'',title=out?'Afgevallen vóór ronde '+out:stopped?'Gestopt vanaf ronde '+stopped:'';return '<div class="rank-chip '+chipClass+'" title="'+title+'">'+position+'<span class="rank-name">'+escapeHtml(item.name)+'</span><span class="rank-score">'+item.points+' punten'+status+'</span></div>'}).join('');
       $('progressText').textContent=pendingElimination?(pendingElimination.mode==='review'?'Controleer afvalkeuze ronde ':pendingElimination.mode==='announce'?(pendingElimination.selected.length===1?'Afvaller voor ronde ':'Afvallers voor ronde '):'Kies afvaller voor ronde ')+pendingElimination.round:state.finished?'Spel afgelopen':'Ronde '+state.currentRound+' van '+ROUNDS;
     }
     function renderElimination(){
-      const node=$('eliminationPanel');node.hidden=!pendingElimination;if(!pendingElimination){node.className='card elimination';node.innerHTML='';lastPendingKey='';return}
+      const node=$('eliminationPanel');node.hidden=!pendingElimination;if(!pendingElimination){node.className='card elimination';node.style.maxHeight='';node.innerHTML='';lastPendingKey='';return}
       const {mode,round,candidates,needed}=pendingElimination;
-      node.className='card elimination'+(mode==='announce'?' announcement':'');
+      node.className='card elimination'+(mode==='announce'?' announcement':'');node.style.maxHeight='';
       const pendingKey=mode+':'+round+':'+(pendingElimination.signature||'');
       const reveal=()=>{if(pendingKey!==lastPendingKey){lastPendingKey=pendingKey;requestAnimationFrame(scrollToElimination)}};
       if(mode==='announce'){
         const selected=pendingElimination.selected,title=selected.length===1?'Speler valt af':'Spelers vallen af',intro=selected.length===1?'Deze speler heeft de laagste score en speelt niet meer mee:':'Deze spelers hebben de laagste scores en spelen niet meer mee:';
-        node.innerHTML='<div class="elimination-mark" aria-hidden="true">✕</div><h2>'+title+'</h2><p>Voor ronde '+round+' zijn er niet genoeg kaarten. '+intro+'</p><div class="eliminated-list">'+selected.map(item=>'<div class="eliminated-name"><strong>'+escapeHtml(displayName(item.player))+'</strong><span>'+item.points+' punten</span></div>').join('')+'</div><button id="acknowledgeEliminationBtn" type="button">Begrepen · verder</button>';
-        const signature=pendingElimination.signature;$('acknowledgeEliminationBtn').addEventListener('click',()=>commit(selected.length===1?'Afvaller gezien':'Afvallers gezien',()=>state.eliminationAnnouncements[round]=signature,false));reveal();return;
+        const acknowledgement=state.currentRound<round?'Begrepen · ronde '+state.currentRound+' afsluiten':'Begrepen · naar ronde '+round;
+        node.innerHTML='<div class="elimination-mark" aria-hidden="true">✕</div><h2>'+title+'</h2><p>Voor ronde '+round+' zijn er niet genoeg kaarten. '+intro+'</p><div class="eliminated-list">'+selected.map(item=>'<div class="eliminated-name"><strong>'+escapeHtml(displayName(item.player))+'</strong><span>'+item.points+' punten</span></div>').join('')+'</div><button id="acknowledgeEliminationBtn" type="button">'+acknowledgement+'</button>';
+        const signature=pendingElimination.signature;$('acknowledgeEliminationBtn').addEventListener('click',()=>smoothAcknowledgeElimination(round,signature,selected.length===1?'Afvaller gezien':'Afvallers gezien'));reveal();return;
       }
       if(mode==='review'){
         const existing=pendingElimination.existing.map(displayName).join(', ');
@@ -378,7 +422,7 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       $('firstDealerField').hidden=!state.keepDealOrder;
       $('nameFields').innerHTML=Array.from({length:state.count},(_,p)=>'<div class="field"><label for="name'+p+'">Speler '+(p+1)+'</label><input id="name'+p+'" data-player="'+p+'" class="name-input" maxlength="40" autocomplete="off" placeholder="Naam invullen" value="'+escapeHtml(state.names[p])+'"></div>').join('');
       $('firstDealer').innerHTML=Array.from({length:state.count},(_,p)=>'<option value="'+p+'" '+(p===state.firstDealer?'selected':'')+'>'+escapeHtml(displayName(p))+'</option>').join('');
-      $('firstDealer').disabled=Object.keys(state.predictions).length>0||Object.keys(state.actuals).length>0;
+      const gameStarted=state.currentRound>1||roundHasInput(1)||state.reneges.length>0;$('firstDealer').disabled=gameStarted;$('firstDealer').title=gameStarted?'Wijzig de deler bij de lege huidige ronde.':'';
       document.querySelectorAll('.name-input').forEach(input=>input.addEventListener('change',event=>{const p=Number(event.target.dataset.player),value=event.target.value.slice(0,40);if(value===state.names[p])return;commit('Naam aangepast',()=>state.names[p]=value,false)}));
     }
     function namesFor(players){return players.map(displayName).join(', ')}
@@ -399,6 +443,8 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       for(let r=1;r<=round;r++)if(!roundInfo(r).complete)return false;
       return true;
     }
+    function roundHasInput(round){return activePlayers(round).some(player=>{const key=cellKey(round,player);return (state.predictions[key]!==undefined&&state.predictions[key]!=='')||(state.actuals[key]!==undefined&&state.actuals[key]!=='')})}
+    function canConfigureRound(round){return round===state.currentRound&&!state.finished&&!pendingElimination&&!roundHasInput(round)&&!state.reneges.some(entry=>entry.round===round)}
     function renderRounds(){
       let html='';
       for(let r=1;r<=ROUNDS;r++){
@@ -406,6 +452,7 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
         const info=roundInfo(r),order=biddingOrder(r),dealer=dealerForRound(r),isCurrent=r===state.currentRound&&!state.finished,isFuture=r>state.currentRound,blockedByChoice=!!pendingElimination&&r>=pendingElimination.round,locked=isFuture||blockedByChoice,statusClass=info.complete?'complete':r<state.currentRound?'needs-fix':isCurrent?'next':'',badge=info.complete?'<span class="badge done"><span class="when-closed">✓ Klaar · uitklappen</span><span class="when-open">✓ Klaar · inklappen</span></span>':r<state.currentRound?'<span class="badge fix">Controle nodig</span>':blockedByChoice&&r===pendingElimination.round?'<span class="badge wait">Eerst afvalkeuze</span>':isCurrent?'<span class="badge next">Huidige ronde</span>':'<span class="badge wait">Later</span>';
         const open=!state.collapsedRounds[r]&&!isFuture;
         html+='<details class="card round-card '+statusClass+'" id="round-'+r+'" data-round="'+r+'" '+(open?'open':'')+'><summary class="round-head"><div class="round-number">'+r+'</div><div class="round-title"><h3>Ronde '+r+'</h3><p>'+r+' '+(r===1?'slag':'slagen')+' · '+info.players.length+' actieve '+(info.players.length===1?'speler':'spelers')+'</p></div>'+badge+'</summary><div class="round-body">';
+        if(canConfigureRound(r))html+='<button class="round-setup-btn" type="button" data-round="'+r+'">Speler laten stoppen of deler aanpassen vóór deze ronde</button>';
         if(roundHasTrump(r)){const doubled=isDoubler(r);html+='<label class="doubler-check '+(doubled?'active':'')+'"><input class="doubler-input" type="checkbox" data-round="'+r+'" '+(doubled?'checked':'')+' '+(locked?'disabled':'')+'><span class="doubler-screen"><strong>Verdubbelaar</strong><small>Troefkaart is een Aas · rondepunten × 2</small></span><span class="doubler-print">Verdubbelaar</span></label>'}
         const rowPlayers=state.keepDealOrder?order:info.players;
         for(const p of rowPlayers){
@@ -422,7 +469,9 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       document.querySelectorAll('.score-input').forEach(select=>select.addEventListener('change',handleScoreChange));
       document.querySelectorAll('.doubler-input').forEach(input=>input.addEventListener('change',handleDoublerChange));
       document.querySelectorAll('.next-round-btn').forEach(button=>button.addEventListener('click',()=>advanceRound(Number(button.dataset.round))));
+      document.querySelectorAll('.round-setup-btn').forEach(button=>button.addEventListener('click',()=>openRoundSetup(Number(button.dataset.round))));
       document.querySelectorAll('.restore-renege').forEach(button=>button.addEventListener('click',()=>restoreRenege(button.dataset.renegeId)));
+      document.querySelectorAll('.round-card[data-round] > summary').forEach(summary=>summary.addEventListener('click',event=>{const card=summary.parentElement,round=Number(card.dataset.round),current=round===state.currentRound&&!state.finished,badge=event.target.closest('.badge.next');if(!current)return;if(badge){event.preventDefault();card.open=true}if(badge||!card.open)requestAnimationFrame(()=>scrollToRound(round))}));
       document.querySelectorAll('.round-card').forEach(details=>details.addEventListener('toggle',()=>{const renegeId=details.dataset.renegeId;if(renegeId)state.collapsedReneges[renegeId]=!details.open;else{const round=Number(details.dataset.round);state.collapsedRounds[round]=!details.open}save()}));
     }
     function handleDoublerChange(event){
@@ -492,10 +541,21 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       const offset=(standing?standing.getBoundingClientRect().height:90)+8,top=target.getBoundingClientRect().top+window.scrollY-offset;
       window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
     }
+    function scrollToRoundAction(round){
+      const target=document.querySelector('.next-round-btn[data-round="'+round+'"]'),standing=document.querySelector('.standings');if(!target){scrollToRound(round);return}
+      const offset=(standing?standing.getBoundingClientRect().height:90)+12,top=target.getBoundingClientRect().top+window.scrollY-offset;
+      window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+    }
+    function smoothAcknowledgeElimination(round,signature,label){
+      const panel=$('eliminationPanel'),button=$('acknowledgeEliminationBtn');if(!panel||panel.hidden)return;if(button)button.disabled=true;
+      const finish=()=>{const roundToFinish=state.currentRound<round?state.currentRound:null;commit(label,()=>state.eliminationAnnouncements[round]=signature,false);requestAnimationFrame(()=>roundToFinish?scrollToRoundAction(roundToFinish):scrollToRound(round))};
+      if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){finish();return}
+      panel.style.maxHeight=panel.scrollHeight+'px';panel.getBoundingClientRect();panel.classList.add('leaving');panel.style.maxHeight='0px';setTimeout(finish,290);
+    }
     function renderResults(){
       const done=state.finished&&nextRound()===null,node=$('results');node.hidden=!done;if(!done){node.innerHTML='';return}
-      const list=ranking(),winners=list.filter(x=>x.position===1&&!x.eliminated),winnerNames=winners.map(x=>escapeHtml(x.name)).join(' & '),winnerPoints=winners[0].points;
-      node.innerHTML='<div class="winner-showcase"><div class="winner-crown">👑</div><p>'+(winners.length>1?'En de winnaars zijn:':'En de winnaar is:')+'</p><h2>'+winnerNames+'</h2><span class="winner-points">'+winnerPoints+' punten</span></div><h3>Volledige eindstand na 13 rondes</h3><div class="podium">'+list.map(item=>'<div class="podium-row"><span class="podium-pos">'+item.position+'</span><span class="podium-name">'+escapeHtml(item.name)+(item.eliminated?' · afgevallen':'')+'</span><span class="podium-score">'+item.points+' pt</span></div>').join('')+'</div><div class="print-actions"><button id="printGameBtn" type="button">🖨️ Speloverzicht als PDF</button></div>';
+      const list=ranking(),winners=list.filter(x=>x.position===1&&!x.inactive),winnerNames=winners.map(x=>escapeHtml(x.name)).join(' & '),winnerPoints=winners[0].points;
+      node.innerHTML='<div class="winner-showcase"><div class="winner-crown">👑</div><p>'+(winners.length>1?'En de winnaars zijn:':'En de winnaar is:')+'</p><h2>'+winnerNames+'</h2><span class="winner-points">'+winnerPoints+' punten</span></div><h3>Volledige eindstand na 13 rondes</h3><div class="podium">'+list.map(item=>'<div class="podium-row"><span class="podium-pos">'+item.position+'</span><span class="podium-name">'+escapeHtml(item.name)+(item.eliminated?' · afgevallen':item.withdrawn?' · gestopt':'')+'</span><span class="podium-score">'+item.points+' pt</span></div>').join('')+'</div><div class="print-actions"><button id="printGameBtn" type="button">🖨️ Speloverzicht als PDF</button></div>';
       $('printGameBtn').addEventListener('click',downloadGamePdf);
     }
     function roundedCanvasRect(ctx,x,y,w,h,r,fill,stroke){
@@ -510,7 +570,7 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       ctx.font=weight+' '+size+'px -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif';ctx.fillStyle=color;ctx.textAlign=align;ctx.textBaseline='alphabetic';ctx.fillText(fitCanvasText(ctx,text,maxWidth),x,y);
     }
     function createGameOverviewCanvas(){
-      const width=900,margin=34,inner=width-margin*2,list=ranking(),winnerList=list.filter(item=>item.position===1&&!item.eliminated),rounds=[];
+      const width=900,margin=34,inner=width-margin*2,list=ranking(),winnerList=list.filter(item=>item.position===1&&!item.inactive),rounds=[];
       for(let round=1;round<=ROUNDS;round++){
         state.reneges.filter(entry=>entry.round===round).forEach(entry=>rounds.push({round,renege:entry,players:entry.order.length?entry.order:entry.players,height:62+entry.players.length*44+58}));
         const info=roundInfo(round);rounds.push({round,info,players:state.keepDealOrder?biddingOrder(round):info.players,height:62+info.players.length*44+58});
@@ -529,7 +589,7 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       canvasLabel(ctx,(winnerList[0]?winnerList[0].points:0)+' punten',width/2,y+104,18,850,'#713f12','center');
       y+=winnerHeight+14;
       canvasLabel(ctx,'EINDSTAND NA 13 RONDES',margin,y+25,18,900,'#172554');y+=standingTitle;
-      list.forEach((item,index)=>{const rowY=y+index*42,fill=index%2?'#ffffff':'#f8fafc';roundedCanvasRect(ctx,margin,rowY,inner,36,8,fill,'#dbe4ef');canvasLabel(ctx,String(item.position),margin+18,rowY+24,15,900,item.position===1&&!item.eliminated?'#a16207':'#475569');canvasLabel(ctx,item.name+(item.eliminated?' · afgevallen':''),margin+58,rowY+24,15,800,item.eliminated?'#b42318':'#162033','left',inner-180);canvasLabel(ctx,item.points+' pt',margin+inner-18,rowY+24,15,900,item.points>=0?'#087443':'#b42318','right')});
+      list.forEach((item,index)=>{const rowY=y+index*42,fill=index%2?'#ffffff':'#f8fafc',status=item.eliminated?' · afgevallen':item.withdrawn?' · gestopt':'',statusColor=item.eliminated?'#b42318':item.withdrawn?'#9a3412':'#162033';roundedCanvasRect(ctx,margin,rowY,inner,36,8,fill,'#dbe4ef');canvasLabel(ctx,String(item.position),margin+18,rowY+24,15,900,item.position===1&&!item.inactive?'#a16207':'#475569');canvasLabel(ctx,item.name+status,margin+58,rowY+24,15,800,statusColor,'left',inner-180);canvasLabel(ctx,item.points+' pt',margin+inner-18,rowY+24,15,900,item.points>=0?'#087443':'#b42318','right')});
       y+=standingRows+24;
       rounds.forEach(data=>{
         const r=data.round,info=data.info,entry=data.renege,cardY=y;roundedCanvasRect(ctx,margin,cardY,inner,data.height,14,entry?'#fffafa':'#ffffff',entry?'#ef4444':'#cbd5e1');
@@ -590,9 +650,55 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
       }catch(e){$('appNotice').hidden=false;$('appNotice').textContent='Dit bestand is geen geldige OH SHIT!-back-up.'}
       finally{$('importFile').value=''}
     }
-    function newGame(){
-      if(!confirm('Nieuw spel starten en alle scores wissen? De huidige spelersnamen blijven staan.'))return;
-      const oldNames=state.names.slice(),count=state.count,firstDealer=state.firstDealer,keepDealOrder=state.keepDealOrder;commit('Nieuw spel gestart',()=>{state=blankState(count);state.names=oldNames;state.firstDealer=firstDealer;state.keepDealOrder=keepDealOrder})
+    function openNewGameSetup(){
+      newGameDraft={players:Array.from({length:state.count},(_,id)=>({id,name:String(state.names[id]||'')})),dealerId:state.firstDealer};renderNewGameDraft();$('newGameSetup').hidden=false;document.body.classList.add('modal-open');requestAnimationFrame(()=>$('startNewGameBtn').focus())
+    }
+    function closeNewGameSetup(){newGameDraft=null;$('newGameSetup').hidden=true;document.body.classList.remove('modal-open');$('newGameBtn').focus()}
+    function draftPlayerName(player){return player.name.trim()||'Speler '+(player.id+1)}
+    function renderNewGameDraft(){
+      if(!newGameDraft)return;
+      $('newGamePlayerList').innerHTML=newGameDraft.players.map((player,index)=>'<div class="player-editor-row"><span class="player-editor-name">'+escapeHtml(draftPlayerName(player))+'</span><button type="button" class="move-player-up" data-index="'+index+'" '+(index===0?'disabled':'')+' aria-label="Omhoog">↑</button><button type="button" class="move-player-down" data-index="'+index+'" '+(index===newGameDraft.players.length-1?'disabled':'')+' aria-label="Omlaag">↓</button><button type="button" class="remove-player" data-index="'+index+'" aria-label="Speler verwijderen">✕</button></div>').join('');
+      if(!newGameDraft.players.some(player=>player.id===newGameDraft.dealerId))newGameDraft.dealerId=newGameDraft.players[0].id;
+      $('newGameDealer').innerHTML=newGameDraft.players.map(player=>'<option value="'+player.id+'" '+(player.id===newGameDraft.dealerId?'selected':'')+'>'+escapeHtml(draftPlayerName(player))+'</option>').join('');
+      $('newGameDealer').onchange=event=>newGameDraft.dealerId=Number(event.target.value);
+      $('newGamePlayerList').querySelectorAll('.move-player-up,.move-player-down').forEach(button=>button.addEventListener('click',()=>{const index=Number(button.dataset.index),other=button.classList.contains('move-player-up')?index-1:index+1;[newGameDraft.players[index],newGameDraft.players[other]]=[newGameDraft.players[other],newGameDraft.players[index]];renderNewGameDraft()}));
+      $('newGamePlayerList').querySelectorAll('.remove-player').forEach(button=>button.addEventListener('click',()=>{const index=Number(button.dataset.index),player=newGameDraft.players[index];if(newGameDraft.players.length<=MIN_PLAYERS){showToast('Minimaal '+MIN_PLAYERS+' spelers nodig.');return}if(!confirm('Weet je zeker dat '+draftPlayerName(player)+' uit het nieuwe spel wordt verwijderd?'))return;newGameDraft.players.splice(index,1);renderNewGameDraft()}));
+    }
+    function startConfiguredNewGame(){
+      if(!newGameDraft||newGameDraft.players.length<MIN_PLAYERS)return;
+      newGameDraft.dealerId=Number($('newGameDealer').value);const dealerIndex=newGameDraft.players.findIndex(player=>player.id===newGameDraft.dealerId);if(dealerIndex<0){showToast('Kies eerst de deler van ronde 1.');return}
+      if(!confirm('Nieuw spel starten? Alle huidige scores worden gewist. De getoonde namen en volgorde blijven behouden.'))return;
+      const players=newGameDraft.players.map(player=>player.name),keepDealOrder=state.keepDealOrder;closeNewGameSetup();commit('Nieuw spel gestart',()=>{state=blankState(players.length);players.forEach((name,index)=>state.names[index]=name);state.firstDealer=dealerIndex;state.keepDealOrder=keepDealOrder})
+    }
+    function newGame(){openNewGameSetup()}
+
+    function openRoundSetup(round){
+      if(!canConfigureRound(round)){showToast('Aanpassen kan alleen vóór de eerste invoer van een nieuwe ronde.');return}
+      roundSetupDraft={round,players:activePlayers(round),stopping:new Set(),dealer:dealerForRound(round)};renderRoundSetupDraft();$('roundSetup').hidden=false;document.body.classList.add('modal-open');requestAnimationFrame(()=>$('saveRoundSetupBtn').focus())
+    }
+    function closeRoundSetup(){roundSetupDraft=null;$('roundSetup').hidden=true;document.body.classList.remove('modal-open');const button=document.querySelector('.round-setup-btn');if(button)button.focus()}
+    function remainingRoundPlayers(){return roundSetupDraft.players.filter(player=>!roundSetupDraft.stopping.has(player))}
+    function renderRoundSetupDraft(){
+      if(!roundSetupDraft)return;const round=roundSetupDraft.round,remaining=remainingRoundPlayers();
+      $('roundSetupIntro').textContent='Ronde '+round+' is nog leeg. Geef hier aan wie stopt en wie vanaf deze ronde deelt.';
+      $('roundSetupPlayerList').innerHTML=roundSetupDraft.players.map(player=>{const stopping=roundSetupDraft.stopping.has(player);return '<label class="stop-player-row '+(stopping?'stopping':'')+'"><input class="stop-player-input" type="checkbox" data-player="'+player+'" '+(stopping?'checked':'')+'><span>'+escapeHtml(displayName(player))+'</span><small>'+(stopping?'Stopt vanaf ronde '+round:'Speelt mee')+'</small></label>'}).join('');
+      if(!remaining.includes(roundSetupDraft.dealer))roundSetupDraft.dealer=remaining[0];
+      $('roundDealer').innerHTML=remaining.map(player=>'<option value="'+player+'" '+(player===roundSetupDraft.dealer?'selected':'')+'>'+escapeHtml(displayName(player))+'</option>').join('');
+      $('roundDealer').onchange=event=>roundSetupDraft.dealer=Number(event.target.value);
+      $('roundSetupPlayerList').querySelectorAll('.stop-player-input').forEach(input=>input.addEventListener('change',event=>{const player=Number(event.target.dataset.player);if(event.target.checked){if(remainingRoundPlayers().length<=MIN_PLAYERS){event.target.checked=false;showToast('Er moeten minimaal '+MIN_PLAYERS+' spelers overblijven.');return}if(!confirm('Weet je zeker dat '+displayName(player)+' vanaf ronde '+round+' stopt? De eerdere score blijft bewaard.')){event.target.checked=false;return}roundSetupDraft.stopping.add(player)}else roundSetupDraft.stopping.delete(player);renderRoundSetupDraft()}));
+    }
+    function saveRoundSetup(){
+      if(!roundSetupDraft||!canConfigureRound(roundSetupDraft.round)){closeRoundSetup();showToast('Deze ronde kan niet meer worden aangepast.');return}
+      const round=roundSetupDraft.round,stopping=Array.from(roundSetupDraft.stopping),remaining=remainingRoundPlayers(),dealer=Number($('roundDealer').value);if(remaining.length<MIN_PLAYERS||!remaining.includes(dealer)){showToast('Kies een geldige deler; minimaal '+MIN_PLAYERS+' spelers moeten doorgaan.');return}
+      const currentDealer=dealerForRound(round),changes=stopping.length||dealer!==currentDealer;if(!changes){closeRoundSetup();showToast('Er waren geen wijzigingen.');return}
+      const stoppedText=stopping.length?' Gestopt: '+stopping.map(displayName).join(', ')+'.':'';if(!confirm('Aanpassingen voor ronde '+round+' opslaan?'+stoppedText+' '+displayName(dealer)+' wordt de deler; deze deelvolgorde loopt daarna door.'))return;
+      closeRoundSetup();commit('Spelers en deler vanaf ronde '+round+' aangepast',()=>{
+        stopping.forEach(player=>{state.withdrawn[player]=round;for(let r=round;r<=ROUNDS;r++){const key=cellKey(r,player);delete state.predictions[key];delete state.actuals[key];delete state.autoZeros[key]}});
+        for(const player of Object.keys(state.eliminated))if(Number(state.eliminated[player])>=round)delete state.eliminated[player];
+        for(const r of Object.keys(state.eliminationOverrides))if(Number(r)>=round)delete state.eliminationOverrides[r];
+        for(const r of Object.keys(state.eliminationAnnouncements))if(Number(r)>=round)delete state.eliminationAnnouncements[r];
+        state.dealerOverrides[round]=dealer;state.collapsedRounds[round]=false;
+      })
     }
     function newPlayers(){
       if(!confirm('Nieuwe spelers beginnen? Alle scores én alle spelersnamen worden gewist.'))return;
@@ -629,15 +735,17 @@ Laatste wijziging: vindbaarheid voor OH SHIT! en Oh Hell verbeterd
     }
 
     for(let count=MIN_PLAYERS;count<=MAX_PLAYERS;count++){const option=document.createElement('option');option.value=count;option.textContent=count;$('playerCount').appendChild(option)}
-    $('playerCount').addEventListener('change',event=>{const count=Number(event.target.value);commit('Aantal spelers aangepast',()=>{state.count=count;state.firstDealer=Math.min(state.firstDealer,count-1);state.reneges=[];state.eliminated={};state.eliminationOverrides={};state.eliminationAnnouncements={};state.currentRound=1;state.finished=false;state.collapsedRounds={}})});
+    $('playerCount').addEventListener('change',event=>{const count=Number(event.target.value);commit('Aantal spelers aangepast',()=>{state.count=count;state.firstDealer=Math.min(state.firstDealer,count-1);state.reneges=[];state.eliminated={};state.withdrawn={};state.dealerOverrides={};state.eliminationOverrides={};state.eliminationAnnouncements={};state.currentRound=1;state.finished=false;state.collapsedRounds={}})});
     $('keepDealOrder').addEventListener('change',event=>commit('Deelvolgorde aangepast',()=>state.keepDealOrder=event.target.checked,false));
-    $('firstDealer').addEventListener('change',event=>{const player=Number(event.target.value);commit('Eerste deler aangepast',()=>state.firstDealer=player,false)});
+    $('firstDealer').addEventListener('change',event=>{if(state.currentRound>1||roundHasInput(1)||state.reneges.length){render();showToast('Wijzig de deler bij de lege huidige ronde.');return}const player=Number(event.target.value);commit('Eerste deler aangepast',()=>state.firstDealer=player,false)});
     $('undoBtn').addEventListener('click',undo);$('exportBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',event=>event.target.files[0]&&importBackup(event.target.files[0]));$('newGameBtn').addEventListener('click',newGame);$('newPlayersBtn').addEventListener('click',newPlayers);$('shareBtn').addEventListener('click',shareApp);
-    $('playerGuideBtn').addEventListener('click',openPlayerGuideChoice);$('openPlayerGuideBtn').addEventListener('click',openPlayerGuide);$('sharePlayerGuideBtn').addEventListener('click',sharePlayerGuide);$('closePlayerGuideBtn').addEventListener('click',closePlayerGuideChoice);$('playerGuideChoice').addEventListener('click',event=>{if(event.target===$('playerGuideChoice'))closePlayerGuideChoice()});document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('playerGuideChoice').hidden)closePlayerGuideChoice()});
+    $('startNewGameBtn').addEventListener('click',startConfiguredNewGame);$('cancelNewGameSetupBtn').addEventListener('click',closeNewGameSetup);$('newGameSetup').addEventListener('click',event=>{if(event.target===$('newGameSetup'))closeNewGameSetup()});
+    $('saveRoundSetupBtn').addEventListener('click',saveRoundSetup);$('cancelRoundSetupBtn').addEventListener('click',closeRoundSetup);$('roundSetup').addEventListener('click',event=>{if(event.target===$('roundSetup'))closeRoundSetup()});
+    $('playerGuideBtn').addEventListener('click',openPlayerGuideChoice);$('openPlayerGuideBtn').addEventListener('click',openPlayerGuide);$('sharePlayerGuideBtn').addEventListener('click',sharePlayerGuide);$('closePlayerGuideBtn').addEventListener('click',closePlayerGuideChoice);$('playerGuideChoice').addEventListener('click',event=>{if(event.target===$('playerGuideChoice'))closePlayerGuideChoice()});document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(!$('newGameSetup').hidden)closeNewGameSetup();else if(!$('roundSetup').hidden)closeRoundSetup();else if(!$('playerGuideChoice').hidden)closePlayerGuideChoice()});
     window.addEventListener('beforeprint',preparePrint);window.addEventListener('afterprint',restoreAfterPrint);
     ensureEliminations();save();
     render();
-    window.OHSHIT_TEST={score,normalize,roundInfo,ranking,fillAutomaticZeros,ensureEliminations,invalidPredictionTotal,forbiddenPrediction,optionMarkup,actualOptionMarkup,eliminatePlayer,activePlayers,dealerForRound,biddingOrder,nextBidder,predictionEditable,canAdvance,advanceRound,firstIncompleteRound,roundHasTrump,isDoubler,renegePenaltyThrough,recordRenege,restoreRenege,buildSinglePagePdf,createGameOverviewCanvas,downloadGamePdf,preparePrint,restoreAfterPrint,openPlayerGuideChoice,closePlayerGuideChoice,PLAYER_GUIDE_URL,getPendingElimination:()=>clone(pendingElimination),getState:()=>clone(state),setState:value=>{state=normalize(value);history=[];ensureEliminations();render()}};
+    window.OHSHIT_TEST={score,normalize,roundInfo,ranking,fillAutomaticZeros,ensureEliminations,invalidPredictionTotal,forbiddenPrediction,optionMarkup,actualOptionMarkup,eliminatePlayer,isActive,activePlayers,dealerForRound,biddingOrder,nextBidder,predictionEditable,canAdvance,canConfigureRound,advanceRound,firstIncompleteRound,roundHasTrump,isDoubler,renegePenaltyThrough,recordRenege,restoreRenege,buildSinglePagePdf,createGameOverviewCanvas,downloadGamePdf,preparePrint,restoreAfterPrint,openPlayerGuideChoice,closePlayerGuideChoice,PLAYER_GUIDE_URL,getPendingElimination:()=>clone(pendingElimination),getState:()=>clone(state),setState:value=>{state=normalize(value);history=[];ensureEliminations();render()}};
   })();
   </script>
 </body>
