@@ -515,7 +515,12 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
       $('nameFields').innerHTML=Array.from({length:state.count},(_,p)=>'<div class="field"><label for="name'+p+'">Speler '+(p+1)+'</label><input id="name'+p+'" data-player="'+p+'" class="name-input" maxlength="40" autocomplete="off" placeholder="Naam invullen" value="'+escapeHtml(state.names[p])+'"></div>').join('');
       $('firstDealer').innerHTML=Array.from({length:state.count},(_,p)=>'<option value="'+p+'" '+(p===state.firstDealer?'selected':'')+'>'+escapeHtml(displayName(p))+'</option>').join('');
       const gameStarted=state.currentRound>1||roundHasInput(1)||state.reneges.length>0;$('firstDealer').disabled=gameStarted;$('firstDealer').title=gameStarted?'Wijzig de deler bij de lege huidige ronde.':'';
-      document.querySelectorAll('.name-input').forEach(input=>input.addEventListener('change',event=>{const p=Number(event.target.dataset.player),value=event.target.value.slice(0,40);if(value===state.names[p])return;commit('Naam aangepast',()=>state.names[p]=value,false)}));
+      document.querySelectorAll('.name-input').forEach(input=>input.addEventListener('change',event=>{
+        const p=Number(event.target.dataset.player),value=event.target.value.slice(0,40);if(value===state.names[p])return;
+        history.push({label:'Naam aangepast',state:clone(state)});history=history.slice(-30);state.names[p]=value;save();
+        const dealerOption=$('firstDealer').querySelector('option[value="'+p+'"]');if(dealerOption)dealerOption.textContent=displayName(p);
+        renderStandings();renderRounds();renderResults();$('undoBtn').disabled=history.length===0;
+      }));
     }
     function namesFor(players){return players.map(displayName).join(', ')}
     function roundStatus(round,info){
