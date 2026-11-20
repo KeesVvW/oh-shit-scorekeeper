@@ -58,6 +58,8 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
     @media print{@page{size:A4 portrait;margin:10mm}.app-header,.standings,details.controls,details.settings,.section-head,.rules,.toast,.round-actions,.print-actions{display:none!important}html,body{background:#fff!important}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}main{display:block;max-width:none;padding:0}.card{box-shadow:none;break-inside:avoid;page-break-inside:avoid}#results{display:block!important;width:100%;margin:0;break-after:page;page-break-after:always}#results .winner-showcase{margin:0 0 10px;padding:10px}#results .winner-crown{font-size:34px}#results .winner-showcase h2{font-size:28px}#results h3{margin-bottom:6px}.podium{gap:4px}.podium-row{padding:6px 8px}.podium-pos{font-size:17px}#rounds{display:block}.round-card{display:block!important;width:100%;margin:0;break-inside:avoid;page-break-inside:avoid}.round-card+.round-card{break-before:page;page-break-before:always}details.round-card>.round-body{display:block!important}.round-head{padding:8px 10px}.round-number{width:34px;height:34px;font-size:16px}.round-title h3{font-size:15px}.round-title p{margin-top:1px}.round-body{padding:4px 8px 8px}.player-row{padding:3px 2px}.player-name{font-size:13px}.player-total{margin-top:0;font-size:9px}button,select{min-height:32px}.score-select{padding:4px 20px 4px 6px;font-size:12px}.points{padding:6px 3px;font-size:11px}.bid-info{margin-top:5px;padding:5px 6px}.bid-metrics span{padding:3px}.bid-metrics strong{margin-top:0;font-size:14px}.round-foot{margin-top:5px;padding:6px 8px}.results{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
   </style>
   <style>
+    .settings-grid{grid-template-areas:"player-count keep-names" "first-dealer clear-names" "deal-order ." "player-names player-names"}
+    .player-count-setting{grid-area:player-count}.keep-names-setting{grid-area:keep-names}.first-dealer-setting{grid-area:first-dealer}.clear-names-setting{grid-area:clear-names}.deal-order-setting{grid-area:deal-order}.names{grid-area:player-names}
     .doubler-check{display:flex;align-items:center;gap:10px;margin:2px 0 8px;padding:9px 11px;border:1px solid #cbd5e1;border-radius:11px;background:#f8fafc;color:var(--ink);cursor:pointer}
     .doubler-check.active{border-color:#f59e0b;background:#fffbeb;box-shadow:inset 4px 0 0 #f59e0b}
     .doubler-check input{width:22px;height:22px;margin:0;accent-color:#d97706}
@@ -78,7 +80,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
     .coffee-invite{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:16px;align-items:center;margin-top:12px;padding:15px;border-radius:17px;background:#fff;color:#172554;text-align:left}.coffee-copy h3{margin:0 0 7px;color:#9f1239;font-size:20px}.coffee-copy p{margin:0 0 10px;line-height:1.4}.coffee-copy small{display:block;margin-top:8px;color:#64748b}.coffee-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 12px;border-radius:11px;background:#ffdd00;color:#3f3000;font-weight:900;text-decoration:none}.coffee-qr{display:block;width:190px;height:190px;padding:8px;border:2px solid #172554;border-radius:12px;background:#fff;image-rendering:pixelated}.celebration-continue{width:100%;margin-top:13px;background:#fff;color:#172554;border:2px solid #bfdbfe}
     .end-coffee{margin-top:16px;text-align:left}.end-coffee .coffee-copy h3{color:#9f1239}.end-coffee .coffee-copy p{color:#172554}
     .pdf-choice-status{margin:11px 0 0;color:var(--muted);font-size:12px;font-weight:750;text-align:center}.pdf-choice-status.ready{color:var(--good)}
-    @media(max-width:560px){.celebration-overlay{padding:7px}.celebration-card{max-height:calc(100vh - 14px);padding:18px 13px 14px;border-radius:18px}.coffee-invite{grid-template-columns:1fr;text-align:center}.coffee-qr{width:min(64vw,230px);height:min(64vw,230px);margin:auto;grid-row:1}.coffee-copy{grid-row:2}.survivor-row{grid-template-columns:28px minmax(0,1fr) auto;padding:7px 8px}.survivor-points{font-size:12px}}
+    @media(max-width:560px){.settings-grid{grid-template-areas:"player-count" "first-dealer" "deal-order" "keep-names" "clear-names" "player-names"}.celebration-overlay{padding:7px}.celebration-card{max-height:calc(100vh - 14px);padding:18px 13px 14px;border-radius:18px}.coffee-invite{grid-template-columns:1fr;text-align:center}.coffee-qr{width:min(64vw,230px);height:min(64vw,230px);margin:auto;grid-row:1}.coffee-copy{grid-row:2}.survivor-row{grid-template-columns:28px minmax(0,1fr) auto;padding:7px 8px}.survivor-points{font-size:12px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#eliminationPanel,.celebration-overlay,.celebration-card{transition:none!important}.toast{transition:none!important}}
     @media print{
       .celebration-overlay{display:none!important}
@@ -116,11 +118,11 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
     <details class="card settings" id="settingsPanel">
       <summary>Spelers en nieuw spel <span aria-hidden="true">⌄</span></summary>
       <div class="settings-grid">
-        <div class="field"><label for="playerCount">Aantal spelers (maximaal 10)</label><select id="playerCount"></select></div>
-        <div class="field"><label>Spel wissen</label><button id="newGameBtn" class="danger" type="button">Nieuw spel · namen behouden</button></div>
-        <div class="field" id="firstDealerField"><label for="firstDealer">Deler in ronde 1</label><select id="firstDealer"></select></div>
-        <div class="field"><label>Helemaal opnieuw</label><button id="newPlayersBtn" class="danger" type="button">Nieuwe spelers · namen wissen</button></div>
-        <div class="field"><span class="field-label">Deelvolgorde</span><label class="deal-order-check" for="keepDealOrder"><input id="keepDealOrder" type="checkbox">Volgorde van delen aanhouden</label></div>
+        <div class="field player-count-setting"><label for="playerCount">Aantal spelers (maximaal 10)</label><select id="playerCount"></select></div>
+        <div class="field keep-names-setting"><label>Spel wissen</label><button id="newGameBtn" class="danger" type="button">Nieuw spel · namen behouden</button></div>
+        <div class="field first-dealer-setting" id="firstDealerField"><label for="firstDealer">Deler in ronde 1</label><select id="firstDealer"></select></div>
+        <div class="field clear-names-setting"><label>Helemaal opnieuw</label><button id="newPlayersBtn" class="danger" type="button">Nieuw spel - namen wissen</button></div>
+        <div class="field deal-order-setting"><span class="field-label">Deelvolgorde</span><label class="deal-order-check" for="keepDealOrder"><input id="keepDealOrder" type="checkbox">Volgorde van delen aanhouden</label></div>
         <div id="nameFields" class="names"></div>
       </div>
     </details>
