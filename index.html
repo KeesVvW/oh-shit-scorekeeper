@@ -1,7 +1,7 @@
 <!--
-OH SHIT! Scorekeeper · MY WAY v2.1
-Revisie: 19-11-2026 17:15 (Nederlandse tijd)
-Laatste wijziging: feestelijk afvalmoment met wisselende teksten en Buy Me a Coffee-QR-code
+OH SHIT! Scorekeeper · MY WAY v2.2
+Revisie: 20-11-2026 14:20 (Nederlandse tijd)
+Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; tijdelijke testfuncties verwijderd
 -->
 <!doctype html>
 <html lang="nl">
@@ -23,7 +23,7 @@ Laatste wijziging: feestelijk afvalmoment met wisselende teksten en Buy Me a Cof
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="OH SHIT! / Oh Hell Scorekeeper · MY WAY">
   <meta name="twitter:description" content="Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell volgens onze huisregels.">
-  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.1</title>
+  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.2</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -92,7 +92,7 @@ Laatste wijziging: feestelijk afvalmoment met wisselende teksten en Buy Me a Cof
   </style>
 </head>
 <body>
-  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.1</span></div></header>
+  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.2</span></div></header>
   <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
   <main>
     <details class="card controls" hidden>
@@ -121,9 +121,6 @@ Laatste wijziging: feestelijk afvalmoment met wisselende teksten en Buy Me a Cof
         <div class="field" id="firstDealerField"><label for="firstDealer">Deler in ronde 1</label><select id="firstDealer"></select></div>
         <div class="field"><label>Spel wissen</label><button id="newGameBtn" class="danger" type="button">Nieuw spel · namen behouden</button></div>
         <div class="field"><label>Helemaal opnieuw</label><button id="newPlayersBtn" class="danger" type="button">Nieuwe spelers · namen wissen</button></div>
-        <div class="field"><label>Tijdelijk voor de test</label><button id="testGameBtn" class="ghost" type="button">🧪 Eerste afval / verzaakt</button></div>
-        <div class="field"><label>Tijdelijk zonder QR-code</label><button id="testLaterEliminationBtn" class="ghost" type="button">🧪 Later afvalmoment</button></div>
-        <div class="field"><label>Tijdelijk voor het einde</label><button id="testFinalResultsBtn" class="ghost" type="button">🧪 Einduitslag testen</button></div>
         <div id="nameFields" class="names"></div>
       </div>
     </details>
@@ -225,11 +222,11 @@ Laatste wijziging: feestelijk afvalmoment met wisselende teksten en Buy Me a Cof
   <script>
   (function(){
     'use strict';
-    const DATA_VERSION=6, APP_VERSION='2.1', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
+    const DATA_VERSION=6, APP_VERSION='2.2', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
     const SHARE_URL='https://keesvvw.github.io/oh-shit-scorekeeper/';
-    const SCOREKEEPER_GUIDE_FILE='OH-SHIT-Scorekeeper-korte-handleiding.pdf?v=2.1';
+    const SCOREKEEPER_GUIDE_FILE='OH-SHIT-Scorekeeper-korte-handleiding.pdf?v=2.2';
     const SCOREKEEPER_GUIDE_URL=new URL(SCOREKEEPER_GUIDE_FILE,SHARE_URL).href;
-    const PLAYER_GUIDE_FILE='OH-SHIT-MY-WAY-spelregels-voor-spelers.pdf?v=2.1';
+    const PLAYER_GUIDE_FILE='OH-SHIT-MY-WAY-spelregels-voor-spelers.pdf?v=2.2';
     const PLAYER_GUIDE_URL=new URL(PLAYER_GUIDE_FILE,SHARE_URL).href;
     const BUY_ME_COFFEE_URL='https://buymeacoffee.com/kees3';
     const BUY_ME_COFFEE_QR='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAewAAAHsAQAAAAA4UaPNAAADmElEQVR4nO2dUZLqIBBFm1v+xx3M/pc1O0hWwKumgRCfX5dUaSb3lKXRcCojttgQwqRsE2yYsc2k04BXHek04FVHOg141ZFOA151pNOAVx3pNOBVRzoNePXuuuXC/nwp20seN/JqeW27WjFnvfR7h/RbVt2jPi5rPKa2I2+p30fkpzfFMHd0SGcBbRakOyml9LRXSiPvu1J6Vww2BaSzgDYL0g94GtM20tNvkfz01wdgU0A6C2jT7q4/3ry2ZNtSjpS+5DZpWXO5P/vokM4C2rS764++1TuoaVlTZO/lRU/pt2Ql7Mdi13/vkH7rqtsiZ+9d2NZv/fFbjNh4Gv9aDOccnQSsGEi/dTufj6/2p3lLtal/V8yu/d4h/c7j8zm/Dsv7mLyPwJcObBmN7+Vrgazx+duGDf6AnlLy8P4t93nIZMq4jbP5rt6r/ao/ngW0WZB+8XZ+bQ14P/caL7Z2Plr+Wj5+AtTOTwHpH557sAwRPk5IiGxn2Ftb+0Uxj7mKh/SP92HTksuttObbs49M9j5s5DSpJPz5nKNDOgto0+6u296HjWAe2/w+tax1aevZWLXzn//gIH0+n7c2aLPn8MdvxDi1MiufN0Xdtdt5a6E+pvS9J+sM3wi18wXF/MVjfjmOwI/hvY/G11fqfdb4/AyYsk36Oe28DXn7IckZEpvxO5J1zQgPJlyTfk4+H7xcIdV/AiLI+xckUMzzYMI16TPkwp6i12Auu8axmqCdmTK186agvXw+b8erRV46sy+nYk0xb4r5v5LPD+wd25efAI3Pf/6Dg/TZqlvqVVH9WteYJP/+MtiYb3bi0UnAioH0e1ad9Sa9zx/778TTUHIYq3fUh71p2OCPXA+7rLYdFj7YLw8s2+MyIPmco0M6C2izIN32803DdMre/nsyM6T3fsHgU1UHmwLSv2cdszezEYbJZqOVldvwYMI16TPkiPAe6n2aQXu6Fx3mJ5jyeVPQXr7qUhuZ8bGapWQvW8q/vl3H6suiB/tpqW/64ynAaQ3p1+/DjmzPuqxTSeZjscpcLiRJsY6lBfrcacCrjvRTq27xRr4uUxkL95U+bF3H77BAMfgjO9JpwKuOdCfS+H5CNv3UxL6fgYqFEewAbApIZwFt2t31R308rOBR1+uLYflWoOT6cepK4/Mn1Dykf6jqkv6HGgtosyCdBrzqSKcBrzrSacCrjnQa8KojnQa86kinAa860mkmq+4fs/35Omw/2ioAAAAASUVORK5CYII=';
@@ -769,40 +766,6 @@ Laatste wijziging: feestelijk afvalmoment met wisselende teksten en Buy Me a Cof
       const now=new Date(),payload={app:'OH SHIT! Scorekeeper',appVersion:APP_VERSION,formatVersion:DATA_VERSION,exportedAt:now.toISOString(),state:clone(state)},stamp=now.toLocaleString('sv-SE',{hour12:false}).replace(' ','-').replace(/:/g,'-');
       const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='OH-SHIT-Scorekeeper-backup-'+stamp+'.json';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);showToast('JSON-back-up gedownload')
     }
-    function prepareEliminationTest(){
-      if(!confirm('Een bijna voltooide ronde 7 klaarzetten? Kies daarna bij Rob bij B: 7 voor de eerste afval-pop-up, of Verzaakt voor de strafkoffie-pop-up.'))return;
-      commit('Testspel klaargezet',()=>{
-        state=blankState(7);['Kees','Anja','Peter','Linda','Jan','Monique','Rob'].forEach((name,player)=>state.names[player]=name);
-        for(let round=1;round<=7;round++)for(let player=0;player<7;player++){
-          const key=cellKey(round,player),target=round<=4?0:6,actual=player===target?round:0;state.predictions[key]=String(round<5?actual:0);
-          if(round<7||player!==6)state.actuals[key]=String(actual);
-        }
-        for(let round=1;round<=6;round++)state.collapsedRounds[round]=true;state.currentRound=7;state.collapsedRounds[7]=false;
-      });
-      $('settingsPanel').open=false;requestAnimationFrame(()=>scrollToRound(7));
-    }
-    function prepareLaterEliminationTest(){
-      if(!confirm('Een later afvalmoment zonder koffie-QR klaarzetten? Vul daarna alleen bij Monique de behaalde 8 slagen in.'))return;
-      commit('Later afvalmoment klaargezet',()=>{
-        state=blankState(7);['Kees','Anja','Peter','Linda','Jan','Monique','Rob'].forEach((name,player)=>state.names[player]=name);
-        for(let round=1;round<=7;round++)for(let player=0;player<7;player++){const key=cellKey(round,player),target=round<=4?0:6,actual=player===target?round:0;state.predictions[key]=String(round<5?actual:0);state.actuals[key]=String(actual)}
-        state.eliminated[6]=8;const signature=eliminationSignature(8,[0,1,2,3,4,5,6]);state.eliminationOverrides[8]=signature;state.eliminationAnnouncements[8]=signature;
-        for(let player=0;player<6;player++){const key=cellKey(8,player);state.predictions[key]='0';if(player!==5)state.actuals[key]='0'}
-        for(let round=1;round<=7;round++)state.collapsedRounds[round]=true;state.currentRound=8;state.collapsedRounds[8]=false;
-      });
-      $('settingsPanel').open=false;requestAnimationFrame(()=>scrollToRound(8));
-    }
-    function prepareFinalResultsTest(){
-      if(!confirm('Een volledige test-einduitslag met koffie-QR klaarzetten?'))return;
-      commit('Test-einduitslag klaargezet',()=>{
-        state=blankState(4);['Kees','Anja','Peter','Linda'].forEach((name,player)=>state.names[player]=name);
-        for(let round=1;round<=ROUNDS;round++)for(let player=0;player<4;player++){
-          const key=cellKey(round,player),actual=player===1?round:0,prediction=round<5?actual:player===2?1:player===3?2:0;state.predictions[key]=String(prediction);state.actuals[key]=String(actual);state.collapsedRounds[round]=true;
-        }
-        state.currentRound=ROUNDS;state.finished=true;
-      });
-      $('settingsPanel').open=false;requestAnimationFrame(()=>$('results').scrollIntoView({behavior:'smooth',block:'start'}));
-    }
     async function importBackup(file){
       try{
         const parsed=JSON.parse(await file.text()),raw=parsed&&parsed.state?parsed.state:parsed,imported=normalize(raw);
@@ -917,7 +880,7 @@ Laatste wijziging: feestelijk afvalmoment met wisselende teksten en Buy Me a Cof
     $('playerCount').addEventListener('change',event=>{const count=Number(event.target.value);commit('Aantal spelers aangepast',()=>{state.count=count;state.firstDealer=Math.min(state.firstDealer,count-1);state.reneges=[];state.eliminated={};state.withdrawn={};state.dealerOverrides={};state.eliminationOverrides={};state.eliminationAnnouncements={};state.currentRound=1;state.finished=false;state.collapsedRounds={}})});
     $('keepDealOrder').addEventListener('change',event=>commit('Deelvolgorde aangepast',()=>state.keepDealOrder=event.target.checked,false));
     $('firstDealer').addEventListener('change',event=>{if(state.currentRound>1||roundHasInput(1)||state.reneges.length){render();showToast('Wijzig de deler bij de lege huidige ronde.');return}const player=Number(event.target.value);commit('Eerste deler aangepast',()=>state.firstDealer=player,false)});
-    $('undoBtn').addEventListener('click',undo);$('exportBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',event=>event.target.files[0]&&importBackup(event.target.files[0]));$('newGameBtn').addEventListener('click',newGame);$('newPlayersBtn').addEventListener('click',newPlayers);$('testGameBtn').addEventListener('click',prepareEliminationTest);$('testLaterEliminationBtn').addEventListener('click',prepareLaterEliminationTest);$('testFinalResultsBtn').addEventListener('click',prepareFinalResultsTest);$('shareBtn').addEventListener('click',shareApp);
+    $('undoBtn').addEventListener('click',undo);$('exportBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',event=>event.target.files[0]&&importBackup(event.target.files[0]));$('newGameBtn').addEventListener('click',newGame);$('newPlayersBtn').addEventListener('click',newPlayers);$('shareBtn').addEventListener('click',shareApp);
     $('startNewGameBtn').addEventListener('click',startConfiguredNewGame);$('cancelNewGameSetupBtn').addEventListener('click',closeNewGameSetup);$('newGameSetup').addEventListener('click',event=>{if(event.target===$('newGameSetup'))closeNewGameSetup()});
     $('saveRoundSetupBtn').addEventListener('click',saveRoundSetup);$('cancelRoundSetupBtn').addEventListener('click',closeRoundSetup);$('roundSetup').addEventListener('click',event=>{if(event.target===$('roundSetup'))closeRoundSetup()});
     $('scorekeeperGuideBtn').addEventListener('click',openScorekeeperGuideChoice);$('openScorekeeperGuideBtn').addEventListener('click',openScorekeeperGuide);$('shareScorekeeperGuideBtn').addEventListener('click',shareScorekeeperGuide);$('closeScorekeeperGuideBtn').addEventListener('click',closeScorekeeperGuideChoice);$('scorekeeperGuideChoice').addEventListener('click',event=>{if(event.target===$('scorekeeperGuideChoice'))closeScorekeeperGuideChoice()});
