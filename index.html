@@ -1,7 +1,7 @@
 <!--
-OH SHIT! Scorekeeper · MY WAY v2.0
-Revisie: 19-11-2026 16:39 (Nederlandse tijd)
-Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en rustige schermovergangen
+OH SHIT! Scorekeeper · MY WAY v2.1
+Revisie: 19-11-2026 17:15 (Nederlandse tijd)
+Laatste wijziging: feestelijk afvalmoment met wisselende teksten en Buy Me a Coffee-QR-code
 -->
 <!doctype html>
 <html lang="nl">
@@ -23,7 +23,7 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="OH SHIT! / Oh Hell Scorekeeper · MY WAY">
   <meta name="twitter:description" content="Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell volgens onze huisregels.">
-  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.0</title>
+  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.1</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -69,8 +69,18 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
     .house-rules{margin-top:13px!important;padding:10px 11px;border:1px solid #c4b5fd;border-radius:11px;background:#faf5ff;color:#581c87}
     #eliminationPanel{transform-origin:top;transition:max-height .28s ease,opacity .22s ease,transform .28s ease,margin .28s ease,padding .28s ease}
     #eliminationPanel.leaving{opacity:0;transform:translateY(-8px) scaleY(.98);margin-bottom:0;padding-top:0;padding-bottom:0;border-width:0}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#eliminationPanel{transition:none!important}.toast{transition:none!important}}
+    .celebration-overlay{position:fixed;z-index:260;inset:0;display:grid;place-items:center;overflow:auto;padding:14px;background:rgba(15,23,42,.78);backdrop-filter:blur(6px);opacity:1;transition:opacity .24s ease}
+    .celebration-overlay[hidden]{display:none}.celebration-overlay.leaving{opacity:0}.celebration-overlay.leaving .celebration-card{transform:translateY(14px) scale(.985)}
+    .celebration-card{position:relative;width:min(100%,680px);max-height:calc(100vh - 28px);overflow:auto;border:2px solid #fde68a;border-radius:24px;background:linear-gradient(145deg,#172554 0%,#1e3a8a 48%,#7f1d1d 100%);color:#fff;box-shadow:0 28px 90px rgba(15,23,42,.5);padding:22px;transform:translateY(0) scale(1);transition:transform .26s ease}
+    .celebration-close{position:absolute;right:12px;top:12px;width:42px;min-height:42px;padding:0;border:1px solid rgba(255,255,255,.38);border-radius:999px;background:rgba(255,255,255,.13);color:#fff;font-size:22px}.celebration-kicker{margin:0 44px 5px 0;color:#fde68a;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.celebration-card h2{margin:0 44px 14px 0;font-size:clamp(24px,7vw,36px);line-height:1.05}.survivor-list{display:grid;gap:7px}.survivor-row{display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;border:1px solid rgba(255,255,255,.22);border-radius:11px;background:rgba(255,255,255,.1)}.survivor-medal{font-size:20px}.survivor-name{font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.survivor-points{color:#dbeafe;font-weight:850;white-space:nowrap}
+    .farewell-box{margin:16px 0 12px;padding:14px;border:2px solid #fecaca;border-radius:16px;background:rgba(127,29,29,.72);text-align:center}.farewell-box h3{margin:0 0 9px;color:#fecaca;font-size:14px;letter-spacing:.06em}.farewell-name{display:block;margin:4px 0;color:#fff;font-size:clamp(27px,8vw,40px);font-weight:950;line-height:1}.farewell-score{display:block;margin-top:7px;color:#fde68a;font-size:16px;font-weight:900}.farewell-message{margin:12px 0 0;color:#fff7ed;font-size:16px;font-weight:800;line-height:1.35}
+    .renege-verdict{margin:8px 0 12px;padding:18px 14px;border:2px solid #fecaca;border-radius:17px;background:rgba(127,29,29,.78);text-align:center}.renege-verdict h2{margin:0!important;color:#fff!important}.renege-offender{display:block;margin:12px 0 5px;font-size:clamp(30px,9vw,46px);font-weight:950}.renege-penalty{display:inline-block;padding:6px 13px;border-radius:999px;background:#fde68a;color:#7f1d1d;font-size:21px;font-weight:950}.renege-message{margin:14px 0 0;color:#fff7ed;font-size:17px;font-weight:850;line-height:1.4}.voluntary-note{display:block;margin-top:9px;color:#64748b;font-size:12px;line-height:1.35}
+    .coffee-invite{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:16px;align-items:center;margin-top:12px;padding:15px;border-radius:17px;background:#fff;color:#172554;text-align:left}.coffee-copy h3{margin:0 0 7px;color:#9f1239;font-size:20px}.coffee-copy p{margin:0 0 10px;line-height:1.4}.coffee-copy small{display:block;margin-top:8px;color:#64748b}.coffee-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 12px;border-radius:11px;background:#ffdd00;color:#3f3000;font-weight:900;text-decoration:none}.coffee-qr{display:block;width:190px;height:190px;padding:8px;border:2px solid #172554;border-radius:12px;background:#fff;image-rendering:pixelated}.celebration-continue{width:100%;margin-top:13px;background:#fff;color:#172554;border:2px solid #bfdbfe}
+    .end-coffee{margin-top:16px;text-align:left}.end-coffee .coffee-copy h3{color:#9f1239}.end-coffee .coffee-copy p{color:#172554}
+    @media(max-width:560px){.celebration-overlay{padding:7px}.celebration-card{max-height:calc(100vh - 14px);padding:18px 13px 14px;border-radius:18px}.coffee-invite{grid-template-columns:1fr;text-align:center}.coffee-qr{width:min(64vw,230px);height:min(64vw,230px);margin:auto;grid-row:1}.coffee-copy{grid-row:2}.survivor-row{grid-template-columns:28px minmax(0,1fr) auto;padding:7px 8px}.survivor-points{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#eliminationPanel,.celebration-overlay,.celebration-card{transition:none!important}.toast{transition:none!important}}
     @media print{
+      .end-coffee,.celebration-overlay{display:none!important}
       .doubler-check:not(.active){display:none!important}
       .doubler-check.active{margin:2px 0 5px;padding:5px 8px;border-color:#d97706;background:#fffbeb}
       .doubler-check.active input,.doubler-check.active .doubler-screen{display:none!important}
@@ -79,7 +89,7 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
   </style>
 </head>
 <body>
-  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.0</span></div></header>
+  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.1</span></div></header>
   <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
   <main>
     <details class="card controls" hidden>
@@ -108,6 +118,9 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
         <div class="field" id="firstDealerField"><label for="firstDealer">Deler in ronde 1</label><select id="firstDealer"></select></div>
         <div class="field"><label>Spel wissen</label><button id="newGameBtn" class="danger" type="button">Nieuw spel · namen behouden</button></div>
         <div class="field"><label>Helemaal opnieuw</label><button id="newPlayersBtn" class="danger" type="button">Nieuwe spelers · namen wissen</button></div>
+        <div class="field"><label>Tijdelijk voor de test</label><button id="testGameBtn" class="ghost" type="button">🧪 Eerste afval / verzaakt</button></div>
+        <div class="field"><label>Tijdelijk zonder QR-code</label><button id="testLaterEliminationBtn" class="ghost" type="button">🧪 Later afvalmoment</button></div>
+        <div class="field"><label>Tijdelijk voor het einde</label><button id="testFinalResultsBtn" class="ghost" type="button">🧪 Einduitslag testen</button></div>
         <div id="nameFields" class="names"></div>
       </div>
     </details>
@@ -178,15 +191,41 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
       </div>
     </div>
   </div>
+  <div id="eliminationCelebration" class="celebration-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="eliminationCelebrationTitle">
+    <div id="eliminationCelebrationCard" class="celebration-card"></div>
+  </div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
   (function(){
     'use strict';
-    const DATA_VERSION=6, APP_VERSION='2.0', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
+    const DATA_VERSION=6, APP_VERSION='2.1', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
     const SHARE_URL='https://keesvvw.github.io/oh-shit-scorekeeper/';
-    const PLAYER_GUIDE_FILE='OH-SHIT-MY-WAY-spelregels-voor-spelers.pdf?v=2.0';
+    const PLAYER_GUIDE_FILE='OH-SHIT-MY-WAY-spelregels-voor-spelers.pdf?v=2.1';
     const PLAYER_GUIDE_URL=new URL(PLAYER_GUIDE_FILE,SHARE_URL).href;
+    const BUY_ME_COFFEE_URL='https://buymeacoffee.com/kees3';
+    const BUY_ME_COFFEE_QR='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAewAAAHsAQAAAAA4UaPNAAADmElEQVR4nO2dUZLqIBBFm1v+xx3M/pc1O0hWwKumgRCfX5dUaSb3lKXRcCojttgQwqRsE2yYsc2k04BXHek04FVHOg141ZFOA151pNOAVx3pNOBVRzoNePXuuuXC/nwp20seN/JqeW27WjFnvfR7h/RbVt2jPi5rPKa2I2+p30fkpzfFMHd0SGcBbRakOyml9LRXSiPvu1J6Vww2BaSzgDYL0g94GtM20tNvkfz01wdgU0A6C2jT7q4/3ry2ZNtSjpS+5DZpWXO5P/vokM4C2rS764++1TuoaVlTZO/lRU/pt2Ql7Mdi13/vkH7rqtsiZ+9d2NZv/fFbjNh4Gv9aDOccnQSsGEi/dTufj6/2p3lLtal/V8yu/d4h/c7j8zm/Dsv7mLyPwJcObBmN7+Vrgazx+duGDf6AnlLy8P4t93nIZMq4jbP5rt6r/ao/ngW0WZB+8XZ+bQ14P/caL7Z2Plr+Wj5+AtTOTwHpH557sAwRPk5IiGxn2Ftb+0Uxj7mKh/SP92HTksuttObbs49M9j5s5DSpJPz5nKNDOgto0+6u296HjWAe2/w+tax1aevZWLXzn//gIH0+n7c2aLPn8MdvxDi1MiufN0Xdtdt5a6E+pvS9J+sM3wi18wXF/MVjfjmOwI/hvY/G11fqfdb4/AyYsk36Oe28DXn7IckZEpvxO5J1zQgPJlyTfk4+H7xcIdV/AiLI+xckUMzzYMI16TPkwp6i12Auu8axmqCdmTK186agvXw+b8erRV46sy+nYk0xb4r5v5LPD+wd25efAI3Pf/6Dg/TZqlvqVVH9WteYJP/+MtiYb3bi0UnAioH0e1ad9Sa9zx/778TTUHIYq3fUh71p2OCPXA+7rLYdFj7YLw8s2+MyIPmco0M6C2izIN32803DdMre/nsyM6T3fsHgU1UHmwLSv2cdszezEYbJZqOVldvwYMI16TPkiPAe6n2aQXu6Fx3mJ5jyeVPQXr7qUhuZ8bGapWQvW8q/vl3H6suiB/tpqW/64ynAaQ3p1+/DjmzPuqxTSeZjscpcLiRJsY6lBfrcacCrjvRTq27xRr4uUxkL95U+bF3H77BAMfgjO9JpwKuOdCfS+H5CNv3UxL6fgYqFEewAbApIZwFt2t31R308rOBR1+uLYflWoOT6cepK4/Mn1Dykf6jqkv6HGgtosyCdBrzqSKcBrzrSacCrjnQa8KojnQa86kinAa860mkmq+4fs/35Omw/2ioAAAAASUVORK5CYII=';
+    const FAREWELL_MESSAGES=[
+      'Je kaarten zijn uitgespeeld, maar je gezelligheid mag blijven!',
+      'OH SHIT! Voor jou stopt het kaarten hier. Gelukkig mag je nog wel commentaar leveren!',
+      'De anderen spelen verder. Jij hebt nu alle tijd om hun fouten te ontdekken!',
+      'Uit het spel, maar niet uit de groep. Schenk nog eens gezellig in!',
+      'OH SHIT! Einde oefening. Volgende keer revanche!'
+    ];
+    const COFFEE_MESSAGES=[
+      'Hebben jullie plezier met OH SHIT!? Maak mij deelgenoot van de gezelligheid en trakteer me op een kop koffie! ☕',
+      'Jullie spelen met kaarten, ik speel met code. Trakteer de maker op een kop koffie!',
+      'Je ligt eruit… maar je kunt de maker nog wel blij maken met een kop koffie!',
+      'Gratis spelen, vrijwillig trakteren. Buy Me a Coffee! ☕',
+      'Een avond lachen om OH SHIT! is gratis. Een kop koffie voor de maker wordt gewaardeerd!'
+    ];
+    const RENEGE_MESSAGES=[
+      'Aij… kleur bekennen was verplicht! Terwijl de kaarten opnieuw worden geschud, mag jij alvast over je zonden nadenken.',
+      'OH SHIT! Dat was de verkeerde kleur. Vijftig minpunten en de ronde mag gezellig nog een keer!',
+      'Betrapt! De kaarten liegen niet. De scorehouder trouwens ook niet.',
+      'Verzaken: uitstekend voor de spanning, iets minder goed voor je puntentotaal.',
+      'De ronde gaat opnieuw. Jij krijgt vijftig minpunten en de rest krijgt gratis commentaar.'
+    ];
     const KEY='ohshit-scorekeeper-v1', HISTORY_KEY='ohshit-scorekeeper-v1-history', LEGACY_V4_KEY='ohshit-v4', LEGACY_V4_HISTORY_KEY='ohshit-v4-history', LEGACY_KEY='ohshit-v3';
     const $=id=>document.getElementById(id);
     const clone=value=>JSON.parse(JSON.stringify(value));
@@ -393,18 +432,39 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
       $('rankStrip').innerHTML=ranking().map(item=>{const out=state.eliminated[item.player],stopped=state.withdrawn[item.player],chipClass=out?'eliminated':stopped?'withdrawn':showRanks&&item.position===1?'leader':showRanks?'':'no-rank',position=showRanks?'<span class="rank-pos">'+(item.position===1&&!item.inactive?'👑':'')+item.position+'</span>':'',status=out?' · afgevallen':stopped?' · gestopt':'',title=out?'Afgevallen vóór ronde '+out:stopped?'Gestopt vanaf ronde '+stopped:'';return '<div class="rank-chip '+chipClass+'" title="'+title+'">'+position+'<span class="rank-name">'+escapeHtml(item.name)+'</span><span class="rank-score">'+item.points+' punten'+status+'</span></div>'}).join('');
       $('progressText').textContent=pendingElimination?(pendingElimination.mode==='review'?'Controleer afvalkeuze ronde ':pendingElimination.mode==='announce'?(pendingElimination.selected.length===1?'Afvaller voor ronde ':'Afvallers voor ronde '):'Kies afvaller voor ronde ')+pendingElimination.round:state.finished?'Spel afgelopen':'Ronde '+state.currentRound+' van '+ROUNDS;
     }
+    function hideEliminationCelebration(){
+      const overlay=$('eliminationCelebration');overlay.hidden=true;overlay.classList.remove('leaving');$('eliminationCelebrationCard').innerHTML='';document.body.classList.remove('modal-open');
+    }
+    function eliminationMomentIndex(round){return Object.keys(state.eliminationAnnouncements).filter(value=>Number(value)<round).length}
+    function renderEliminationCelebration(round,selected,signature,pendingKey){
+      const overlay=$('eliminationCelebration'),card=$('eliminationCelebrationCard'),moment=eliminationMomentIndex(round),survivors=activePlayers(round).map(player=>({player,points:totalThrough(player,round-1)})).sort((a,b)=>b.points-a.points||a.player-b.player),medals=['🥇','🥈','🥉','🏅'];
+      const survivorMarkup=survivors.map((item,index)=>'<div class="survivor-row"><span class="survivor-medal">'+(medals[index]||'•')+'</span><span class="survivor-name">'+escapeHtml(displayName(item.player))+'</span><span class="survivor-points">'+item.points+' punten</span></div>').join('');
+      const farewellMarkup=selected.map(item=>'<div><span class="farewell-name">'+escapeHtml(displayName(item.player))+'</span><span class="farewell-score">'+item.points+' punten</span></div>').join('');
+      const acknowledgement=state.currentRound<round?'Begrepen · ronde '+state.currentRound+' afsluiten':'Begrepen · naar ronde '+round;
+      const coffeeMarkup=moment===0?'<section class="coffee-invite"><div class="coffee-copy"><h3>☕ Maak de maker deelgenoot</h3><p>'+escapeHtml(COFFEE_MESSAGES[0])+'</p><a class="coffee-link" href="'+BUY_ME_COFFEE_URL+'" target="_blank" rel="noopener noreferrer">Trakteer de maker op koffie</a><small>Volledig vrijwillig · de QR-code opent Buy Me a Coffee.</small></div><img class="coffee-qr" src="'+BUY_ME_COFFEE_QR+'" alt="QR-code naar Buy Me a Coffee"></section>':'';
+      card.innerHTML='<button id="closeEliminationCelebrationBtn" class="celebration-close" type="button" aria-label="Sluiten">×</button><p class="celebration-kicker">✦ Door naar de volgende ronde ✦</p><h2 id="eliminationCelebrationTitle">Dit zijn de overblijvers</h2><div class="survivor-list">'+survivorMarkup+'</div><section class="farewell-box"><h3>HELAAS, WE NEMEN AFSCHEID VAN…</h3>'+farewellMarkup+'<p class="farewell-message">'+escapeHtml(FAREWELL_MESSAGES[moment%FAREWELL_MESSAGES.length])+'</p></section>'+coffeeMarkup+'<button id="acknowledgeEliminationBtn" class="celebration-continue" type="button">'+acknowledgement+'</button>';
+      const acknowledge=()=>smoothAcknowledgeElimination(round,signature,selected.length===1?'Afvaller gezien':'Afvallers gezien');
+      $('acknowledgeEliminationBtn').addEventListener('click',acknowledge);$('closeEliminationCelebrationBtn').addEventListener('click',acknowledge);
+      overlay.hidden=false;overlay.classList.remove('leaving');document.body.classList.add('modal-open');
+      if(pendingKey!==lastPendingKey){lastPendingKey=pendingKey;requestAnimationFrame(()=>{card.scrollTop=0;overlay.scrollTop=0;const close=$('closeEliminationCelebrationBtn');try{close.focus({preventScroll:true})}catch(error){close.focus()}card.scrollTop=0;overlay.scrollTop=0})}
+    }
+    function closeRenegeCelebration(round){hideEliminationCelebration();requestAnimationFrame(()=>scrollToRound(round))}
+    function showRenegeCelebration(round,offender){
+      const overlay=$('eliminationCelebration'),card=$('eliminationCelebrationCard'),message=RENEGE_MESSAGES[Math.max(0,state.reneges.length-1)%RENEGE_MESSAGES.length];
+      card.innerHTML='<button id="closeRenegeCelebrationBtn" class="celebration-close" type="button" aria-label="Sluiten">×</button><p class="celebration-kicker">🚨 Overtreding geconstateerd</p><section class="renege-verdict"><h2 id="eliminationCelebrationTitle">VERZAAKT!</h2><span class="renege-offender">'+escapeHtml(displayName(offender))+'</span><span class="renege-penalty">−50 punten</span><p class="renege-message">'+escapeHtml(message)+'</p></section><section class="coffee-invite"><div class="coffee-copy"><h3>☕ De ludieke extra straf</h3><p>De officiële spelstraf is 50 minpunten en de ronde opnieuw spelen. Wil je de maker óók blij maken? Dan mag je hem als vrijwillige extra straf op een koffie trakteren!</p><a class="coffee-link" href="'+BUY_ME_COFFEE_URL+'" target="_blank" rel="noopener noreferrer">Trakteer op een strafkoffie</a><span class="voluntary-note">De koffie is natuurlijk niet verplicht. De 50 minpunten helaas wel.</span></div><img class="coffee-qr" src="'+BUY_ME_COFFEE_QR+'" alt="QR-code naar Buy Me a Coffee"></section><button id="acknowledgeRenegeBtn" class="celebration-continue" type="button">Begrepen · ronde '+round+' opnieuw spelen</button>';
+      const close=()=>closeRenegeCelebration(round);$('closeRenegeCelebrationBtn').addEventListener('click',close);$('acknowledgeRenegeBtn').addEventListener('click',close);
+      overlay.hidden=false;overlay.classList.remove('leaving');document.body.classList.add('modal-open');requestAnimationFrame(()=>{card.scrollTop=0;overlay.scrollTop=0;const closeButton=$('closeRenegeCelebrationBtn');try{closeButton.focus({preventScroll:true})}catch(error){closeButton.focus()}card.scrollTop=0;overlay.scrollTop=0});
+    }
     function renderElimination(){
-      const node=$('eliminationPanel');node.hidden=!pendingElimination;if(!pendingElimination){node.className='card elimination';node.style.maxHeight='';node.innerHTML='';lastPendingKey='';return}
+      const node=$('eliminationPanel');if(!pendingElimination){node.hidden=true;node.className='card elimination';node.style.maxHeight='';node.innerHTML='';hideEliminationCelebration();lastPendingKey='';return}
       const {mode,round,candidates,needed}=pendingElimination;
       node.className='card elimination'+(mode==='announce'?' announcement':'');node.style.maxHeight='';
       const pendingKey=mode+':'+round+':'+(pendingElimination.signature||'');
       const reveal=()=>{if(pendingKey!==lastPendingKey){lastPendingKey=pendingKey;requestAnimationFrame(scrollToElimination)}};
       if(mode==='announce'){
-        const selected=pendingElimination.selected,title=selected.length===1?'Speler valt af':'Spelers vallen af',intro=selected.length===1?'Deze speler heeft de laagste score en speelt niet meer mee:':'Deze spelers hebben de laagste scores en spelen niet meer mee:';
-        const acknowledgement=state.currentRound<round?'Begrepen · ronde '+state.currentRound+' afsluiten':'Begrepen · naar ronde '+round;
-        node.innerHTML='<div class="elimination-mark" aria-hidden="true">✕</div><h2>'+title+'</h2><p>Voor ronde '+round+' zijn er niet genoeg kaarten. '+intro+'</p><div class="eliminated-list">'+selected.map(item=>'<div class="eliminated-name"><strong>'+escapeHtml(displayName(item.player))+'</strong><span>'+item.points+' punten</span></div>').join('')+'</div><button id="acknowledgeEliminationBtn" type="button">'+acknowledgement+'</button>';
-        const signature=pendingElimination.signature;$('acknowledgeEliminationBtn').addEventListener('click',()=>smoothAcknowledgeElimination(round,signature,selected.length===1?'Afvaller gezien':'Afvallers gezien'));reveal();return;
+        node.hidden=true;node.innerHTML='';renderEliminationCelebration(round,pendingElimination.selected,pendingElimination.signature,pendingKey);return;
       }
+      hideEliminationCelebration();node.hidden=false;
       if(mode==='review'){
         const existing=pendingElimination.existing.map(displayName).join(', ');
         node.innerHTML='<h2>Controleer de afvalkeuze</h2><p>Door een correctie in een eerdere ronde kan de eerdere afvalkeuze voor ronde '+round+' zijn veranderd. Nu staat als afgevallen: <strong>'+escapeHtml(existing)+'</strong>. De app verandert dit nooit stilzwijgend.</p><div class="review-actions"><button id="keepEliminationBtn" class="review-keep" type="button">Bestaande keuze bevestigen</button><button id="recalculateEliminationBtn" class="danger" type="button">Opnieuw bepalen met de nieuwe scores</button></div>';
@@ -489,7 +549,7 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
         info.players.forEach(player=>{const k=cellKey(round,player);delete state.predictions[k];delete state.actuals[k];delete state.autoZeros[k]});
         delete state.doublers[round];state.currentRound=round;state.finished=false;state.collapsedRounds[round]=false;
       },false);
-      showToast(displayName(offender)+' krijgt −50 · deel ronde '+round+' opnieuw');requestAnimationFrame(()=>scrollToRound(round));
+      showToast(displayName(offender)+' krijgt −50 · deel ronde '+round+' opnieuw');showRenegeCelebration(round,offender);
     }
     function restoreRenege(id){
       const index=state.reneges.findIndex(entry=>entry.id===id),entry=state.reneges[index];if(!entry||!latestRenegeCanBeRestored(entry,index))return;
@@ -547,15 +607,16 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
       window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
     }
     function smoothAcknowledgeElimination(round,signature,label){
-      const panel=$('eliminationPanel'),button=$('acknowledgeEliminationBtn');if(!panel||panel.hidden)return;if(button)button.disabled=true;
+      const panel=$('eliminationPanel'),overlay=$('eliminationCelebration'),modalVisible=overlay&&!overlay.hidden,button=$('acknowledgeEliminationBtn'),closeButton=$('closeEliminationCelebrationBtn');if((!modalVisible)&&(!panel||panel.hidden))return;if(button)button.disabled=true;if(closeButton)closeButton.disabled=true;
       const finish=()=>{const roundToFinish=state.currentRound<round?state.currentRound:null;commit(label,()=>state.eliminationAnnouncements[round]=signature,false);requestAnimationFrame(()=>roundToFinish?scrollToRoundAction(roundToFinish):scrollToRound(round))};
       if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){finish();return}
+      if(modalVisible){overlay.classList.add('leaving');setTimeout(finish,260);return}
       panel.style.maxHeight=panel.scrollHeight+'px';panel.getBoundingClientRect();panel.classList.add('leaving');panel.style.maxHeight='0px';setTimeout(finish,290);
     }
     function renderResults(){
       const done=state.finished&&nextRound()===null,node=$('results');node.hidden=!done;if(!done){node.innerHTML='';return}
       const list=ranking(),winners=list.filter(x=>x.position===1&&!x.inactive),winnerNames=winners.map(x=>escapeHtml(x.name)).join(' & '),winnerPoints=winners[0].points;
-      node.innerHTML='<div class="winner-showcase"><div class="winner-crown">👑</div><p>'+(winners.length>1?'En de winnaars zijn:':'En de winnaar is:')+'</p><h2>'+winnerNames+'</h2><span class="winner-points">'+winnerPoints+' punten</span></div><h3>Volledige eindstand na 13 rondes</h3><div class="podium">'+list.map(item=>'<div class="podium-row"><span class="podium-pos">'+item.position+'</span><span class="podium-name">'+escapeHtml(item.name)+(item.eliminated?' · afgevallen':item.withdrawn?' · gestopt':'')+'</span><span class="podium-score">'+item.points+' pt</span></div>').join('')+'</div><div class="print-actions"><button id="printGameBtn" type="button">🖨️ Speloverzicht als PDF</button></div>';
+      node.innerHTML='<div class="winner-showcase"><div class="winner-crown">👑</div><p>'+(winners.length>1?'En de winnaars zijn:':'En de winnaar is:')+'</p><h2>'+winnerNames+'</h2><span class="winner-points">'+winnerPoints+' punten</span></div><h3>Volledige eindstand na 13 rondes</h3><div class="podium">'+list.map(item=>'<div class="podium-row"><span class="podium-pos">'+item.position+'</span><span class="podium-name">'+escapeHtml(item.name)+(item.eliminated?' · afgevallen':item.withdrawn?' · gestopt':'')+'</span><span class="podium-score">'+item.points+' pt</span></div>').join('')+'</div><section class="coffee-invite end-coffee"><div class="coffee-copy"><h3>☕ Een welverdiende koffie?</h3><p>De winnaar is bekend en de app heeft dertien rondes lang het rekenwerk gedaan. Hebben jullie plezier gehad? Trakteer de maker dan vrijblijvend op een koffie!</p><a class="coffee-link" href="'+BUY_ME_COFFEE_URL+'" target="_blank" rel="noopener noreferrer">Trakteer de maker op koffie</a><small>Scan de QR-code met een andere telefoon of gebruik de knop.</small></div><img class="coffee-qr" src="'+BUY_ME_COFFEE_QR+'" alt="QR-code naar Buy Me a Coffee"></section><div class="print-actions"><button id="printGameBtn" type="button">🖨️ Speloverzicht als PDF</button></div>';
       $('printGameBtn').addEventListener('click',downloadGamePdf);
     }
     function roundedCanvasRect(ctx,x,y,w,h,r,fill,stroke){
@@ -640,6 +701,40 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
     function exportBackup(){
       const now=new Date(),payload={app:'OH SHIT! Scorekeeper',appVersion:APP_VERSION,formatVersion:DATA_VERSION,exportedAt:now.toISOString(),state:clone(state)},stamp=now.toLocaleString('sv-SE',{hour12:false}).replace(' ','-').replace(/:/g,'-');
       const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='OH-SHIT-Scorekeeper-backup-'+stamp+'.json';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);showToast('JSON-back-up gedownload')
+    }
+    function prepareEliminationTest(){
+      if(!confirm('Een bijna voltooide ronde 7 klaarzetten? Kies daarna bij Rob bij B: 7 voor de eerste afval-pop-up, of Verzaakt voor de strafkoffie-pop-up.'))return;
+      commit('Testspel klaargezet',()=>{
+        state=blankState(7);['Kees','Anja','Peter','Linda','Jan','Monique','Rob'].forEach((name,player)=>state.names[player]=name);
+        for(let round=1;round<=7;round++)for(let player=0;player<7;player++){
+          const key=cellKey(round,player),target=round<=4?0:6,actual=player===target?round:0;state.predictions[key]=String(round<5?actual:0);
+          if(round<7||player!==6)state.actuals[key]=String(actual);
+        }
+        for(let round=1;round<=6;round++)state.collapsedRounds[round]=true;state.currentRound=7;state.collapsedRounds[7]=false;
+      });
+      $('settingsPanel').open=false;requestAnimationFrame(()=>scrollToRound(7));
+    }
+    function prepareLaterEliminationTest(){
+      if(!confirm('Een later afvalmoment zonder koffie-QR klaarzetten? Vul daarna alleen bij Monique de behaalde 8 slagen in.'))return;
+      commit('Later afvalmoment klaargezet',()=>{
+        state=blankState(7);['Kees','Anja','Peter','Linda','Jan','Monique','Rob'].forEach((name,player)=>state.names[player]=name);
+        for(let round=1;round<=7;round++)for(let player=0;player<7;player++){const key=cellKey(round,player),target=round<=4?0:6,actual=player===target?round:0;state.predictions[key]=String(round<5?actual:0);state.actuals[key]=String(actual)}
+        state.eliminated[6]=8;const signature=eliminationSignature(8,[0,1,2,3,4,5,6]);state.eliminationOverrides[8]=signature;state.eliminationAnnouncements[8]=signature;
+        for(let player=0;player<6;player++){const key=cellKey(8,player);state.predictions[key]='0';if(player!==5)state.actuals[key]='0'}
+        for(let round=1;round<=7;round++)state.collapsedRounds[round]=true;state.currentRound=8;state.collapsedRounds[8]=false;
+      });
+      $('settingsPanel').open=false;requestAnimationFrame(()=>scrollToRound(8));
+    }
+    function prepareFinalResultsTest(){
+      if(!confirm('Een volledige test-einduitslag met koffie-QR klaarzetten?'))return;
+      commit('Test-einduitslag klaargezet',()=>{
+        state=blankState(4);['Kees','Anja','Peter','Linda'].forEach((name,player)=>state.names[player]=name);
+        for(let round=1;round<=ROUNDS;round++)for(let player=0;player<4;player++){
+          const key=cellKey(round,player),actual=player===1?round:0,prediction=round<5?actual:player===2?1:player===3?2:0;state.predictions[key]=String(prediction);state.actuals[key]=String(actual);state.collapsedRounds[round]=true;
+        }
+        state.currentRound=ROUNDS;state.finished=true;
+      });
+      $('settingsPanel').open=false;requestAnimationFrame(()=>$('results').scrollIntoView({behavior:'smooth',block:'start'}));
     }
     async function importBackup(file){
       try{
@@ -738,10 +833,10 @@ Laatste wijziging: v2.0 afgerond met spelersvolgorde, stoppen, delerwissel en ru
     $('playerCount').addEventListener('change',event=>{const count=Number(event.target.value);commit('Aantal spelers aangepast',()=>{state.count=count;state.firstDealer=Math.min(state.firstDealer,count-1);state.reneges=[];state.eliminated={};state.withdrawn={};state.dealerOverrides={};state.eliminationOverrides={};state.eliminationAnnouncements={};state.currentRound=1;state.finished=false;state.collapsedRounds={}})});
     $('keepDealOrder').addEventListener('change',event=>commit('Deelvolgorde aangepast',()=>state.keepDealOrder=event.target.checked,false));
     $('firstDealer').addEventListener('change',event=>{if(state.currentRound>1||roundHasInput(1)||state.reneges.length){render();showToast('Wijzig de deler bij de lege huidige ronde.');return}const player=Number(event.target.value);commit('Eerste deler aangepast',()=>state.firstDealer=player,false)});
-    $('undoBtn').addEventListener('click',undo);$('exportBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',event=>event.target.files[0]&&importBackup(event.target.files[0]));$('newGameBtn').addEventListener('click',newGame);$('newPlayersBtn').addEventListener('click',newPlayers);$('shareBtn').addEventListener('click',shareApp);
+    $('undoBtn').addEventListener('click',undo);$('exportBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',event=>event.target.files[0]&&importBackup(event.target.files[0]));$('newGameBtn').addEventListener('click',newGame);$('newPlayersBtn').addEventListener('click',newPlayers);$('testGameBtn').addEventListener('click',prepareEliminationTest);$('testLaterEliminationBtn').addEventListener('click',prepareLaterEliminationTest);$('testFinalResultsBtn').addEventListener('click',prepareFinalResultsTest);$('shareBtn').addEventListener('click',shareApp);
     $('startNewGameBtn').addEventListener('click',startConfiguredNewGame);$('cancelNewGameSetupBtn').addEventListener('click',closeNewGameSetup);$('newGameSetup').addEventListener('click',event=>{if(event.target===$('newGameSetup'))closeNewGameSetup()});
     $('saveRoundSetupBtn').addEventListener('click',saveRoundSetup);$('cancelRoundSetupBtn').addEventListener('click',closeRoundSetup);$('roundSetup').addEventListener('click',event=>{if(event.target===$('roundSetup'))closeRoundSetup()});
-    $('playerGuideBtn').addEventListener('click',openPlayerGuideChoice);$('openPlayerGuideBtn').addEventListener('click',openPlayerGuide);$('sharePlayerGuideBtn').addEventListener('click',sharePlayerGuide);$('closePlayerGuideBtn').addEventListener('click',closePlayerGuideChoice);$('playerGuideChoice').addEventListener('click',event=>{if(event.target===$('playerGuideChoice'))closePlayerGuideChoice()});document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(!$('newGameSetup').hidden)closeNewGameSetup();else if(!$('roundSetup').hidden)closeRoundSetup();else if(!$('playerGuideChoice').hidden)closePlayerGuideChoice()});
+    $('playerGuideBtn').addEventListener('click',openPlayerGuideChoice);$('openPlayerGuideBtn').addEventListener('click',openPlayerGuide);$('sharePlayerGuideBtn').addEventListener('click',sharePlayerGuide);$('closePlayerGuideBtn').addEventListener('click',closePlayerGuideChoice);$('playerGuideChoice').addEventListener('click',event=>{if(event.target===$('playerGuideChoice'))closePlayerGuideChoice()});document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(!$('eliminationCelebration').hidden){if(pendingElimination&&pendingElimination.mode==='announce')smoothAcknowledgeElimination(pendingElimination.round,pendingElimination.signature,pendingElimination.selected.length===1?'Afvaller gezien':'Afvallers gezien');else closeRenegeCelebration(state.currentRound)}else if(!$('newGameSetup').hidden)closeNewGameSetup();else if(!$('roundSetup').hidden)closeRoundSetup();else if(!$('playerGuideChoice').hidden)closePlayerGuideChoice()});
     window.addEventListener('beforeprint',preparePrint);window.addEventListener('afterprint',restoreAfterPrint);
     ensureEliminations();save();
     render();
