@@ -1,5 +1,5 @@
 <!--
-OH SHIT! Scorekeeper · MY WAY v2.2
+OH SHIT! Scorekeeper · MY WAY v2.3
 Revisie: 20-11-2026 14:20 (Nederlandse tijd)
 Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; tijdelijke testfuncties verwijderd
 -->
@@ -23,7 +23,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="OH SHIT! / Oh Hell Scorekeeper · MY WAY">
   <meta name="twitter:description" content="Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell volgens onze huisregels.">
-  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.2</title>
+  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.3</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -94,7 +94,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
   </style>
 </head>
 <body>
-  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.2</span></div></header>
+  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.3</span></div></header>
   <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
   <main>
     <details class="card controls" hidden>
@@ -224,7 +224,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
   <script>
   (function(){
     'use strict';
-    const DATA_VERSION=6, APP_VERSION='2.2', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
+    const DATA_VERSION=6, APP_VERSION='2.3', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
     const SHARE_URL='https://keesvvw.github.io/oh-shit-scorekeeper/';
     const SCOREKEEPER_GUIDE_FILE='OH-SHIT-Scorekeeper-korte-handleiding.pdf?v=2.2';
     const SCOREKEEPER_GUIDE_URL=new URL(SCOREKEEPER_GUIDE_FILE,SHARE_URL).href;
@@ -358,10 +358,16 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
       for(let step=1;step<=source.count;step++){const candidate=(player+step)%source.count;if(active.has(candidate))return candidate}
       return null;
     }
+    function activeAtOrAfter(player,round,source=state){
+      return isActive(player,round,source)?player:nextActiveAfter(player,round,source);
+    }
     function dealerForRound(round,source=state){
       let dealer=Math.min(source.count-1,Math.max(0,Number(source.firstDealer)||0));
-      const firstOverride=source.dealerOverrides&&Number(source.dealerOverrides[1]);if(round===1&&Number.isInteger(firstOverride)&&isActive(firstOverride,1,source))dealer=firstOverride;
-      for(let r=2;r<=round;r++){const override=source.dealerOverrides&&Number(source.dealerOverrides[r]);if(Number.isInteger(override)&&isActive(override,r,source))dealer=override;else{const next=nextActiveAfter(dealer,r,source);if(next!==null)dealer=next}}
+      for(let r=1;r<=round;r++){
+        const override=source.dealerOverrides&&source.dealerOverrides[r];
+        const candidate=override!==undefined&&Number.isInteger(Number(override))&&Number(override)>=0&&Number(override)<source.count?Number(override):r===1?dealer:nextActiveAfter(dealer,r-1,source);
+        if(candidate!==null){const next=activeAtOrAfter(candidate,r,source);if(next!==null)dealer=next}
+      }
       return dealer;
     }
     function biddingOrder(round,source=state){
@@ -806,7 +812,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
 
     function openRoundSetup(round){
       if(!canConfigureRound(round)){showToast('Aanpassen kan alleen vóór de eerste invoer van een nieuwe ronde.');return}
-      roundSetupDraft={round,players:activePlayers(round),stopping:new Set(),dealer:dealerForRound(round)};renderRoundSetupDraft();$('roundSetup').hidden=false;document.body.classList.add('modal-open');requestAnimationFrame(()=>$('saveRoundSetupBtn').focus())
+      roundSetupDraft={round,players:activePlayers(round),stopping:new Set(),preferredDealer:dealerForRound(round),dealer:dealerForRound(round)};renderRoundSetupDraft();$('roundSetup').hidden=false;document.body.classList.add('modal-open');requestAnimationFrame(()=>$('saveRoundSetupBtn').focus())
     }
     function closeRoundSetup(){roundSetupDraft=null;$('roundSetup').hidden=true;document.body.classList.remove('modal-open');const button=document.querySelector('.round-setup-btn');if(button)button.focus()}
     function remainingRoundPlayers(){return roundSetupDraft.players.filter(player=>!roundSetupDraft.stopping.has(player))}
@@ -814,9 +820,11 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
       if(!roundSetupDraft)return;const round=roundSetupDraft.round,remaining=remainingRoundPlayers();
       $('roundSetupIntro').textContent='Ronde '+round+' is nog leeg. Geef hier aan wie stopt en wie vanaf deze ronde deelt.';
       $('roundSetupPlayerList').innerHTML=roundSetupDraft.players.map(player=>{const stopping=roundSetupDraft.stopping.has(player);return '<label class="stop-player-row '+(stopping?'stopping':'')+'"><input class="stop-player-input" type="checkbox" data-player="'+player+'" '+(stopping?'checked':'')+'><span>'+escapeHtml(displayName(player))+'</span><small>'+(stopping?'Stopt vanaf ronde '+round:'Speelt mee')+'</small></label>'}).join('');
-      if(!remaining.includes(roundSetupDraft.dealer))roundSetupDraft.dealer=remaining[0];
+      const preferred=roundSetupDraft.preferredDealer;
+      roundSetupDraft.dealer=preferred;
+      for(let step=0;step<state.count;step++){const candidate=(preferred+step)%state.count;if(remaining.includes(candidate)){roundSetupDraft.dealer=candidate;break}}
       $('roundDealer').innerHTML=remaining.map(player=>'<option value="'+player+'" '+(player===roundSetupDraft.dealer?'selected':'')+'>'+escapeHtml(displayName(player))+'</option>').join('');
-      $('roundDealer').onchange=event=>roundSetupDraft.dealer=Number(event.target.value);
+      $('roundDealer').onchange=event=>{roundSetupDraft.preferredDealer=Number(event.target.value);roundSetupDraft.dealer=roundSetupDraft.preferredDealer};
       $('roundSetupPlayerList').querySelectorAll('.stop-player-input').forEach(input=>input.addEventListener('change',event=>{const player=Number(event.target.dataset.player);if(event.target.checked){if(remainingRoundPlayers().length<=MIN_PLAYERS){event.target.checked=false;showToast('Er moeten minimaal '+MIN_PLAYERS+' spelers overblijven.');return}if(!confirm('Weet je zeker dat '+displayName(player)+' vanaf ronde '+round+' stopt? De eerdere score blijft bewaard.')){event.target.checked=false;return}roundSetupDraft.stopping.add(player)}else roundSetupDraft.stopping.delete(player);renderRoundSetupDraft()}));
     }
     function saveRoundSetup(){
@@ -824,12 +832,13 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
       const round=roundSetupDraft.round,stopping=Array.from(roundSetupDraft.stopping),remaining=remainingRoundPlayers(),dealer=Number($('roundDealer').value);if(remaining.length<MIN_PLAYERS||!remaining.includes(dealer)){showToast('Kies een geldige deler; minimaal '+MIN_PLAYERS+' spelers moeten doorgaan.');return}
       const currentDealer=dealerForRound(round),changes=stopping.length||dealer!==currentDealer;if(!changes){closeRoundSetup();showToast('Er waren geen wijzigingen.');return}
       const stoppedText=stopping.length?' Gestopt: '+stopping.map(displayName).join(', ')+'.':'';if(!confirm('Aanpassingen voor ronde '+round+' opslaan?'+stoppedText+' '+displayName(dealer)+' wordt de deler; deze deelvolgorde loopt daarna door.'))return;
+      const roundSetupDraftManual=roundSetupDraft.preferredDealer!==currentDealer;
       closeRoundSetup();commit('Spelers en deler vanaf ronde '+round+' aangepast',()=>{
         stopping.forEach(player=>{state.withdrawn[player]=round;for(let r=round;r<=ROUNDS;r++){const key=cellKey(r,player);delete state.predictions[key];delete state.actuals[key];delete state.autoZeros[key]}});
         for(const player of Object.keys(state.eliminated))if(Number(state.eliminated[player])>=round)delete state.eliminated[player];
         for(const r of Object.keys(state.eliminationOverrides))if(Number(r)>=round)delete state.eliminationOverrides[r];
         for(const r of Object.keys(state.eliminationAnnouncements))if(Number(r)>=round)delete state.eliminationAnnouncements[r];
-        state.dealerOverrides[round]=dealer;state.collapsedRounds[round]=false;
+        if(roundSetupDraftManual)state.dealerOverrides[round]=dealer;state.collapsedRounds[round]=false;
       })
     }
     function newPlayers(){
