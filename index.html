@@ -1,7 +1,7 @@
 <!--
-OH SHIT! Scorekeeper · MY WAY v2.3
-Revisie: 20-11-2026 14:20 (Nederlandse tijd)
-Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; tijdelijke testfuncties verwijderd
+OH SHIT! Scorekeeper · MY WAY v2.4
+Revisie: 25-11-2026 16:42 (Nederlandse tijd)
+Laatste wijziging: prognose afvallers, uitstapmomenten in PDF en vereenvoudigde PDF-status
 -->
 <!doctype html>
 <html lang="nl">
@@ -23,7 +23,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="OH SHIT! / Oh Hell Scorekeeper · MY WAY">
   <meta name="twitter:description" content="Gratis mobiele scorekeeper voor OH SHIT! / Oh Hell volgens onze huisregels.">
-  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.3</title>
+  <title>OH SHIT! / Oh Hell Scorekeeper · MY WAY v2.4</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -94,7 +94,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
   </style>
 </head>
 <body>
-  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.3</span></div></header>
+  <header class="app-header"><div class="header-inner"><div class="brand"><div class="brand-title"><h1>OH SHIT!</h1><span class="edition">MY WAY</span></div><p>Scorekeeper</p></div><span class="version">v2.4</span></div></header>
   <section class="standings" aria-label="Vaste tussenstand"><div class="standings-inner"><div class="standings-title"><span>Tussenstand</span><span id="progressText">Ronde 1 van 13</span></div><div id="rankStrip" class="rank-strip"></div></div></section>
   <main>
     <details class="card controls" hidden>
@@ -224,7 +224,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
   <script>
   (function(){
     'use strict';
-    const DATA_VERSION=6, APP_VERSION='2.3', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
+    const DATA_VERSION=6, APP_VERSION='2.4', ROUNDS=13, MIN_PLAYERS=4, MAX_PLAYERS=10;
     const SHARE_URL='https://keesvvw.github.io/oh-shit-scorekeeper/';
     const SCOREKEEPER_GUIDE_FILE='OH-SHIT-Scorekeeper-korte-handleiding.pdf?v=2.2';
     const SCOREKEEPER_GUIDE_URL=new URL(SCOREKEEPER_GUIDE_FILE,SHARE_URL).href;
@@ -387,10 +387,26 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
     function firstIncompleteRound(source=state){for(let r=1;r<=ROUNDS;r++)if(!roundInfo(r,source).complete)return r;return null}
     function nextRound(){return firstIncompleteRound()}
     function completedRounds(){let count=0;for(let r=1;r<=ROUNDS;r++)if(roundInfo(r).complete)count++;return count}
+    function projectedPlayerCount(round,source=state){
+      const start=Math.min(round,source.currentRound||1);
+      let count=activePlayers(start,source).length;
+      for(let r=start+1;r<=round;r++){
+        const stops=activePlayers(r-1,source).filter(p=>Number(source.withdrawn[p])===r).length;
+        count=Math.min(Math.max(0,count-stops),Math.floor(52/r),activePlayers(r,source).length);
+      }
+      return count;
+    }
     function eliminationsAfterRound(round,source=state){
       if(round>=ROUNDS)return 0;
-      const playersAtRisk=activePlayers(round,source).filter(player=>!source.withdrawn[player]||Number(source.withdrawn[player])>round+1).length;
-      return Math.max(0,playersAtRisk-Math.floor(52/(round+1)));
+      const stops=activePlayers(round,source).filter(p=>Number(source.withdrawn[p])===round+1).length;
+      const recorded=activePlayers(round,source).filter(p=>Number(source.eliminated[p])===round+1&&Number(source.withdrawn[p])!==round+1).length;
+      return Math.max(recorded,projectedPlayerCount(round,source)-stops-Math.floor(52/(round+1)),0);
+    }
+    function roundDepartures(round,source=state){
+      return Array.from({length:source.count},(_,player)=>player).flatMap(player=>{
+        const stopped=Number(source.withdrawn[player])===round, eliminated=Number(source.eliminated[player])===round;
+        return stopped||eliminated?[{player,stopped,points:totalThrough(player,round-1,source)}]:[];
+      });
     }
     function fillAutomaticZeros(round){
       const info=roundInfo(round);if(info.sum!==round)return 0;
@@ -553,8 +569,8 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
       for(let r=1;r<=ROUNDS;r++){
         state.reneges.forEach((entry,index)=>{if(entry.round===r)html+=renderRenegeCard(entry,index)});
         const info=roundInfo(r),order=biddingOrder(r),dealer=dealerForRound(r),isCurrent=r===state.currentRound&&!state.finished,isFuture=r>state.currentRound,blockedByChoice=!!pendingElimination&&r>=pendingElimination.round,locked=isFuture||blockedByChoice,statusClass=info.complete?'complete':r<state.currentRound?'needs-fix':isCurrent?'next':'',badge=info.complete?'<span class="badge done"><span class="when-closed">✓ Klaar · uitklappen</span><span class="when-open">✓ Klaar · inklappen</span></span>':r<state.currentRound?'<span class="badge fix">Controle nodig</span>':blockedByChoice&&r===pendingElimination.round?'<span class="badge wait">Eerst afvalkeuze</span>':isCurrent?'<span class="badge next">Huidige ronde</span>':'<span class="badge wait">Later</span>';
-        const open=!state.collapsedRounds[r]&&!isFuture,dropCount=eliminationsAfterRound(r),dropWarning=dropCount?'<p class="round-elimination-warning">⚠ Na deze ronde '+(dropCount===1?'valt 1 speler':'vallen '+dropCount+' spelers')+' af</p>':'';
-        html+='<details class="card round-card '+statusClass+'" id="round-'+r+'" data-round="'+r+'" '+(open?'open':'')+'><summary class="round-head"><div class="round-number">'+r+'</div><div class="round-title"><h3>Ronde '+r+'</h3><p>'+r+' '+(r===1?'slag':'slagen')+' · '+info.players.length+' actieve '+(info.players.length===1?'speler':'spelers')+'</p>'+dropWarning+'</div>'+badge+'</summary><div class="round-body">';
+        const displayCount=projectedPlayerCount(r),open=!state.collapsedRounds[r]&&!isFuture,dropCount=eliminationsAfterRound(r),dropWarning=dropCount?'<p class="round-elimination-warning">⚠ Na deze ronde '+(dropCount===1?'valt 1 speler':'vallen '+dropCount+' spelers')+' af</p>':'';
+        html+='<details class="card round-card '+statusClass+'" id="round-'+r+'" data-round="'+r+'" '+(open?'open':'')+'><summary class="round-head"><div class="round-number">'+r+'</div><div class="round-title"><h3>Ronde '+r+'</h3><p>'+r+' '+(r===1?'slag':'slagen')+' · '+displayCount+' actieve '+(displayCount===1?'speler':'spelers')+'</p>'+dropWarning+'</div>'+badge+'</summary><div class="round-body">';
         if(canConfigureRound(r))html+='<button class="round-setup-btn" type="button" data-round="'+r+'">Speler laten stoppen of deler aanpassen vóór deze ronde</button>';
         if(roundHasTrump(r)){const doubled=isDoubler(r);html+='<label class="doubler-check '+(doubled?'active':'')+'"><input class="doubler-input" type="checkbox" data-round="'+r+'" '+(doubled?'checked':'')+' '+(locked?'disabled':'')+'><span class="doubler-screen"><strong>Verdubbelaar</strong><small>Troefkaart is een Aas · rondepunten × 2</small></span><span class="doubler-print">Verdubbelaar</span></label>'}
         const rowPlayers=state.keepDealOrder?order:info.players;
@@ -680,7 +696,7 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
       const width=900,margin=34,inner=width-margin*2,list=ranking(),winnerList=list.filter(item=>item.position===1&&!item.inactive),rounds=[];
       for(let round=1;round<=ROUNDS;round++){
         state.reneges.filter(entry=>entry.round===round).forEach(entry=>rounds.push({round,renege:entry,players:entry.order.length?entry.order:entry.players,height:62+entry.players.length*44+58}));
-        const info=roundInfo(round);rounds.push({round,info,players:state.keepDealOrder?biddingOrder(round):info.players,height:62+info.players.length*44+58});
+        const info=roundInfo(round),departures=roundDepartures(round);rounds.push({round,info,departures,players:state.keepDealOrder?biddingOrder(round):info.players,height:62+info.players.length*44+58+departures.length*48});
       }
       const topHeight=104,winnerHeight=132,standingTitle=48,standingRows=list.length*42,coffeeHeight=226,linkHeight=86,gaps=rounds.length*14,totalHeight=margin+topHeight+winnerHeight+standingTitle+standingRows+28+coffeeHeight+14+rounds.reduce((sum,item)=>sum+item.height,0)+gaps+linkHeight+margin;
       const coffeeQr=await loadCanvasImage(BUY_ME_COFFEE_QR);
@@ -714,7 +730,15 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
         roundedCanvasRect(ctx,margin,cardY,inner,52,14,entry?'#fff1f2':'#eff6ff',entry?'#fca5a5':'#bfdbfe');roundedCanvasRect(ctx,margin+12,cardY+8,38,36,10,entry?'#991b1b':'#172554');canvasLabel(ctx,String(r),margin+31,cardY+33,17,900,'#ffffff','center');
         canvasLabel(ctx,'Ronde '+r,margin+62,cardY+24,17,900,entry?'#991b1b':'#172554');canvasLabel(ctx,entry?'Ongeldige poging · opnieuw gespeeld':r+' '+(r===1?'slag':'slagen')+' · '+info.players.length+' actieve spelers',margin+62,cardY+42,11,700,entry?'#b42318':'#64748b');
         if(entry){roundedCanvasRect(ctx,margin+inner-250,cardY+11,234,30,8,'#fee2e2','#ef4444');canvasLabel(ctx,displayName(entry.offender)+' heeft verzaakt',margin+inner-133,cardY+31,11,900,'#991b1b','center',220)}else if(isDoubler(r)){roundedCanvasRect(ctx,margin+inner-158,cardY+11,142,30,8,'#fffbeb','#f59e0b');canvasLabel(ctx,'VERDUBBELAAR',margin+inner-87,cardY+31,11,900,'#92400e','center')}
-        let rowY=cardY+58;data.players.forEach((player,index)=>{const k=cellKey(r,player),pred=entry?(entry.predictions[player]??''):(state.predictions[k]??''),actual=entry?(player===entry.offender?'Verzaakt':entry.actuals[player]??''):(state.actuals[k]??''),points=entry?(player===entry.offender?-50:0):score(pred,actual,isDoubler(r));if(index%2===0){ctx.fillStyle=entry?'#fff1f2':'#f8fafc';ctx.fillRect(margin+10,rowY-2,inner-20,40)}canvasLabel(ctx,displayName(player),margin+20,rowY+24,14,800,'#162033','left',inner-330);canvasLabel(ctx,'V '+pred,margin+inner-250,rowY+24,13,750,'#475569','center');canvasLabel(ctx,'B '+actual,margin+inner-160,rowY+24,13,750,entry&&player===entry.offender?'#b42318':'#475569','center',100);canvasLabel(ctx,(points>0?'+':'')+points,margin+inner-25,rowY+24,14,900,points>=0?'#087443':'#b42318','right');rowY+=44});
+        let rowY=cardY+58;
+        (data.departures||[]).forEach(item=>{
+          const color=item.stopped?'#9a3412':'#b42318';
+          roundedCanvasRect(ctx,margin+10,rowY,inner-20,42,8,item.stopped?'#fff7ed':'#fee2e2');
+          canvasLabel(ctx,displayName(item.player)+(item.stopped?' · gestopt vanaf ronde '+r:' · afgevallen na ronde '+(r-1)),margin+20,rowY+17,14,850,color,'left',inner-40);
+          canvasLabel(ctx,'Behaalde eindscore: '+item.points+' punten',margin+20,rowY+34,12,750,color);
+          rowY+=48;
+        });
+        data.players.forEach((player,index)=>{const k=cellKey(r,player),pred=entry?(entry.predictions[player]??''):(state.predictions[k]??''),actual=entry?(player===entry.offender?'Verzaakt':entry.actuals[player]??''):(state.actuals[k]??''),points=entry?(player===entry.offender?-50:0):score(pred,actual,isDoubler(r));if(index%2===0){ctx.fillStyle=entry?'#fff1f2':'#f8fafc';ctx.fillRect(margin+10,rowY-2,inner-20,40)}canvasLabel(ctx,displayName(player),margin+20,rowY+24,14,800,'#162033','left',inner-330);canvasLabel(ctx,'V '+pred,margin+inner-250,rowY+24,13,750,'#475569','center');canvasLabel(ctx,'B '+actual,margin+inner-160,rowY+24,13,750,entry&&player===entry.offender?'#b42318':'#475569','center',100);canvasLabel(ctx,(points>0?'+':'')+points,margin+inner-25,rowY+24,14,900,points>=0?'#087443':'#b42318','right');rowY+=44});
         if(entry){canvasLabel(ctx,'Ronde ongeldig · opnieuw gespeeld met dezelfde deler',margin+20,cardY+data.height-22,12,850,'#b42318')}else{const under=Math.max(0,r-info.predictionSum),over=Math.max(0,info.predictionSum-r);canvasLabel(ctx,'Geboden '+info.predictionSum+'   ·   Onderboden '+under+'   ·   Overboden '+over,margin+20,cardY+data.height-22,12,750,'#475569');canvasLabel(ctx,'Behaald '+info.sum+' van '+r,margin+inner-20,cardY+data.height-22,12,850,info.sum===r?'#087443':'#b42318','right')}
         y+=data.height+14;
       });
@@ -752,8 +776,8 @@ Laatste wijziging: definitieve deelkeuzes voor handleidingen en speloverzicht; t
     }
     let gamePdfPackage=null,gamePdfBuildId=0;
     function openGamePdfChoice(){
-      const buildId=++gamePdfBuildId,dialog=$('gamePdfChoice'),openButton=$('openGamePdfBtn'),shareButton=$('shareGamePdfBtn'),status=$('gamePdfStatus');gamePdfPackage=null;dialog.hidden=false;document.body.classList.add('modal-open');openButton.disabled=true;shareButton.disabled=true;status.className='pdf-choice-status';status.textContent='PDF wordt voorbereid…';requestAnimationFrame(()=>$('closeGamePdfBtn').focus());
-      createGamePdfPackage().then(pdfPackage=>{if(buildId!==gamePdfBuildId||dialog.hidden)return;gamePdfPackage=pdfPackage;openButton.disabled=false;shareButton.disabled=false;status.className='pdf-choice-status ready';status.textContent='PDF is klaar.';openButton.focus()}).catch(()=>{if(buildId!==gamePdfBuildId||dialog.hidden)return;status.textContent='PDF maken is niet gelukt. Probeer het opnieuw.'});
+      const buildId=++gamePdfBuildId,dialog=$('gamePdfChoice'),openButton=$('openGamePdfBtn'),shareButton=$('shareGamePdfBtn'),status=$('gamePdfStatus');gamePdfPackage=null;dialog.hidden=false;document.body.classList.add('modal-open');openButton.disabled=true;shareButton.disabled=true;status.hidden=false;status.className='pdf-choice-status';status.textContent='PDF wordt voorbereid…';requestAnimationFrame(()=>$('closeGamePdfBtn').focus());
+      createGamePdfPackage().then(pdfPackage=>{if(buildId!==gamePdfBuildId||dialog.hidden)return;gamePdfPackage=pdfPackage;openButton.disabled=false;shareButton.disabled=false;status.textContent='';status.hidden=true;openButton.focus()}).catch(()=>{if(buildId!==gamePdfBuildId||dialog.hidden)return;status.textContent='PDF maken is niet gelukt. Probeer het opnieuw.'});
     }
     function closeGamePdfChoice(){gamePdfBuildId++;gamePdfPackage=null;$('gamePdfChoice').hidden=true;document.body.classList.remove('modal-open');const button=$('printGameBtn');if(button)button.focus()}
     function openPreparedGamePdf(){if(!gamePdfPackage){showToast('De PDF wordt nog voorbereid…');return}openPdfPackage(gamePdfPackage);closeGamePdfChoice();showToast('Speloverzicht geopend')}
